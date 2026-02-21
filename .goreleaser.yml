@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+---
+version: 2
+
+project_name: daily-recommendations
+
+report_sizes: true
+
+before:
+  hooks:
+    - go mod download
+
+archives:
+  - id: daily-recommendations
+    ids:
+      - daily-recommendations
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    files:
+      - config/repositories.txt
+      - README.md
+      - LICENSE
+
+builds:
+  - id: daily-recommendations
+    binary: "{{ .ProjectName }}"
+    dir: cmd
+    env:
+      - CGO_ENABLED=0
+    mod_timestamp: "{{ .CommitTimestamp }}"
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{ .Version }}
+      - -X main.commit={{ .Commit }}
+      - -X main.date={{ .Date }}
+    goos:
+      - windows
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+checksum:
+  algorithm: sha256
+  name_template: "{{ .ProjectName }}_SHA256SUMS.txt"
+
+release:
+  draft: true
+  prerelease: auto
+
+changelog:
+  disable: false

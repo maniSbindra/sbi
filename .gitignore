@@ -1,0 +1,41 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+secure-base-image-daily-recommendations
+
+# Build
+bin/
+dist/
+build/
+
+# Test
+coverage.*
+testresults.json
+
+# IDE
+.idea/
+.vscode/
+__debug*
+
+# OS
+**/.DS_Store
+
+# Environment
+*.env
+.env
+.dev/
+_dev/
+
+# Task
+.task/
+
+# Database (tracked via LFS)
+*.db
+!azure_linux_images.db
+
+# Local test reports (nightly reports are committed by CI)
+docs/daily_recommendations.md
+docs/daily_recommendations.json

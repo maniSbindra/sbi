@@ -1,0 +1,53 @@
+{
+  "defaults": {
+    "registry": "mcr.microsoft.com",
+    "maxTags": 0
+  },
+  "tagFilter": {
+    "skipExact": ["latest", "dev", "nightly", "edge", "rc", "beta", "alpha"],
+    "excludeKeywords": ["debug", "test", "experimental", "arm", "amd", "azl"],
+    "excludePatterns": ["(?i)[-.]?(alpha|beta|rc|preview|dev|nightly|canary)[\\d.]*$"],
+    "requireDigit": true
+  },
+  "repositories": [
+    {
+      "description": "Azure Linux base images",
+      "images": [
+        "azurelinux/base/python",
+        "azurelinux/base/nodejs"
+      ]
+    },
+    {
+      "description": "Azure Linux distroless images",
+      "images": [
+        "azurelinux/distroless/base",
+        "azurelinux/distroless/python",
+        "azurelinux/distroless/nodejs"
+      ]
+    },
+    {
+      "description": "Docker Hub single images",
+      "images": [
+        "docker.io/library/python:3-slim",
+        "docker.io/library/python:3.12-slim",
+        "docker.io/library/node:20.0-slim"
+      ]
+    },
+    {
+      "description": ".NET images",
+      "images": [
+        "mcr.microsoft.com/dotnet/aspnet:8.0",
+        "mcr.microsoft.com/dotnet/runtime:8.0",
+        "mcr.microsoft.com/dotnet/sdk:8.0"
+      ]
+    },
+    {
+      "description": "OpenJDK images",
+      "images": [
+        "mcr.microsoft.com/openjdk/jdk:21-azurelinux",
+        "mcr.microsoft.com/openjdk/jdk:21-distroless",
+        "mcr.microsoft.com/openjdk/jdk:21-ubuntu"
+      ]
+    }
+  ]
+}

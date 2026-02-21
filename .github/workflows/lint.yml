@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+---
+name: 🧹 Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: 🧹 Lint (${{ matrix.task }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        task:
+          - go
+          - md
+          - yaml
+    steps:
+      - name: ⤵️ Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: 🚧 Setup Go
+        if: matrix.task == 'go'
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: 🚧 Setup Node
+        if: matrix.task == 'md' || matrix.task == 'yaml'
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        with:
+          node-version: 22
+
+      - name: 🚧 Setup Task
+        uses: go-task/setup-task@0ab1b2a65bc55236a3bc64cde78f80e20e8885c2 # v1.0.0
+
+      - name: 🔨 Install golangci-lint
+        if: matrix.task == 'go'
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+      - name: ✔️ Run lint (${{ matrix.task }})
+        run: task lint:${{ matrix.task }}
+
+  check-lint:
+    if: always()
+    name: 🧹 Check Lint
+    needs: lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: ✅ OK
+        if: ${{ !(contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
+        run: exit 0
+      - name: 🛑 Failure
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: exit 1

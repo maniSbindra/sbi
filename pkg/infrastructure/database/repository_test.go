@@ -1,0 +1,163 @@
+package database
+
+import (
+	"database/sql"
+	"testing"
+
+	"github.com/manisbindra/sbi/pkg/domain"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	_ "modernc.org/sqlite"
+)
+
+func setupTestDB(t *testing.T) (*sql.DB, *Repository) {
+	t.Helper()
+
+	db, err := sql.Open("sqlite", ":memory:")
+	require.NoError(t, err)
+
+	_, err = db.Exec("PRAGMA foreign_keys=ON")
+	require.NoError(t, err)
+
+	err = CreateTables(db)
+	require.NoError(t, err)
+
+	return db, NewRepository(db)
+}
+
+func TestInsertAndQueryImage(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	img := &domain.ImageRecord{
+		Name:                    "mcr.microsoft.com/azurelinux/base/python:3.12",
+		Registry:                "mcr.microsoft.com",
+		Repository:              "azurelinux/base/python",
+		Tag:                     "3.12",
+		Digest:                  "sha256:abcdef1234567890",
+		SizeBytes:               85000000,
+		TotalVulnerabilities:    5,
+		CriticalVulnerabilities: 0,
+		HighVulnerabilities:     1,
+		MediumVulnerabilities:   2,
+		LowVulnerabilities:      2,
+		Languages: []domain.Language{
+			{Language: "python", Version: "3.12.1", MajorMinor: "3.12", PackageName: "python3", Verified: true},
+		},
+	}
+
+	err := repo.InsertImage(img)
+	require.NoError(t, err)
+
+	// Test ImageExists
+	exists, err := repo.ImageExists("mcr.microsoft.com/azurelinux/base/python:3.12")
+	require.NoError(t, err)
+	assert.True(t, exists)
+
+	exists, err = repo.ImageExists("nonexistent:latest")
+	require.NoError(t, err)
+	assert.False(t, exists)
+
+	// Test QueryLanguages
+	languages, err := repo.QueryLanguages()
+	require.NoError(t, err)
+	assert.Equal(t, []string{"python"}, languages)
+
+	// Test QueryTopImages
+	images, err := repo.QueryTopImages("python", 10)
+	require.NoError(t, err)
+	require.Len(t, images, 1)
+	assert.Equal(t, "mcr.microsoft.com/azurelinux/base/python:3.12", images[0].Name)
+	assert.Equal(t, "3.12.1", images[0].Version)
+	assert.Equal(t, 0, images[0].CriticalVulnerabilities)
+	assert.Equal(t, 1, images[0].HighVulnerabilities)
+	assert.Equal(t, 5, images[0].TotalVulnerabilities)
+	assert.Equal(t, int64(85000000), images[0].SizeBytes)
+}
+
+func TestQueryTopImagesRanking(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "img-high-crit:1.0", Registry: "r", Repository: "repo", Tag: "1.0",
+			CriticalVulnerabilities: 2, HighVulnerabilities: 0, TotalVulnerabilities: 5, SizeBytes: 100,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "img-low-crit:1.0", Registry: "r", Repository: "repo2", Tag: "1.0",
+			CriticalVulnerabilities: 0, HighVulnerabilities: 1, TotalVulnerabilities: 3, SizeBytes: 200,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "img-smallest:1.0", Registry: "r", Repository: "repo3", Tag: "1.0",
+			CriticalVulnerabilities: 0, HighVulnerabilities: 0, TotalVulnerabilities: 1, SizeBytes: 50,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	result, err := repo.QueryTopImages("python", 10)
+	require.NoError(t, err)
+	require.Len(t, result, 3)
+
+	// img-smallest should be first (0 crit, 0 high, 1 total, smallest)
+	assert.Equal(t, "img-smallest:1.0", result[0].Name)
+	// img-low-crit second (0 crit, 1 high)
+	assert.Equal(t, "img-low-crit:1.0", result[1].Name)
+	// img-high-crit last (2 crit)
+	assert.Equal(t, "img-high-crit:1.0", result[2].Name)
+}
+
+func TestClearDatabase(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	img := &domain.ImageRecord{
+		Name: "test:1.0", Registry: "r", Repository: "repo", Tag: "1.0",
+		Languages: []domain.Language{{Language: "go", Version: "1.21"}},
+	}
+
+	require.NoError(t, repo.InsertImage(img))
+
+	stats, err := repo.GetDatabaseStats()
+	require.NoError(t, err)
+	assert.Equal(t, 1, stats["images"])
+	assert.Equal(t, 1, stats["languages"])
+
+	require.NoError(t, repo.ClearDatabase())
+
+	stats, err = repo.GetDatabaseStats()
+	require.NoError(t, err)
+	assert.Equal(t, 0, stats["images"])
+	assert.Equal(t, 0, stats["languages"])
+}
+
+func TestUpsertImage(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	img := &domain.ImageRecord{
+		Name: "test:1.0", Registry: "r", Repository: "repo", Tag: "1.0",
+		TotalVulnerabilities: 5,
+		Languages:            []domain.Language{{Language: "python", Version: "3.12"}},
+	}
+
+	require.NoError(t, repo.InsertImage(img))
+
+	// Update the same image with new vuln count
+	img.TotalVulnerabilities = 3
+	img.Languages = []domain.Language{{Language: "python", Version: "3.12.1"}}
+	require.NoError(t, repo.InsertImage(img))
+
+	images, err := repo.QueryTopImages("python", 10)
+	require.NoError(t, err)
+	require.Len(t, images, 1)
+	assert.Equal(t, 3, images[0].TotalVulnerabilities)
+	assert.Equal(t, "3.12.1", images[0].Version)
+}

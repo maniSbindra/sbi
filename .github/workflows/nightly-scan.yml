@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+---
+name: Nightly Registry Scan
+
+on:
+  schedule:
+    - cron: "0 2 * * *"  # 02:00 UTC nightly
+  workflow_dispatch: {}
+
+concurrency:
+  group: nightly-registry-scan
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  scan-and-update:
+    name: 🔍 Scan & Update
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    permissions:
+      contents: write
+    steps:
+      - name: ⤵️ Checkout (with LFS)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: 🚧 Setup Go
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: 🚧 Setup Task
+        uses: go-task/setup-task@0ab1b2a65bc55236a3bc64cde78f80e20e8885c2 # v1.0.0
+
+      - name: 🔀 Download dependencies
+        run: go mod download
+
+      - name: 🏗️ Build
+        run: task build
+
+      - name: 🔧 Install Syft
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: 🔧 Install Trivy
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update -y
+          sudo apt-get install -y trivy
+
+      - name: 🐳 Docker info
+        run: docker info
+
+      - name: 🔍 Run nightly scan
+        run: |
+          ./bin/daily-recommendations scan \
+            --database azure_linux_images.db \
+            --config-dir config \
+            --output docs/daily_recommendations.md \
+            --max-tags 0 \
+            --update-existing \
+            -v
+
+      - name: 📊 Show database stats
+        run: |
+          ls -lh azure_linux_images.db || true
+          sqlite3 azure_linux_images.db 'SELECT COUNT(*) as images FROM images;' || true
+
+      - name: 📝 Commit & push updates
+        if: success()
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add azure_linux_images.db docs/daily_recommendations.md docs/daily_recommendations.json || true
+          if [ -n "$(git diff --cached --name-only)" ]; then
+            CHANGED_FILES=$(git diff --cached --name-only | tr '\n' ' ')
+            echo "Changed files: $CHANGED_FILES"
+            git commit -m "chore: update nightly scan results [skip ci]"
+            git push
+          else
+            echo 'No changes to commit.'
+          fi
+
+      - name: 📤 Upload database artifact
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: nightly-database
+          path: azure_linux_images.db
+          retention-days: 5
