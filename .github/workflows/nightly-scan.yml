@@ -60,7 +60,7 @@ jobs:
 
       - name: 🔍 Run nightly scan
         run: |
-          ./bin/daily-recommendations scan \
+          ./bin/linux-amd64/daily-recommendations scan \
             --database azure_linux_images.db \
             --config-dir config \
             --output docs/daily_recommendations.md \
