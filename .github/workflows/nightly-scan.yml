@@ -79,7 +79,7 @@ jobs:
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git add azure_linux_images.db docs/daily_recommendations.md docs/daily_recommendations.json || true
+          git add -f azure_linux_images.db docs/daily_recommendations.md docs/daily_recommendations.json || true
           if [ -n "$(git diff --cached --name-only)" ]; then
             CHANGED_FILES=$(git diff --cached --name-only | tr '\n' ' ')
             echo "Changed files: $CHANGED_FILES"
