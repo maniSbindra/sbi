@@ -1,45 +1,7 @@
 {
-  "generatedAt": "2026-02-22T11:23:07Z",
+  "generatedAt": "2026-02-22T11:43:14Z",
   "topN": 10,
   "languages": [
-    {
-      "language": "dotnet",
-      "images": [
-        {
-          "rank": 1,
-          "name": "mcr.microsoft.com/dotnet/runtime:8.0",
-          "version": "8.0.24",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 2,
-          "totalVulnerabilities": 88,
-          "sizeBytes": 202375168,
-          "sizeHuman": "193.0 MB",
-          "digest": "sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8"
-        },
-        {
-          "rank": 2,
-          "name": "mcr.microsoft.com/dotnet/aspnet:8.0",
-          "version": "8.0.24",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 2,
-          "totalVulnerabilities": 88,
-          "sizeBytes": 228589568,
-          "sizeHuman": "218.0 MB",
-          "digest": "sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a"
-        },
-        {
-          "rank": 3,
-          "name": "mcr.microsoft.com/dotnet/sdk:8.0",
-          "version": "8.0.418",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 15,
-          "totalVulnerabilities": 170,
-          "sizeBytes": 891289600,
-          "sizeHuman": "850.0 MB",
-          "digest": "sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5"
-        }
-      ]
-    },
     {
       "language": "java",
       "images": [
@@ -261,6 +223,44 @@
           "sizeBytes": 119172747,
           "sizeHuman": "113.7 MB",
           "digest": "sha256:9e01bf1ae5db7649a236da7be1e94ffbbbdd7a93f867dd0d8d5720d9e1f89fab"
+        }
+      ]
+    },
+    {
+      "language": "dotnet",
+      "images": [
+        {
+          "rank": 1,
+          "name": "mcr.microsoft.com/dotnet/runtime:8.0",
+          "version": "8.0.24",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 2,
+          "totalVulnerabilities": 88,
+          "sizeBytes": 202375168,
+          "sizeHuman": "193.0 MB",
+          "digest": "sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8"
+        },
+        {
+          "rank": 2,
+          "name": "mcr.microsoft.com/dotnet/aspnet:8.0",
+          "version": "8.0.24",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 2,
+          "totalVulnerabilities": 88,
+          "sizeBytes": 228589568,
+          "sizeHuman": "218.0 MB",
+          "digest": "sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a"
+        },
+        {
+          "rank": 3,
+          "name": "mcr.microsoft.com/dotnet/sdk:8.0",
+          "version": "8.0.418",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 15,
+          "totalVulnerabilities": 170,
+          "sizeBytes": 891289600,
+          "sizeHuman": "850.0 MB",
+          "digest": "sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5"
         }
       ]
     }
