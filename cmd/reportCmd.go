@@ -5,6 +5,7 @@ import (
 
 	"github.com/manisbindra/sbi/pkg/infrastructure/database"
 	"github.com/manisbindra/sbi/pkg/infrastructure/report"
+	"github.com/manisbindra/sbi/pkg/usecase"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -30,13 +31,19 @@ func runReport(_ *cobra.Command, _ []string) error {
 
 	repo := database.NewRepository(db)
 
+	// Load repo config for scanned repositories section
+	repoCfg, err := usecase.LoadRepositoryConfig(flgConfigDir)
+	if err != nil {
+		log.Warnf("Could not load repository config: %v", err)
+	}
+
 	log.Info("Generating reports...")
 
-	if err := report.GenerateReport(repo, flgOutputPath, flgTopN); err != nil {
+	if err := report.GenerateReport(repo, flgOutputPath, flgTopN, &repoCfg); err != nil {
 		return err
 	}
 
 	jsonPath := strings.TrimSuffix(flgOutputPath, ".md") + ".json"
 
-	return report.GenerateJSONReport(repo, jsonPath, flgTopN)
+	return report.GenerateJSONReport(repo, jsonPath, flgTopN, &repoCfg)
 }

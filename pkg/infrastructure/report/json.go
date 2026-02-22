@@ -8,15 +8,23 @@ import (
 	"strings"
 	"time"
 
+	"github.com/manisbindra/sbi/pkg/domain"
 	"github.com/manisbindra/sbi/pkg/infrastructure/database"
 	log "github.com/sirupsen/logrus"
 )
 
 // JSONReport is the top-level structure for the JSON report.
 type JSONReport struct {
-	GeneratedAt string                  `json:"generatedAt"`
-	TopN        int                     `json:"topN"`
-	Languages   []JSONLanguageSection   `json:"languages"`
+	GeneratedAt  string                `json:"generatedAt"`
+	TopN         int                   `json:"topN"`
+	ScannedRepos []JSONRepoGroup       `json:"scannedRepositories,omitempty"`
+	Languages    []JSONLanguageSection `json:"languages"`
+}
+
+// JSONRepoGroup represents a group of scanned repositories/images.
+type JSONRepoGroup struct {
+	Description string   `json:"description"`
+	Images      []string `json:"images"`
 }
 
 // JSONLanguageSection holds recommended images for a single language.
@@ -39,7 +47,7 @@ type JSONImageEntry struct {
 }
 
 // GenerateJSONReport produces a JSON recommendations report from the database.
-func GenerateJSONReport(repo *database.Repository, outputPath string, topN int) error {
+func GenerateJSONReport(repo *database.Repository, outputPath string, topN int, repoCfg *domain.RepositoryConfig) error {
 	languages, err := repo.QueryLanguages()
 	if err != nil {
 		return fmt.Errorf("querying languages: %w", err)
@@ -53,6 +61,15 @@ func GenerateJSONReport(repo *database.Repository, outputPath string, topN int) 
 	report := JSONReport{
 		GeneratedAt: time.Now().UTC().Format(time.RFC3339),
 		TopN:        topN,
+	}
+
+	if repoCfg != nil {
+		for _, group := range repoCfg.Repositories {
+			report.ScannedRepos = append(report.ScannedRepos, JSONRepoGroup{
+				Description: group.Description,
+				Images:      group.Images,
+			})
+		}
 	}
 
 	for _, lang := range languages {

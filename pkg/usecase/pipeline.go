@@ -78,13 +78,13 @@ func (p *Pipeline) ScanImage(imageName string) error {
 
 // GenerateReport generates both the markdown and JSON recommendations reports.
 func (p *Pipeline) GenerateReport() error {
-	if err := report.GenerateReport(p.repo, p.config.OutputPath, p.config.TopN); err != nil {
+	if err := report.GenerateReport(p.repo, p.config.OutputPath, p.config.TopN, &p.repoCfg); err != nil {
 		return err
 	}
 
 	jsonPath := strings.TrimSuffix(p.config.OutputPath, ".md") + ".json"
 
-	return report.GenerateJSONReport(p.repo, jsonPath, p.config.TopN)
+	return report.GenerateJSONReport(p.repo, jsonPath, p.config.TopN, &p.repoCfg)
 }
 
 func (p *Pipeline) scanRepository(repo string) error {

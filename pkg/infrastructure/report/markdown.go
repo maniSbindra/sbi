@@ -13,7 +13,7 @@ import (
 )
 
 // GenerateReport produces a markdown recommendations report from the database.
-func GenerateReport(repo *database.Repository, outputPath string, topN int) error {
+func GenerateReport(repo *database.Repository, outputPath string, topN int, repoCfg *domain.RepositoryConfig) error {
 	languages, err := repo.QueryLanguages()
 	if err != nil {
 		return fmt.Errorf("querying languages: %w", err)
@@ -31,6 +31,10 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int) erro
 	sb.WriteString("# Daily Recommended Images by Language\n\n")
 	fmt.Fprintf(&sb, "_Generated: %s. Criteria: lowest critical → high → total vulnerabilities → size. Top %d per language._\n\n", ts, topN)
 	sb.WriteString("**Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).\n\n")
+
+	if repoCfg != nil {
+		writeScannedRepos(&sb, repoCfg)
+	}
 
 	for _, lang := range languages {
 		images, err := repo.QueryTopImages(lang, topN)
@@ -75,6 +79,31 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int) erro
 	log.Infof("Wrote daily recommendations to %s", outputPath)
 
 	return nil
+}
+
+// writeScannedRepos appends the scanned repositories section to the report.
+func writeScannedRepos(sb *strings.Builder, cfg *domain.RepositoryConfig) {
+	sb.WriteString("## Scanned Repositories and Images\n\n")
+
+	var totalImages int
+	for _, group := range cfg.Repositories {
+		totalImages += len(group.Images)
+	}
+
+	fmt.Fprintf(sb, "This report includes analysis from **%d configured sources** across %d groups:\n\n",
+		totalImages, len(cfg.Repositories))
+
+	for _, group := range cfg.Repositories {
+		if group.Description != "" {
+			fmt.Fprintf(sb, "**%s:**\n\n", group.Description)
+		}
+
+		for _, img := range group.Images {
+			fmt.Fprintf(sb, "- `%s`\n", img)
+		}
+
+		sb.WriteString("\n")
+	}
 }
 
 // HumanSize converts bytes to a human-readable size string.
