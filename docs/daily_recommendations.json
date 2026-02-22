@@ -1,6 +1,47 @@
 {
-  "generatedAt": "2026-02-22T11:43:14Z",
+  "generatedAt": "2026-02-22T12:01:07Z",
   "topN": 10,
+  "scannedRepositories": [
+    {
+      "description": "Azure Linux base images",
+      "images": [
+        "azurelinux/base/python",
+        "azurelinux/base/nodejs"
+      ]
+    },
+    {
+      "description": "Azure Linux distroless images",
+      "images": [
+        "azurelinux/distroless/base",
+        "azurelinux/distroless/python",
+        "azurelinux/distroless/nodejs"
+      ]
+    },
+    {
+      "description": "Docker Hub single images",
+      "images": [
+        "docker.io/library/python:3-slim",
+        "docker.io/library/python:3.12-slim",
+        "docker.io/library/node:20.0-slim"
+      ]
+    },
+    {
+      "description": ".NET images",
+      "images": [
+        "mcr.microsoft.com/dotnet/aspnet:8.0",
+        "mcr.microsoft.com/dotnet/runtime:8.0",
+        "mcr.microsoft.com/dotnet/sdk:8.0"
+      ]
+    },
+    {
+      "description": "OpenJDK images",
+      "images": [
+        "mcr.microsoft.com/openjdk/jdk:21-azurelinux",
+        "mcr.microsoft.com/openjdk/jdk:21-distroless",
+        "mcr.microsoft.com/openjdk/jdk:21-ubuntu"
+      ]
+    }
+  ],
   "languages": [
     {
       "language": "java",
