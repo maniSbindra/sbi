@@ -16,19 +16,6 @@ updates:
       all:
         patterns: ["*"]
 
-  - package-ecosystem: devcontainers
-    directory: /
-    schedule:
-      interval: daily
-    commit-message:
-      prefix: build
-      include: scope
-    labels:
-      - dependencies
-    groups:
-      all:
-        patterns: ["*"]
-
   - package-ecosystem: gomod
     directory: /
     schedule:
