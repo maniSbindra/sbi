@@ -63,7 +63,39 @@ task build
 
 ## Configuration
 
-Image sources and tag filtering rules are defined in [`config/repositories.json`](config/repositories.json):
+Image sources and tag filtering rules are defined in [`config/repositories.json`](config/repositories.json).
+
+### Adding or modifying repositories
+
+Each entry in the `repositories` array is a group with a description and a list of images to scan. Images can be either **repositories** (all matching tags are discovered and scanned) or **specific image:tag** pairs.
+
+To add a new repository group, add an entry like:
+
+```json
+{
+  "description": "My custom images",
+  "images": [
+    "myregistry/myrepo",
+    "docker.io/library/nginx:stable-slim"
+  ]
+}
+```
+
+- **Repository** (no `:tag`): Tags are auto-discovered from the registry, filtered by `tagFilter` rules, and limited by `maxTags`. The `defaults.registry` (e.g., `mcr.microsoft.com`) is prepended if no registry is specified.
+- **Single image** (with `:tag`): Scanned as-is, no tag discovery. Use the full image reference including registry for non-MCR images (e.g., `docker.io/library/python:3-slim`).
+
+### Tag filtering
+
+The `tagFilter` section controls which discovered tags are included:
+
+| Field | Purpose | Example |
+|-------|---------|---------|
+| `skipExact` | Tags to skip by exact match | `["latest", "dev", "nightly"]` |
+| `excludeKeywords` | Skip tags containing these substrings | `["debug", "test", "arm"]` |
+| `excludePatterns` | Skip tags matching these regex patterns | `["(?i)[-.]?(alpha\|beta)"]` |
+| `requireDigit` | Only include tags that contain a digit | `true` |
+
+### Full config example
 
 ```json
 {
