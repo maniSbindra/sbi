@@ -1,77 +1,54 @@
-# Daily Recommendations by Language Report
+# SBI — Secure Base Image Recommendations
 
-A Go CLI tool that scans container base images from registries (MCR, Docker Hub, etc.), analyzes them for vulnerabilities and language runtimes, and generates a daily markdown report ranking the most secure images per programming language.
+Every night, this project scans container base images for vulnerabilities and generates ranked security recommendations per programming language.
 
-## Overview
+## 📊 Daily Reports
 
-This project replicates and extends the nightly recommendations pipeline from [secure-container-base-image-recommender](https://github.com/maniSbindra/secure-container-base-image-recommender) (Python) in Go.
+| Format   | Link                                                               |
+|----------|--------------------------------------------------------------------|
+| Markdown | [docs/daily_recommendations.md](docs/daily_recommendations.md)     |
+| JSON     | [docs/daily_recommendations.json](docs/daily_recommendations.json) |
 
-### Pipeline
+Reports are regenerated nightly at 02:00 UTC via [GitHub Actions](.github/workflows/nightly-scan.yml) and committed automatically. Images are ranked per language by: fewest critical → fewest high → fewest total vulnerabilities → smallest size.
 
-1. **Discover** — Enumerate image tags from configured container registries (MCR API)
-2. **Pull & Analyze** — Pull images, generate SBOM with [Syft](https://github.com/anchore/syft), detect languages and packages
-3. **Scan** — Run [Trivy](https://github.com/aquasecurity/trivy) vulnerability scanning (with optional secrets/misconfig detection)
+## How It Works
+
+A nightly [GitHub Actions workflow](.github/workflows/nightly-scan.yml) runs the full pipeline:
+
+1. **Discover** — Enumerate image tags from configured container registries (MCR, Docker Hub)
+2. **Pull & Analyze** — Pull images, generate SBOM with [Syft](https://github.com/anchore/syft), detect language runtimes
+3. **Scan** — Run [Trivy](https://github.com/aquasecurity/trivy) vulnerability scanning
 4. **Verify** — Runtime verification of detected languages inside containers
-5. **Store** — Persist all results in a SQLite database
-6. **Report** — Generate a ranked markdown report per language (critical → high → total vulns → size)
+5. **Store** — Persist results in a SQLite database (tracked via Git LFS)
+6. **Report** — Generate ranked markdown and JSON reports, commit and push to this repo
 
-## Prerequisites
+### What Gets Scanned
 
-- **Go** 1.22+
-- **Docker** (for image pulling and analysis)
-- **Syft** ([install](https://github.com/anchore/syft#installation))
-- **Trivy** ([install](https://github.com/aquasecurity/trivy#get-trivy))
+Image sources and tag filtering rules are configured in [`config/repositories.json`](config/repositories.json). Currently scans Azure Linux base/distroless images, Docker Hub official images, .NET, and OpenJDK images.
 
-## Quick Start
+## Running Locally
+
+### Prerequisites
+
+- **Go** 1.26+, **Docker**, **[Syft](https://github.com/anchore/syft#installation)**, **[Trivy](https://github.com/aquasecurity/trivy#get-trivy)**
+
+### Quick Start
 
 ```bash
 # Build
-go build -o bin/daily-recommendations ./cmd
+task build
 
-# Scan all configured repositories and generate report
+# Scan all configured repositories and generate reports
 ./bin/daily-recommendations scan --verbose
 
-# Generate report from existing database
+# Regenerate reports from existing database
 ./bin/daily-recommendations report
 
 # Clear the database
 ./bin/daily-recommendations reset-db
 ```
 
-## CLI Commands
-
-### `scan`
-
-Scans configured registries, analyzes images, and generates the report.
-
-```bash
-daily-recommendations scan [flags]
-```
-
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| `--max-tags` | 5 | Maximum tags per repository (0 = all) |
-| `--comprehensive` | false | Enable comprehensive scanning (secrets + misconfigs) |
-| `--no-cleanup` | false | Keep Docker images after scanning |
-| `--update-existing` | false | Rescan images already in the database |
-
-### `report`
-
-Generates the markdown report from existing database data.
-
-```bash
-daily-recommendations report [flags]
-```
-
-### `reset-db`
-
-Clears all data from the database.
-
-```bash
-daily-recommendations reset-db
-```
-
-### Global Flags
+### CLI Flags
 
 | Flag | Default | Description |
 | ---- | ------- | ----------- |
@@ -79,20 +56,34 @@ daily-recommendations reset-db
 | `--config-dir` | `config` | Path to configuration directory |
 | `--output` | `docs/daily_recommendations.md` | Path to output report |
 | `--top-n` | 10 | Number of top images per language |
+| `--max-tags` | 5 | Maximum tags per repository (0 = all) |
+| `--comprehensive` | false | Enable secrets + misconfig scanning |
+| `--update-existing` | false | Rescan images already in the database |
 | `--verbose, -v` | false | Enable verbose output |
-| `--debug, -d` | false | Enable debug output |
 
 ## Configuration
 
-Image sources are defined in `config/repositories.txt`:
+Image sources and tag filtering rules are defined in [`config/repositories.json`](config/repositories.json):
 
-```text
-# MCR repository (all tags enumerated)
-azurelinux/base/python
-
-# Single image reference (exact tag)
-docker.io/library/python:3.12-slim
-mcr.microsoft.com/dotnet/aspnet:8.0
+```json
+{
+  "defaults": {
+    "registry": "mcr.microsoft.com",
+    "maxTags": 0
+  },
+  "tagFilter": {
+    "skipExact": ["latest", "dev", "nightly", "edge"],
+    "excludeKeywords": ["debug", "test", "arm", "amd"],
+    "excludePatterns": ["(?i)[-.]?(alpha|beta|rc|preview)[\\d.]*$"],
+    "requireDigit": true
+  },
+  "repositories": [
+    {
+      "description": "Azure Linux base images",
+      "images": ["azurelinux/base/python", "azurelinux/base/nodejs"]
+    }
+  ]
+}
 ```
 
 ## Development
@@ -100,20 +91,11 @@ mcr.microsoft.com/dotnet/aspnet:8.0
 Requires [Task](https://taskfile.dev/) for build automation:
 
 ```bash
-# Install dependencies
-task deps
-
-# Run linter
-task lint
-
-# Run tests
-task test
-
-# Build
-task build
-
-# Run everything
-task all
+task build        # Build binary
+task test         # Run tests
+task lint         # Run all linters (go, markdown, yaml)
+task vulncheck    # Run Go vulnerability check
+task all          # Build + test + lint
 ```
 
 ## Project Structure
@@ -125,11 +107,15 @@ pkg/
   infrastructure/
     database/                  # SQLite schema and repository
     scanner/                   # Registry, Docker, Syft, Trivy integration
-    report/                    # Markdown report generation
+    report/                    # Markdown and JSON report generation
   usecase/                     # Pipeline orchestration
-config/                        # Configuration files
-docs/                          # Generated reports
+config/                        # Image sources and tag filter config
+docs/                          # Generated daily reports
 ```
+
+## Background
+
+This project replicates and extends the nightly recommendations pipeline from [secure-container-base-image-recommender](https://github.com/maniSbindra/secure-container-base-image-recommender) (Python) in Go.
 
 ## License
 
