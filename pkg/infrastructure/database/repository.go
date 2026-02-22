@@ -169,9 +169,19 @@ func (r *Repository) InsertImage(img *domain.ImageRecord) error {
 	return nil
 }
 
-// QueryLanguages returns distinct languages (lowercased) sorted alphabetically.
+// QueryLanguages returns distinct languages ordered by best security posture.
+// Languages whose top image has the fewest critical → high → total vulns appear first.
 func (r *Repository) QueryLanguages() ([]string, error) {
-	rows, err := r.db.Query("SELECT DISTINCT LOWER(language) FROM languages ORDER BY LOWER(language)")
+	rows, err := r.db.Query(`
+		SELECT LOWER(l.language) AS lang
+		FROM languages l
+		JOIN images i ON l.image_id = i.id
+		WHERE l.language != ''
+		GROUP BY lang
+		ORDER BY MIN(i.critical_vulnerabilities) ASC,
+		         MIN(i.high_vulnerabilities) ASC,
+		         MIN(i.total_vulnerabilities) ASC,
+		         lang ASC`)
 	if err != nil {
 		return nil, fmt.Errorf("querying languages: %w", err)
 	}
@@ -184,9 +194,7 @@ func (r *Repository) QueryLanguages() ([]string, error) {
 			return nil, fmt.Errorf("scanning language: %w", err)
 		}
 
-		if lang != "" {
-			languages = append(languages, lang)
-		}
+		languages = append(languages, lang)
 	}
 
 	return languages, rows.Err()
