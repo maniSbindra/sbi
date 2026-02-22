@@ -65,6 +65,7 @@ jobs:
             --config-dir config \
             --output docs/daily_recommendations.md \
             --max-tags 0 \
+            --comprehensive \
             --update-existing \
             -v
 
