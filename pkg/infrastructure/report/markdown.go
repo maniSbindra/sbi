@@ -90,7 +90,7 @@ func writeScannedRepos(sb *strings.Builder, cfg *domain.RepositoryConfig) {
 		totalImages += len(group.Images)
 	}
 
-	fmt.Fprintf(sb, "This report includes analysis from **%d configured sources** across %d groups:\n\n",
+	fmt.Fprintf(sb, "This report includes analysis from **%d configured sources** across %d groups (see [repositories.json](../config/repositories.json)):\n\n",
 		totalImages, len(cfg.Repositories))
 
 	for _, group := range cfg.Repositories {
