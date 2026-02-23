@@ -57,7 +57,7 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 				version = "-"
 			}
 
-			pinnedRef := FormatPinnedReference(img.Name, img.Version, img.Digest)
+			pinnedRef := FormatPinnedReference(img.Name, img.Digest)
 			if pinnedRef == "" {
 				pinnedRef = "-"
 			}
@@ -150,38 +150,52 @@ func FormatDigest(digest string) string {
 }
 
 // FormatPinnedReference returns a copy-friendly pinned image reference with digest.
-// Format: {name}:{tag}@{digest} for supply chain security.
-func FormatPinnedReference(name, version, digest string) string {
+// Format: {name}@{digest} for supply chain security.
+// Note: name already includes the tag (e.g., "registry/image:tag").
+func FormatPinnedReference(name, digest string) string {
 	if name == "" || digest == "" {
 		return ""
-	}
-
-	if version != "" {
-		return fmt.Sprintf("%s:%s@%s", name, version, digest)
 	}
 
 	return fmt.Sprintf("%s@%s", name, digest)
 }
 
+// stripTag removes the tag portion from a full image name.
+// E.g., "mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot" -> "mcr.microsoft.com/azurelinux/distroless/python"
+func stripTag(name string) string {
+	// Find the last colon that's after the last slash (to avoid stripping port numbers)
+	lastSlash := strings.LastIndex(name, "/")
+	lastColonIdx := strings.LastIndex(name, ":")
+
+	// If colon exists and is after the last slash, it's a tag
+	if lastColonIdx > lastSlash {
+		return name[:lastColonIdx]
+	}
+
+	return name
+}
+
 // FormatStableTag returns a stable tag reference (major.minor) for auto-updates.
-// Format: {name}:{major.minor}
+// Format: {base_name}:{major.minor} where base_name is the image name without its current tag.
 func FormatStableTag(name, version string) string {
 	if name == "" || version == "" {
 		return ""
 	}
 
+	baseName := stripTag(name)
+
 	parts := strings.Split(version, ".")
 	if len(parts) >= 2 {
-		return fmt.Sprintf("%s:%s.%s", name, parts[0], parts[1])
+		return fmt.Sprintf("%s:%s.%s", baseName, parts[0], parts[1])
 	}
 
-	return fmt.Sprintf("%s:%s", name, version)
+	return fmt.Sprintf("%s:%s", baseName, version)
 }
 
 // FormatDockerfileFrom returns a FROM line for direct Dockerfile use.
-// Format: FROM {name}:{tag}@{digest}
-func FormatDockerfileFrom(name, version, digest string) string {
-	pinnedRef := FormatPinnedReference(name, version, digest)
+// Format: FROM {name}@{digest}
+func FormatDockerfileFrom(name, digest string) string {
+	pinnedRef := FormatPinnedReference(name, digest)
 	if pinnedRef == "" {
 		return ""
 	}
@@ -203,7 +217,7 @@ func FormatRecommendedImages(lang string, images []domain.RecommendedImage) stri
 			version = "-"
 		}
 
-		pinnedRef := FormatPinnedReference(img.Name, img.Version, img.Digest)
+		pinnedRef := FormatPinnedReference(img.Name, img.Digest)
 		if pinnedRef == "" {
 			pinnedRef = "-"
 		}

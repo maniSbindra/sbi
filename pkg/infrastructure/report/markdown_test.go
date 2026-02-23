@@ -53,20 +53,19 @@ func TestFormatPinnedReference(t *testing.T) {
 	tests := []struct {
 		name     string
 		imgName  string
-		version  string
 		digest   string
 		expected string
 	}{
-		{"full reference", "mcr.microsoft.com/azurelinux/distroless/python", "3.12.10-1", "sha256:7be8b46abc123", "mcr.microsoft.com/azurelinux/distroless/python:3.12.10-1@sha256:7be8b46abc123"},
-		{"no version", "mcr.microsoft.com/azurelinux/distroless/python", "", "sha256:7be8b46abc123", "mcr.microsoft.com/azurelinux/distroless/python@sha256:7be8b46abc123"},
-		{"empty name", "", "3.12.10-1", "sha256:7be8b46abc123", ""},
-		{"empty digest", "mcr.microsoft.com/azurelinux/distroless/python", "3.12.10-1", "", ""},
-		{"all empty", "", "", "", ""},
+		{"name with tag", "mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot", "sha256:7be8b46abc123", "mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot@sha256:7be8b46abc123"},
+		{"name without tag", "mcr.microsoft.com/azurelinux/distroless/python", "sha256:7be8b46abc123", "mcr.microsoft.com/azurelinux/distroless/python@sha256:7be8b46abc123"},
+		{"empty name", "", "sha256:7be8b46abc123", ""},
+		{"empty digest", "mcr.microsoft.com/azurelinux/distroless/python:3.12", "", ""},
+		{"all empty", "", "", ""},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := FormatPinnedReference(tt.imgName, tt.version, tt.digest)
+			result := FormatPinnedReference(tt.imgName, tt.digest)
 			assert.Equal(t, tt.expected, result)
 		})
 	}
@@ -79,11 +78,11 @@ func TestFormatStableTag(t *testing.T) {
 		version  string
 		expected string
 	}{
-		{"major.minor.patch", "mcr.microsoft.com/azurelinux/distroless/python", "3.12.10", "mcr.microsoft.com/azurelinux/distroless/python:3.12"},
-		{"major.minor.patch-release", "mcr.microsoft.com/azurelinux/distroless/python", "3.12.10-1", "mcr.microsoft.com/azurelinux/distroless/python:3.12"},
-		{"major.minor", "mcr.microsoft.com/azurelinux/distroless/python", "3.12", "mcr.microsoft.com/azurelinux/distroless/python:3.12"},
-		{"major only", "mcr.microsoft.com/azurelinux/distroless/python", "3", "mcr.microsoft.com/azurelinux/distroless/python:3"},
-		{"empty version", "mcr.microsoft.com/azurelinux/distroless/python", "", ""},
+		{"name with tag, major.minor.patch version", "mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot", "3.12.10", "mcr.microsoft.com/azurelinux/distroless/python:3.12"},
+		{"name with tag, major.minor.patch-release version", "mcr.microsoft.com/azurelinux/distroless/python:3.12.10-1", "3.12.10-1", "mcr.microsoft.com/azurelinux/distroless/python:3.12"},
+		{"name without tag, major.minor version", "mcr.microsoft.com/azurelinux/distroless/python", "3.12", "mcr.microsoft.com/azurelinux/distroless/python:3.12"},
+		{"name without tag, major only version", "mcr.microsoft.com/azurelinux/distroless/python", "3", "mcr.microsoft.com/azurelinux/distroless/python:3"},
+		{"empty version", "mcr.microsoft.com/azurelinux/distroless/python:3.12", "", ""},
 		{"empty name", "", "3.12", ""},
 	}
 
@@ -95,23 +94,44 @@ func TestFormatStableTag(t *testing.T) {
 	}
 }
 
-func TestFormatDockerfileFrom(t *testing.T) {
+func TestStripTag(t *testing.T) {
 	tests := []struct {
 		name     string
 		imgName  string
-		version  string
-		digest   string
 		expected string
 	}{
-		{"full FROM", "mcr.microsoft.com/azurelinux/distroless/python", "3.12.10-1", "sha256:7be8b46abc123", "FROM mcr.microsoft.com/azurelinux/distroless/python:3.12.10-1@sha256:7be8b46abc123"},
-		{"no version", "mcr.microsoft.com/azurelinux/distroless/python", "", "sha256:7be8b46abc123", "FROM mcr.microsoft.com/azurelinux/distroless/python@sha256:7be8b46abc123"},
-		{"empty digest", "mcr.microsoft.com/azurelinux/distroless/python", "3.12.10-1", "", ""},
-		{"empty name", "", "3.12.10-1", "sha256:7be8b46abc123", ""},
+		{"with tag", "mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot", "mcr.microsoft.com/azurelinux/distroless/python"},
+		{"with port and tag", "localhost:5000/myimage:latest", "localhost:5000/myimage"},
+		{"without tag", "mcr.microsoft.com/azurelinux/distroless/python", "mcr.microsoft.com/azurelinux/distroless/python"},
+		{"with port no tag", "localhost:5000/myimage", "localhost:5000/myimage"},
+		{"docker hub short", "python:3.12", "python"},
+		{"empty", "", ""},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := FormatDockerfileFrom(tt.imgName, tt.version, tt.digest)
+			result := stripTag(tt.imgName)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
+
+func TestFormatDockerfileFrom(t *testing.T) {
+	tests := []struct {
+		name     string
+		imgName  string
+		digest   string
+		expected string
+	}{
+		{"name with tag", "mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot", "sha256:7be8b46abc123", "FROM mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot@sha256:7be8b46abc123"},
+		{"name without tag", "mcr.microsoft.com/azurelinux/distroless/python", "sha256:7be8b46abc123", "FROM mcr.microsoft.com/azurelinux/distroless/python@sha256:7be8b46abc123"},
+		{"empty digest", "mcr.microsoft.com/azurelinux/distroless/python:3.12", "", ""},
+		{"empty name", "", "sha256:7be8b46abc123", ""},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := FormatDockerfileFrom(tt.imgName, tt.digest)
 			assert.Equal(t, tt.expected, result)
 		})
 	}
