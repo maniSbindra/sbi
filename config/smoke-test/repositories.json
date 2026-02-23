@@ -13,7 +13,7 @@
     {
       "description": "Smoke test image",
       "images": [
-        "azurelinux/distroless/base"
+        "azurelinux/distroless/python"
       ]
     }
   ]

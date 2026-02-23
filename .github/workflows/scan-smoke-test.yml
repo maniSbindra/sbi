@@ -74,5 +74,10 @@ jobs:
         run: |
           echo "=== Database stats ==="
           sqlite3 smoke-test.db 'SELECT COUNT(*) as images FROM images;'
+          IMAGE_COUNT=$(sqlite3 smoke-test.db 'SELECT COUNT(*) FROM images;')
+          if [ "$IMAGE_COUNT" -eq 0 ]; then
+            echo "ERROR: No images in database"
+            exit 1
+          fi
           echo "=== Report preview ==="
           head -50 smoke-test-report.md
