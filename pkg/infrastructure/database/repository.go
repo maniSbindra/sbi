@@ -86,14 +86,13 @@ func (r *Repository) InsertImage(img *domain.ImageRecord) error {
 		return fmt.Errorf("inserting image: %w", err)
 	}
 
-	// On upsert (ON CONFLICT DO UPDATE), LastInsertId() may return 0 without
-	// error since no new row was inserted. Always query by name to be safe.
-	imageID, _ := res.LastInsertId()
-	if imageID == 0 {
-		err = tx.QueryRow("SELECT id FROM images WHERE name = ?", img.Name).Scan(&imageID)
-		if err != nil {
-			return fmt.Errorf("getting image id: %w", err)
-		}
+	// On upsert (ON CONFLICT DO UPDATE), LastInsertId() is unreliable — it may
+	// return 0 or a stale value from a previous insert. Always query by name.
+	_ = res
+	var imageID int64
+	err = tx.QueryRow("SELECT id FROM images WHERE name = ?", img.Name).Scan(&imageID)
+	if err != nil {
+		return fmt.Errorf("getting image id: %w", err)
 	}
 
 	// Clear old related data on upsert
