@@ -14,6 +14,12 @@ func OpenDB(dbPath string) (*sql.DB, error) {
 		return nil, fmt.Errorf("opening database: %w", err)
 	}
 
+	// SQLite only supports one writer at a time. Limiting to a single
+	// connection ensures PRAGMAs (like foreign_keys) stay in effect for
+	// every operation, since database/sql may otherwise hand out new
+	// connections that lack the per-connection PRAGMA settings.
+	db.SetMaxOpenConns(1)
+
 	// Enable WAL mode and foreign keys
 	pragmas := []string{
 		"PRAGMA journal_mode=WAL",
