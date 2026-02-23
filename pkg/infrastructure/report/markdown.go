@@ -48,8 +48,8 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 		}
 
 		sb.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(lang))) //nolint:staticcheck
-		sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest |\n")
-		sb.WriteString("|------|-------|---------|------|------|-------|------|--------|\n")
+		sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |\n")
+		sb.WriteString("|------|-------|---------|------|------|-------|------|--------|------------------|\n")
 
 		for idx, img := range images {
 			version := img.Version
@@ -57,10 +57,15 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 				version = "-"
 			}
 
-			fmt.Fprintf(&sb, "| %d | `%s` | %s | %d | %d | %d | %s | `%s` |\n",
+			pinnedRef := FormatPinnedReference(img.Name, img.Version, img.Digest)
+			if pinnedRef == "" {
+				pinnedRef = "-"
+			}
+
+			fmt.Fprintf(&sb, "| %d | `%s` | %s | %d | %d | %d | %s | `%s` | `%s` |\n",
 				idx+1, img.Name, version,
 				img.CriticalVulnerabilities, img.HighVulnerabilities, img.TotalVulnerabilities,
-				HumanSize(img.SizeBytes), FormatDigest(img.Digest))
+				HumanSize(img.SizeBytes), FormatDigest(img.Digest), pinnedRef)
 		}
 
 		sb.WriteString("\n")
@@ -144,13 +149,53 @@ func FormatDigest(digest string) string {
 	return digest
 }
 
+// FormatPinnedReference returns a copy-friendly pinned image reference with digest.
+// Format: {name}:{tag}@{digest} for supply chain security.
+func FormatPinnedReference(name, version, digest string) string {
+	if name == "" || digest == "" {
+		return ""
+	}
+
+	if version != "" {
+		return fmt.Sprintf("%s:%s@%s", name, version, digest)
+	}
+
+	return fmt.Sprintf("%s@%s", name, digest)
+}
+
+// FormatStableTag returns a stable tag reference (major.minor) for auto-updates.
+// Format: {name}:{major.minor}
+func FormatStableTag(name, version string) string {
+	if name == "" || version == "" {
+		return ""
+	}
+
+	parts := strings.Split(version, ".")
+	if len(parts) >= 2 {
+		return fmt.Sprintf("%s:%s.%s", name, parts[0], parts[1])
+	}
+
+	return fmt.Sprintf("%s:%s", name, version)
+}
+
+// FormatDockerfileFrom returns a FROM line for direct Dockerfile use.
+// Format: FROM {name}:{tag}@{digest}
+func FormatDockerfileFrom(name, version, digest string) string {
+	pinnedRef := FormatPinnedReference(name, version, digest)
+	if pinnedRef == "" {
+		return ""
+	}
+
+	return fmt.Sprintf("FROM %s", pinnedRef)
+}
+
 // FormatRecommendedImages formats a list of recommended images for a given language (used externally).
 func FormatRecommendedImages(lang string, images []domain.RecommendedImage) string {
 	var sb strings.Builder
 
 	sb.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(lang))) //nolint:staticcheck
-	sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest |\n")
-	sb.WriteString("|------|-------|---------|------|------|-------|------|--------|\n")
+	sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |\n")
+	sb.WriteString("|------|-------|---------|------|------|-------|------|--------|------------------|\n")
 
 	for idx, img := range images {
 		version := img.Version
@@ -158,10 +203,15 @@ func FormatRecommendedImages(lang string, images []domain.RecommendedImage) stri
 			version = "-"
 		}
 
-		fmt.Fprintf(&sb, "| %d | `%s` | %s | %d | %d | %d | %s | `%s` |\n",
+		pinnedRef := FormatPinnedReference(img.Name, img.Version, img.Digest)
+		if pinnedRef == "" {
+			pinnedRef = "-"
+		}
+
+		fmt.Fprintf(&sb, "| %d | `%s` | %s | %d | %d | %d | %s | `%s` | `%s` |\n",
 			idx+1, img.Name, version,
 			img.CriticalVulnerabilities, img.HighVulnerabilities, img.TotalVulnerabilities,
-			HumanSize(img.SizeBytes), FormatDigest(img.Digest))
+			HumanSize(img.SizeBytes), FormatDigest(img.Digest), pinnedRef)
 	}
 
 	return sb.String()
