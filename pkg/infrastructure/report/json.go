@@ -44,6 +44,9 @@ type JSONImageEntry struct {
 	SizeBytes               int64  `json:"sizeBytes"`
 	SizeHuman               string `json:"sizeHuman"`
 	Digest                  string `json:"digest"`
+	PinnedReference         string `json:"pinnedReference,omitempty"`
+	StableTag               string `json:"stableTag,omitempty"`
+	DockerfileFrom          string `json:"dockerfileFrom,omitempty"`
 }
 
 // GenerateJSONReport produces a JSON recommendations report from the database.
@@ -98,6 +101,9 @@ func GenerateJSONReport(repo *database.Repository, outputPath string, topN int, 
 				SizeBytes:               img.SizeBytes,
 				SizeHuman:               HumanSize(img.SizeBytes),
 				Digest:                  img.Digest,
+				PinnedReference:         FormatPinnedReference(img.Name, img.Digest),
+				StableTag:               FormatStableTag(img.Name, img.Version),
+				DockerfileFrom:          FormatDockerfileFrom(img.Name, img.Digest),
 			})
 		}
 
