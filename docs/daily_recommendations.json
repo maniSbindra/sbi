@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T08:20:31Z",
+  "generatedAt": "2026-02-24T04:27:00Z",
   "topN": 10,
   "scannedRepositories": [
     {
@@ -55,10 +55,10 @@
           "totalVulnerabilities": 0,
           "sizeBytes": 505413632,
           "sizeHuman": "482.0 MB",
-          "digest": "sha256:5ebf7c089b3c969cfe4892dc59b0b0b696959fcaaf71c0686f7cd5f3de1fff2c",
-          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:5ebf7c089b3c969cfe4892dc59b0b0b696959fcaaf71c0686f7cd5f3de1fff2c",
+          "digest": "sha256:25e3fc34980ec368bd35b82fa1ef178378b829e6ba56c7917705227548494ec3",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:25e3fc34980ec368bd35b82fa1ef178378b829e6ba56c7917705227548494ec3",
           "stableTag": "mcr.microsoft.com/openjdk/jdk:21.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:5ebf7c089b3c969cfe4892dc59b0b0b696959fcaaf71c0686f7cd5f3de1fff2c"
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:25e3fc34980ec368bd35b82fa1ef178378b829e6ba56c7917705227548494ec3"
         },
         {
           "rank": 2,
@@ -69,10 +69,10 @@
           "totalVulnerabilities": 1,
           "sizeBytes": 368050176,
           "sizeHuman": "351.0 MB",
-          "digest": "sha256:ab9085667bece11a29ba1fc28ab481b07aed7c82aa82057dc9c8a0911e710047",
-          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:ab9085667bece11a29ba1fc28ab481b07aed7c82aa82057dc9c8a0911e710047",
+          "digest": "sha256:c138509044194768cdb020dcd7f83ca08419e02267ccaafa72c57f1d8570e869",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:c138509044194768cdb020dcd7f83ca08419e02267ccaafa72c57f1d8570e869",
           "stableTag": "mcr.microsoft.com/openjdk/jdk:21.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:ab9085667bece11a29ba1fc28ab481b07aed7c82aa82057dc9c8a0911e710047"
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:c138509044194768cdb020dcd7f83ca08419e02267ccaafa72c57f1d8570e869"
         },
         {
           "rank": 3,
@@ -83,10 +83,10 @@
           "totalVulnerabilities": 64,
           "sizeBytes": 501219328,
           "sizeHuman": "478.0 MB",
-          "digest": "sha256:56f52f63e5b44e17d6e0b82dd1de686786bc2a18817aace44d3e178f79c13abc",
-          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:56f52f63e5b44e17d6e0b82dd1de686786bc2a18817aace44d3e178f79c13abc",
+          "digest": "sha256:95786a5e921982d10b1a03352e049daaeab63d83bf0ebf1e3049cf327b091392",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:95786a5e921982d10b1a03352e049daaeab63d83bf0ebf1e3049cf327b091392",
           "stableTag": "mcr.microsoft.com/openjdk/jdk:21.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:56f52f63e5b44e17d6e0b82dd1de686786bc2a18817aace44d3e178f79c13abc"
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:95786a5e921982d10b1a03352e049daaeab63d83bf0ebf1e3049cf327b091392"
         }
       ]
     },
@@ -289,10 +289,10 @@
           "totalVulnerabilities": 0,
           "sizeBytes": 505413632,
           "sizeHuman": "482.0 MB",
-          "digest": "sha256:5ebf7c089b3c969cfe4892dc59b0b0b696959fcaaf71c0686f7cd5f3de1fff2c",
-          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:5ebf7c089b3c969cfe4892dc59b0b0b696959fcaaf71c0686f7cd5f3de1fff2c",
+          "digest": "sha256:25e3fc34980ec368bd35b82fa1ef178378b829e6ba56c7917705227548494ec3",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:25e3fc34980ec368bd35b82fa1ef178378b829e6ba56c7917705227548494ec3",
           "stableTag": "mcr.microsoft.com/openjdk/jdk:3.12",
-          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:5ebf7c089b3c969cfe4892dc59b0b0b696959fcaaf71c0686f7cd5f3de1fff2c"
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:25e3fc34980ec368bd35b82fa1ef178378b829e6ba56c7917705227548494ec3"
         },
         {
           "rank": 8,
