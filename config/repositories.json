@@ -13,6 +13,7 @@
     {
       "description": "Azure Linux base images",
       "images": [
+        "azurelinux/base/core",
         "azurelinux/base/python",
         "azurelinux/base/nodejs"
       ]
@@ -21,16 +22,18 @@
       "description": "Azure Linux distroless images",
       "images": [
         "azurelinux/distroless/base",
+        "azurelinux/distroless/minimal",
         "azurelinux/distroless/python",
         "azurelinux/distroless/nodejs"
       ]
     },
     {
-      "description": "Docker Hub single images",
+      "description": "Docker Hub images (for comparison)",
       "images": [
         "docker.io/library/python:3-slim",
         "docker.io/library/python:3.12-slim",
-        "docker.io/library/node:20.0-slim"
+        "docker.io/library/node:20.0-slim",
+        "docker.io/library/node:22-bookworm-slim"
       ]
     },
     {
@@ -38,15 +41,26 @@
       "images": [
         "mcr.microsoft.com/dotnet/aspnet:8.0",
         "mcr.microsoft.com/dotnet/runtime:8.0",
-        "mcr.microsoft.com/dotnet/sdk:8.0"
+        "mcr.microsoft.com/dotnet/sdk:8.0",
+        "mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/runtime:10.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0",
+        "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0"
       ]
     },
     {
       "description": "OpenJDK images",
       "images": [
+        "mcr.microsoft.com/openjdk/jdk:25-azurelinux",
+        "mcr.microsoft.com/openjdk/jdk:25-distroless",
         "mcr.microsoft.com/openjdk/jdk:21-azurelinux",
         "mcr.microsoft.com/openjdk/jdk:21-distroless",
-        "mcr.microsoft.com/openjdk/jdk:21-ubuntu"
+        "mcr.microsoft.com/openjdk/jdk:21-ubuntu",
+        "mcr.microsoft.com/openjdk/jdk:17-distroless",
+        "mcr.microsoft.com/openjdk/jdk:11-distroless"
       ]
     }
   ]
