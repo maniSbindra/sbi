@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-02-24T04:27:00Z",
+  "generatedAt": "2026-02-24T10:32:16Z",
   "topN": 10,
   "scannedRepositories": [
     {
       "description": "Azure Linux base images",
       "images": [
+        "azurelinux/base/core",
         "azurelinux/base/python",
         "azurelinux/base/nodejs"
       ]
@@ -13,16 +14,18 @@
       "description": "Azure Linux distroless images",
       "images": [
         "azurelinux/distroless/base",
+        "azurelinux/distroless/minimal",
         "azurelinux/distroless/python",
         "azurelinux/distroless/nodejs"
       ]
     },
     {
-      "description": "Docker Hub single images",
+      "description": "Docker Hub images (for comparison)",
       "images": [
         "docker.io/library/python:3-slim",
         "docker.io/library/python:3.12-slim",
-        "docker.io/library/node:20.0-slim"
+        "docker.io/library/node:20.0-slim",
+        "docker.io/library/node:22-bookworm-slim"
       ]
     },
     {
@@ -30,19 +33,175 @@
       "images": [
         "mcr.microsoft.com/dotnet/aspnet:8.0",
         "mcr.microsoft.com/dotnet/runtime:8.0",
-        "mcr.microsoft.com/dotnet/sdk:8.0"
+        "mcr.microsoft.com/dotnet/sdk:8.0",
+        "mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/runtime:10.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless",
+        "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0",
+        "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0"
       ]
     },
     {
       "description": "OpenJDK images",
       "images": [
+        "mcr.microsoft.com/openjdk/jdk:25-azurelinux",
+        "mcr.microsoft.com/openjdk/jdk:25-distroless",
         "mcr.microsoft.com/openjdk/jdk:21-azurelinux",
         "mcr.microsoft.com/openjdk/jdk:21-distroless",
-        "mcr.microsoft.com/openjdk/jdk:21-ubuntu"
+        "mcr.microsoft.com/openjdk/jdk:21-ubuntu",
+        "mcr.microsoft.com/openjdk/jdk:17-distroless",
+        "mcr.microsoft.com/openjdk/jdk:11-distroless"
       ]
     }
   ],
   "languages": [
+    {
+      "language": "dotnet",
+      "images": [
+        {
+          "rank": 1,
+          "name": "mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless",
+          "version": "9.0.13",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 110100480,
+          "sizeHuman": "105.0 MB",
+          "digest": "sha256:3995507d446ee3ce1fd278962e7a6749495811edce2519ecee31274030113afa",
+          "pinnedReference": "mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless@sha256:3995507d446ee3ce1fd278962e7a6749495811edce2519ecee31274030113afa",
+          "stableTag": "mcr.microsoft.com/dotnet/runtime:9.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless@sha256:3995507d446ee3ce1fd278962e7a6749495811edce2519ecee31274030113afa"
+        },
+        {
+          "rank": 2,
+          "name": "mcr.microsoft.com/dotnet/runtime:10.0-azurelinux3.0-distroless",
+          "version": "10.0.3",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 115343360,
+          "sizeHuman": "110.0 MB",
+          "digest": "sha256:9d28d4f5ccb4f54ceddfb54597a2bb991a93a07f3e2f6a61845e3e98ec040892",
+          "pinnedReference": "mcr.microsoft.com/dotnet/runtime:10.0-azurelinux3.0-distroless@sha256:9d28d4f5ccb4f54ceddfb54597a2bb991a93a07f3e2f6a61845e3e98ec040892",
+          "stableTag": "mcr.microsoft.com/dotnet/runtime:10.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/runtime:10.0-azurelinux3.0-distroless@sha256:9d28d4f5ccb4f54ceddfb54597a2bb991a93a07f3e2f6a61845e3e98ec040892"
+        },
+        {
+          "rank": 3,
+          "name": "mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless",
+          "version": "8.0.24",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 130023424,
+          "sizeHuman": "124.0 MB",
+          "digest": "sha256:e91f943b47d5c2e2d6ac7cdd979e414c82aeb11980c8ef52e409fcf2afa63913",
+          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless@sha256:e91f943b47d5c2e2d6ac7cdd979e414c82aeb11980c8ef52e409fcf2afa63913",
+          "stableTag": "mcr.microsoft.com/dotnet/aspnet:8.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless@sha256:e91f943b47d5c2e2d6ac7cdd979e414c82aeb11980c8ef52e409fcf2afa63913"
+        },
+        {
+          "rank": 4,
+          "name": "mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless",
+          "version": "9.0.13",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 136314880,
+          "sizeHuman": "130.0 MB",
+          "digest": "sha256:9f856e8de88e2ca03687bca28e8575f2e3255ea43df1896ffbd76023e7b07f41",
+          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless@sha256:9f856e8de88e2ca03687bca28e8575f2e3255ea43df1896ffbd76023e7b07f41",
+          "stableTag": "mcr.microsoft.com/dotnet/aspnet:9.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless@sha256:9f856e8de88e2ca03687bca28e8575f2e3255ea43df1896ffbd76023e7b07f41"
+        },
+        {
+          "rank": 5,
+          "name": "mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless",
+          "version": "10.0.3",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 143654912,
+          "sizeHuman": "137.0 MB",
+          "digest": "sha256:973ac891bc21916cb4f579ed3cd5737fac0a1452d30b11a25493df65eefd4786",
+          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless@sha256:973ac891bc21916cb4f579ed3cd5737fac0a1452d30b11a25493df65eefd4786",
+          "stableTag": "mcr.microsoft.com/dotnet/aspnet:10.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless@sha256:973ac891bc21916cb4f579ed3cd5737fac0a1452d30b11a25493df65eefd4786"
+        },
+        {
+          "rank": 6,
+          "name": "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0",
+          "version": "9.0.311",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 921698304,
+          "sizeHuman": "879.0 MB",
+          "digest": "sha256:ef9d3354c106e4efa0946c79dca08038c28cd03da2eef678d6b9a640028218fe",
+          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0@sha256:ef9d3354c106e4efa0946c79dca08038c28cd03da2eef678d6b9a640028218fe",
+          "stableTag": "mcr.microsoft.com/dotnet/sdk:9.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0@sha256:ef9d3354c106e4efa0946c79dca08038c28cd03da2eef678d6b9a640028218fe"
+        },
+        {
+          "rank": 7,
+          "name": "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0",
+          "version": "10.0.103",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 973078528,
+          "sizeHuman": "928.0 MB",
+          "digest": "sha256:774b85a4de4b63b5974d0a599e7166b0ff20f3848d3cc67333beb733405d027b",
+          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0@sha256:774b85a4de4b63b5974d0a599e7166b0ff20f3848d3cc67333beb733405d027b",
+          "stableTag": "mcr.microsoft.com/dotnet/sdk:10.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0@sha256:774b85a4de4b63b5974d0a599e7166b0ff20f3848d3cc67333beb733405d027b"
+        },
+        {
+          "rank": 8,
+          "name": "mcr.microsoft.com/dotnet/runtime:8.0",
+          "version": "8.0.24",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 2,
+          "totalVulnerabilities": 88,
+          "sizeBytes": 202375168,
+          "sizeHuman": "193.0 MB",
+          "digest": "sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8",
+          "pinnedReference": "mcr.microsoft.com/dotnet/runtime:8.0@sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8",
+          "stableTag": "mcr.microsoft.com/dotnet/runtime:8.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/runtime:8.0@sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8"
+        },
+        {
+          "rank": 9,
+          "name": "mcr.microsoft.com/dotnet/aspnet:8.0",
+          "version": "8.0.24",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 2,
+          "totalVulnerabilities": 88,
+          "sizeBytes": 228589568,
+          "sizeHuman": "218.0 MB",
+          "digest": "sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a",
+          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:8.0@sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a",
+          "stableTag": "mcr.microsoft.com/dotnet/aspnet:8.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a"
+        },
+        {
+          "rank": 10,
+          "name": "mcr.microsoft.com/dotnet/sdk:8.0",
+          "version": "8.0.418",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 15,
+          "totalVulnerabilities": 170,
+          "sizeBytes": 891289600,
+          "sizeHuman": "850.0 MB",
+          "digest": "sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5",
+          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:8.0@sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5",
+          "stableTag": "mcr.microsoft.com/dotnet/sdk:8.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5"
+        }
+      ]
+    },
     {
       "language": "java",
       "images": [
@@ -62,6 +221,48 @@
         },
         {
           "rank": 2,
+          "name": "mcr.microsoft.com/openjdk/jdk:25-azurelinux",
+          "version": "25.0.2",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 552599552,
+          "sizeHuman": "527.0 MB",
+          "digest": "sha256:0fc3d50b7d5f45204add224062115a357c807faa510354e98c5698af61eedc2a",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0fc3d50b7d5f45204add224062115a357c807faa510354e98c5698af61eedc2a",
+          "stableTag": "mcr.microsoft.com/openjdk/jdk:25.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0fc3d50b7d5f45204add224062115a357c807faa510354e98c5698af61eedc2a"
+        },
+        {
+          "rank": 3,
+          "name": "mcr.microsoft.com/openjdk/jdk:11-distroless",
+          "version": "11.0.30",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 1,
+          "sizeBytes": 335544320,
+          "sizeHuman": "320.0 MB",
+          "digest": "sha256:5731cde419498b0efb3bd9df567c6bbc9add7d84347a0cbe3e2984d683802205",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:5731cde419498b0efb3bd9df567c6bbc9add7d84347a0cbe3e2984d683802205",
+          "stableTag": "mcr.microsoft.com/openjdk/jdk:11.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:5731cde419498b0efb3bd9df567c6bbc9add7d84347a0cbe3e2984d683802205"
+        },
+        {
+          "rank": 4,
+          "name": "mcr.microsoft.com/openjdk/jdk:17-distroless",
+          "version": "17.0.18",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 1,
+          "sizeBytes": 338690048,
+          "sizeHuman": "323.0 MB",
+          "digest": "sha256:70a054029a4096c428fd92f85769a9212a1e118b322b0d1893728a810c4a5a9d",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:70a054029a4096c428fd92f85769a9212a1e118b322b0d1893728a810c4a5a9d",
+          "stableTag": "mcr.microsoft.com/openjdk/jdk:17.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:70a054029a4096c428fd92f85769a9212a1e118b322b0d1893728a810c4a5a9d"
+        },
+        {
+          "rank": 5,
           "name": "mcr.microsoft.com/openjdk/jdk:21-distroless",
           "version": "21.0.10",
           "criticalVulnerabilities": 1,
@@ -75,7 +276,21 @@
           "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:c138509044194768cdb020dcd7f83ca08419e02267ccaafa72c57f1d8570e869"
         },
         {
-          "rank": 3,
+          "rank": 6,
+          "name": "mcr.microsoft.com/openjdk/jdk:25-distroless",
+          "version": "25.0.2",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 1,
+          "sizeBytes": 415236096,
+          "sizeHuman": "396.0 MB",
+          "digest": "sha256:cc6e9d3c8852cba4f5862186b684787582d9f3dd6c6d547352c0dfc542789d90",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:cc6e9d3c8852cba4f5862186b684787582d9f3dd6c6d547352c0dfc542789d90",
+          "stableTag": "mcr.microsoft.com/openjdk/jdk:25.0",
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:cc6e9d3c8852cba4f5862186b684787582d9f3dd6c6d547352c0dfc542789d90"
+        },
+        {
+          "rank": 7,
           "name": "mcr.microsoft.com/openjdk/jdk:21-ubuntu",
           "version": "21.0.10",
           "criticalVulnerabilities": 1,
@@ -179,6 +394,20 @@
         },
         {
           "rank": 7,
+          "name": "docker.io/library/node:22-bookworm-slim",
+          "version": "22.22.0",
+          "criticalVulnerabilities": 1,
+          "highVulnerabilities": 16,
+          "totalVulnerabilities": 101,
+          "sizeBytes": 226663923,
+          "sizeHuman": "216.2 MB",
+          "digest": "sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36",
+          "pinnedReference": "docker.io/library/node:22-bookworm-slim@sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36",
+          "stableTag": "docker.io/library/node:22.22",
+          "dockerfileFrom": "FROM docker.io/library/node:22-bookworm-slim@sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36"
+        },
+        {
+          "rank": 8,
           "name": "docker.io/library/node:20.0-slim",
           "version": "20.0.0",
           "criticalVulnerabilities": 6,
@@ -296,78 +525,45 @@
         },
         {
           "rank": 8,
-          "name": "docker.io/library/python:3-slim",
-          "version": "3.14.3",
+          "name": "mcr.microsoft.com/openjdk/jdk:25-azurelinux",
+          "version": "3.12.9",
           "criticalVulnerabilities": 0,
-          "highVulnerabilities": 2,
-          "totalVulnerabilities": 69,
-          "sizeBytes": 118960540,
-          "sizeHuman": "113.4 MB",
-          "digest": "sha256:486b8092bfb12997e10d4920897213a06563449c951c5506c2a2cfaf591c599f",
-          "pinnedReference": "docker.io/library/python:3-slim@sha256:486b8092bfb12997e10d4920897213a06563449c951c5506c2a2cfaf591c599f",
-          "stableTag": "docker.io/library/python:3.14",
-          "dockerfileFrom": "FROM docker.io/library/python:3-slim@sha256:486b8092bfb12997e10d4920897213a06563449c951c5506c2a2cfaf591c599f"
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 552599552,
+          "sizeHuman": "527.0 MB",
+          "digest": "sha256:0fc3d50b7d5f45204add224062115a357c807faa510354e98c5698af61eedc2a",
+          "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0fc3d50b7d5f45204add224062115a357c807faa510354e98c5698af61eedc2a",
+          "stableTag": "mcr.microsoft.com/openjdk/jdk:3.12",
+          "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0fc3d50b7d5f45204add224062115a357c807faa510354e98c5698af61eedc2a"
         },
         {
           "rank": 9,
-          "name": "docker.io/library/python:3.12-slim",
-          "version": "3.12.12",
+          "name": "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0",
+          "version": "3.12.9",
           "criticalVulnerabilities": 0,
-          "highVulnerabilities": 2,
-          "totalVulnerabilities": 70,
-          "sizeBytes": 119172747,
-          "sizeHuman": "113.7 MB",
-          "digest": "sha256:9e01bf1ae5db7649a236da7be1e94ffbbbdd7a93f867dd0d8d5720d9e1f89fab",
-          "pinnedReference": "docker.io/library/python:3.12-slim@sha256:9e01bf1ae5db7649a236da7be1e94ffbbbdd7a93f867dd0d8d5720d9e1f89fab",
-          "stableTag": "docker.io/library/python:3.12",
-          "dockerfileFrom": "FROM docker.io/library/python:3.12-slim@sha256:9e01bf1ae5db7649a236da7be1e94ffbbbdd7a93f867dd0d8d5720d9e1f89fab"
-        }
-      ]
-    },
-    {
-      "language": "dotnet",
-      "images": [
-        {
-          "rank": 1,
-          "name": "mcr.microsoft.com/dotnet/runtime:8.0",
-          "version": "8.0.24",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 2,
-          "totalVulnerabilities": 88,
-          "sizeBytes": 202375168,
-          "sizeHuman": "193.0 MB",
-          "digest": "sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8",
-          "pinnedReference": "mcr.microsoft.com/dotnet/runtime:8.0@sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8",
-          "stableTag": "mcr.microsoft.com/dotnet/runtime:8.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/runtime:8.0@sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8"
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 921698304,
+          "sizeHuman": "879.0 MB",
+          "digest": "sha256:ef9d3354c106e4efa0946c79dca08038c28cd03da2eef678d6b9a640028218fe",
+          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0@sha256:ef9d3354c106e4efa0946c79dca08038c28cd03da2eef678d6b9a640028218fe",
+          "stableTag": "mcr.microsoft.com/dotnet/sdk:3.12",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0@sha256:ef9d3354c106e4efa0946c79dca08038c28cd03da2eef678d6b9a640028218fe"
         },
         {
-          "rank": 2,
-          "name": "mcr.microsoft.com/dotnet/aspnet:8.0",
-          "version": "8.0.24",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 2,
-          "totalVulnerabilities": 88,
-          "sizeBytes": 228589568,
-          "sizeHuman": "218.0 MB",
-          "digest": "sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a",
-          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:8.0@sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a",
-          "stableTag": "mcr.microsoft.com/dotnet/aspnet:8.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a"
-        },
-        {
-          "rank": 3,
-          "name": "mcr.microsoft.com/dotnet/sdk:8.0",
-          "version": "8.0.418",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 15,
-          "totalVulnerabilities": 170,
-          "sizeBytes": 891289600,
-          "sizeHuman": "850.0 MB",
-          "digest": "sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5",
-          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:8.0@sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5",
-          "stableTag": "mcr.microsoft.com/dotnet/sdk:8.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5"
+          "rank": 10,
+          "name": "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0",
+          "version": "3.12.9",
+          "criticalVulnerabilities": 0,
+          "highVulnerabilities": 0,
+          "totalVulnerabilities": 0,
+          "sizeBytes": 973078528,
+          "sizeHuman": "928.0 MB",
+          "digest": "sha256:774b85a4de4b63b5974d0a599e7166b0ff20f3848d3cc67333beb733405d027b",
+          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0@sha256:774b85a4de4b63b5974d0a599e7166b0ff20f3848d3cc67333beb733405d027b",
+          "stableTag": "mcr.microsoft.com/dotnet/sdk:3.12",
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0@sha256:774b85a4de4b63b5974d0a599e7166b0ff20f3848d3cc67333beb733405d027b"
         }
       ]
     }
