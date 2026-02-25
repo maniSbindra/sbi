@@ -96,8 +96,8 @@ func nodeDistrolessArtifacts() []syftArtifact {
 		{"@isaacs/cliui", "8.0.2", "npm", ""},
 		{"@npmcli/node-gyp", "3.0.0", "npm", ""},
 		{"npm", "10.7.0", "npm", ""},
-		{"nodejs", "20.14.0-13.azl3", "rpm", ""},
-		{"nodejs", "20.14.0-13.azl3", "rpm", ""},
+		{"nodejs", "20.14.0-13.azl3", "rpm", ""}, // duplicate in real syft output
+		{"nodejs", "20.14.0-13.azl3", "rpm", ""}, // (syft reports the same RPM twice)
 		{"nodejs-libs", "20.14.0-13.azl3", "rpm", ""},
 	})
 }
@@ -263,7 +263,7 @@ func TestParseSyftResult_PythonBaseAzureLinux(t *testing.T) {
 
 	langs := langMap(result)
 	require.Contains(t, langs, "python")
-	// python3 RPM should win over python3-libs (priority 100+5 vs 50+5)
+	// Base python3 RPM should be preferred over python3-libs for language detection
 	assert.Equal(t, "python3", langs["python"].PackageName)
 	assert.Equal(t, "3.12.9", langs["python"].Version) // cleaned from 3.12.9-8.azl3
 	assert.Equal(t, "3.12", langs["python"].MajorMinor)
@@ -356,7 +356,7 @@ func TestParseSyftResult_DotnetSDK(t *testing.T) {
 
 	langs := langMap(result)
 	// SDK images have both type=dotnet runtime packages and name-regex RPMs.
-	// Type=dotnet runtime package wins because it appears first.
+	// The type=dotnet runtime package is preferred via isDotnetRuntime().
 	require.Contains(t, langs, "dotnet")
 	assert.True(t, isDotnetRuntime(langs["dotnet"].PackageName),
 		"expected a .NET runtime package, got %s", langs["dotnet"].PackageName)
@@ -367,9 +367,10 @@ func TestParseSyftResult_DotnetSDK(t *testing.T) {
 }
 
 func TestParseSyftResult_DotnetNoFalsePositive(t *testing.T) {
-	// Json.More.Net has type=dotnet so type-based detection picks it up,
-	// but with low priority (10). In real images, Microsoft.NETCore.App.Runtime
-	// always wins (priority 100). This test verifies NuGet libraries get low priority.
+	// Json.More.Net has type=dotnet so type-based detection picks it up.
+	// In real images, isDotnetRuntime() ensures the core runtime package
+	// is preferred. This test verifies the edge case where only NuGet
+	// libraries exist (no runtime) — first match wins.
 	arts := makeArtifacts([]struct{ name, version, typ, lang string }{
 		{"Json.More.Net", "2.0.2", "dotnet", ""},
 		{"Json.NET", "13.0.3.27908", "dotnet", ""},
@@ -378,9 +379,9 @@ func TestParseSyftResult_DotnetNoFalsePositive(t *testing.T) {
 	result := parseSyftResult(&syftOutput{Artifacts: arts})
 
 	langs := langMap(result)
-	// In an image with ONLY NuGet libraries and no runtime, dotnet is detected
-	// but with a low-priority match. In practice this doesn't happen — real
-	// .NET images always have Microsoft.NETCore.App.Runtime.
+	// With only NuGet libraries and no runtime, the first type=dotnet
+	// package is detected. In practice this doesn't happen — real .NET
+	// images always have Microsoft.NETCore.App.Runtime.
 	if dotnet, ok := langs["dotnet"]; ok {
 		assert.Equal(t, "Json.More.Net", dotnet.PackageName)
 	}

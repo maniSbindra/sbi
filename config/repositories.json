@@ -54,7 +54,7 @@
     {
       "description": "Go images",
       "images": [
-        "mcr.microsoft.com/oss/go/microsoft/golang"
+        "oss/go/microsoft/golang"
       ]
     },
     {
