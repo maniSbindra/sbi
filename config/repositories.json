@@ -54,7 +54,8 @@
     {
       "description": "Go images",
       "images": [
-        "oss/go/microsoft/golang"
+        "mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0",
+        "mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0"
       ]
     },
     {
