@@ -52,6 +52,12 @@
       ]
     },
     {
+      "description": "Go images",
+      "images": [
+        "oss/go/microsoft/golang"
+      ]
+    },
+    {
       "description": "OpenJDK images",
       "images": [
         "mcr.microsoft.com/openjdk/jdk:25-azurelinux",
