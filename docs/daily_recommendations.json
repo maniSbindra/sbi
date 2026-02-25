@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-24T10:32:16Z",
+  "generatedAt": "2026-02-25T04:34:40Z",
   "topN": 10,
   "scannedRepositories": [
     {
@@ -164,13 +164,13 @@
           "version": "8.0.24",
           "criticalVulnerabilities": 1,
           "highVulnerabilities": 2,
-          "totalVulnerabilities": 88,
+          "totalVulnerabilities": 86,
           "sizeBytes": 202375168,
           "sizeHuman": "193.0 MB",
-          "digest": "sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8",
-          "pinnedReference": "mcr.microsoft.com/dotnet/runtime:8.0@sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8",
+          "digest": "sha256:d304745fcb833f4dd78a0be39812f594722c598303cf0ed3feefd1cbb5d8cc48",
+          "pinnedReference": "mcr.microsoft.com/dotnet/runtime:8.0@sha256:d304745fcb833f4dd78a0be39812f594722c598303cf0ed3feefd1cbb5d8cc48",
           "stableTag": "mcr.microsoft.com/dotnet/runtime:8.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/runtime:8.0@sha256:b969aeab7f6b14fcf00f55f420d730df228a93b4731402ca2f8eeb41da5d39c8"
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/runtime:8.0@sha256:d304745fcb833f4dd78a0be39812f594722c598303cf0ed3feefd1cbb5d8cc48"
         },
         {
           "rank": 9,
@@ -178,13 +178,13 @@
           "version": "8.0.24",
           "criticalVulnerabilities": 1,
           "highVulnerabilities": 2,
-          "totalVulnerabilities": 88,
+          "totalVulnerabilities": 86,
           "sizeBytes": 228589568,
           "sizeHuman": "218.0 MB",
-          "digest": "sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a",
-          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:8.0@sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a",
+          "digest": "sha256:88c86e5469c2b69969e07343193fd3dbe4ff6936d95b994dbfa27348299af111",
+          "pinnedReference": "mcr.microsoft.com/dotnet/aspnet:8.0@sha256:88c86e5469c2b69969e07343193fd3dbe4ff6936d95b994dbfa27348299af111",
           "stableTag": "mcr.microsoft.com/dotnet/aspnet:8.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:0d6e2e245f180ef785f51aab639c8d5d29afc3b43b95c0ee6dfaf5b84895cd6a"
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:88c86e5469c2b69969e07343193fd3dbe4ff6936d95b994dbfa27348299af111"
         },
         {
           "rank": 10,
@@ -192,13 +192,13 @@
           "version": "8.0.418",
           "criticalVulnerabilities": 1,
           "highVulnerabilities": 15,
-          "totalVulnerabilities": 170,
+          "totalVulnerabilities": 168,
           "sizeBytes": 891289600,
           "sizeHuman": "850.0 MB",
-          "digest": "sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5",
-          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:8.0@sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5",
+          "digest": "sha256:bfb6ed602caa605141700aea7dc7d42574b74b704368e67d683c71a002123808",
+          "pinnedReference": "mcr.microsoft.com/dotnet/sdk:8.0@sha256:bfb6ed602caa605141700aea7dc7d42574b74b704368e67d683c71a002123808",
           "stableTag": "mcr.microsoft.com/dotnet/sdk:8.0",
-          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:58359d0b8fe8237be1d63ac335ca378e2857f976c7f92791f7c84b3c117037f5"
+          "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:bfb6ed602caa605141700aea7dc7d42574b74b704368e67d683c71a002123808"
         }
       ]
     },
@@ -398,13 +398,13 @@
           "version": "22.22.0",
           "criticalVulnerabilities": 1,
           "highVulnerabilities": 16,
-          "totalVulnerabilities": 101,
-          "sizeBytes": 226663923,
+          "totalVulnerabilities": 99,
+          "sizeBytes": 226676634,
           "sizeHuman": "216.2 MB",
-          "digest": "sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36",
-          "pinnedReference": "docker.io/library/node:22-bookworm-slim@sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36",
+          "digest": "sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94",
+          "pinnedReference": "docker.io/library/node:22-bookworm-slim@sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94",
           "stableTag": "docker.io/library/node:22.22",
-          "dockerfileFrom": "FROM docker.io/library/node:22-bookworm-slim@sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36"
+          "dockerfileFrom": "FROM docker.io/library/node:22-bookworm-slim@sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94"
         },
         {
           "rank": 8,
