@@ -36,7 +36,7 @@ var languagePatterns = map[string]*regexp.Regexp{
 	"go":     regexp.MustCompile(`(?i)^golang$|^go[\d.]`),
 	"ruby":   regexp.MustCompile(`(?i)^ruby[\d.-]*$`),
 	"php":    regexp.MustCompile(`(?i)^php[\d.-]*$`),
-	"dotnet": regexp.MustCompile(`(?i)(dotnet|aspnet|\.net)[\d.-]*$`),
+	"dotnet": regexp.MustCompile(`(?i)^(dotnet|aspnet)[\w.-]*$`),
 	"rust":   regexp.MustCompile(`(?i)^rust[\d.-]*$`),
 	"lua":    regexp.MustCompile(`(?i)^lua[\d.-]*$`),
 }
@@ -90,39 +90,59 @@ func RunSyft(imageName string) (*domain.SyftResult, error) {
 func parseSyftResult(output *syftOutput) *domain.SyftResult {
 	result := &domain.SyftResult{}
 
-	// Track best match per language (highest priority wins), matching Python behaviour.
-	type langCandidate struct {
-		lang     domain.Language
-		priority int
-	}
-	bestByLang := make(map[string]langCandidate)
+	langDetected := make(map[string]domain.Language)
 
 	for _, artifact := range output.Artifacts {
 		if excludePackages.MatchString(artifact.Name) {
 			continue
 		}
 
-		// Detect languages
+		cleanVer := cleanVersion(artifact.Version)
+
+		// Detect languages via name regex (first match wins per language)
 		for lang, pattern := range languagePatterns {
 			if pattern.MatchString(artifact.Name) {
-				priority := calculatePackagePriority(artifact.Name, lang, artifact.Type)
-				cleanVer := cleanVersion(artifact.Version)
-
-				prev, exists := bestByLang[lang]
-				if !exists || priority > prev.priority {
-					bestByLang[lang] = langCandidate{
-						lang: domain.Language{
-							Language:    lang,
-							Version:     cleanVer,
-							MajorMinor:  extractMajorMinor(cleanVer),
-							PackageName: artifact.Name,
-							PackageType: artifact.Type,
-						},
-						priority: priority,
+				if _, exists := langDetected[lang]; !exists {
+					langDetected[lang] = domain.Language{
+						Language:    lang,
+						Version:     cleanVer,
+						MajorMinor:  extractMajorMinor(cleanVer),
+						PackageName: artifact.Name,
+						PackageType: artifact.Type,
 					}
 				}
 
 				break
+			}
+		}
+
+		// Detect .NET via package type (catches distroless images where
+		// package names like Microsoft.NETCore.App.Runtime.* don't match
+		// the name regex). Prefer the core runtime package.
+		if artifact.Type == "dotnet" {
+			prev, exists := langDetected["dotnet"]
+			if !exists || (isDotnetRuntime(artifact.Name) && !isDotnetRuntime(prev.PackageName)) {
+				langDetected["dotnet"] = domain.Language{
+					Language:    "dotnet",
+					Version:     cleanVer,
+					MajorMinor:  extractMajorMinor(cleanVer),
+					PackageName: artifact.Name,
+					PackageType: artifact.Type,
+				}
+			}
+		}
+
+		// Detect Go via binary cataloger (Go is tarball-installed, not
+		// RPM-packaged, so the name regex won't find it).
+		if artifact.Type == "binary" && strings.ToLower(artifact.Name) == "go" {
+			if _, exists := langDetected["go"]; !exists {
+				langDetected["go"] = domain.Language{
+					Language:    "go",
+					Version:     cleanVer,
+					MajorMinor:  extractMajorMinor(cleanVer),
+					PackageName: artifact.Name,
+					PackageType: artifact.Type,
+				}
 			}
 		}
 
@@ -158,9 +178,8 @@ func parseSyftResult(output *syftOutput) *domain.SyftResult {
 		}
 	}
 
-	// Convert best-per-language map to slice
-	for _, candidate := range bestByLang {
-		result.Languages = append(result.Languages, candidate.lang)
+	for _, lang := range langDetected {
+		result.Languages = append(result.Languages, lang)
 	}
 
 	return result
@@ -177,41 +196,13 @@ func cleanVersion(v string) string {
 	return v
 }
 
-// calculatePackagePriority assigns priority so the primary runtime package
-// wins over auxiliary ones (e.g. "python3" > "python3-libs").
-func calculatePackagePriority(name, lang, pkgType string) int {
+// isDotnetRuntime returns true for the core .NET runtime packages
+// (Microsoft.NETCore.App.Runtime.* or Microsoft.AspNetCore.App.Runtime.*),
+// as opposed to NuGet libraries or SDK tools.
+func isDotnetRuntime(name string) bool {
 	lower := strings.ToLower(name)
-	priority := 50
-
-	// Exact or near-exact matches get highest priority
-	switch lang {
-	case "python":
-		if lower == "python3" || lower == "cpython" || lower == "python" {
-			priority = 100
-		}
-	case "node":
-		if lower == "nodejs" || lower == "node" {
-			priority = 100
-		}
-	case "java":
-		if strings.Contains(lower, "openjdk") || strings.Contains(lower, "jdk") {
-			priority = 100
-		}
-	case "dotnet":
-		// Prefer dotnet-runtime / aspnetcore-runtime over SDK internals
-		if strings.Contains(lower, "dotnet-runtime") || strings.Contains(lower, "aspnetcore-runtime") {
-			priority = 100
-		} else if lower == "dotnet-sdk" {
-			priority = 90
-		}
-	}
-
-	// RPM/DEB main packages get a small boost
-	if pkgType == "rpm" || pkgType == "deb" {
-		priority += 5
-	}
-
-	return priority
+	return strings.Contains(lower, "microsoft.netcore.app.runtime") ||
+		strings.Contains(lower, "microsoft.aspnetcore.app.runtime")
 }
 
 func extractMajorMinor(version string) string {

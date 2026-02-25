@@ -153,34 +153,32 @@ Syft scans all packages in the image. Package **names** are matched against rege
 | Go | `(?i)^golang$&#124;^go[\d.]` | `golang`, `go1.21` |
 | Ruby | `(?i)^ruby[\d.-]*$` | `ruby3.2` |
 | PHP | `(?i)^php[\d.-]*$` | `php8.2` |
-| .NET | `(?i)(dotnet&#124;aspnet&#124;\.net)[\d.-]*$` | `dotnet-runtime-8.0` |
+| .NET | `(?i)^(dotnet&#124;aspnet)[\w.-]*$` | `dotnet-runtime-8.0`, `aspnetcore-runtime-9.0` |
 | Rust | `(?i)^rust[\d.-]*$` | `rust` |
 | Lua | `(?i)^lua[\d.-]*$` | `lua5.4` |
 
 **Excluded packages** (not treated as runtimes): `python-pip`, `python3-pip`, `nodejs-npm`, `java-common`, `python-setuptools`
 
-**Priority system** — when multiple packages match the same language, the highest-priority match wins. This ensures the actual runtime package (e.g., `python3`) is chosen over support libraries (e.g., `python3-libs`) which may report different versions:
+**Resolution strategy** — for name-regex matches, **first match wins** per language. In practice, the name regexes are specific enough that only the correct runtime package matches (e.g., `python3-libs` does not match the Python regex, only `python3` does).
 
-- Priority 100: Exact runtime packages (`python3`, `nodejs`, `openjdk-*`, `dotnet-runtime-*`)
-- Priority 90: SDK packages (`dotnet-sdk`)
-- Priority 50: Other matches
-- +5 bonus: RPM/DEB packages over other Syft-detected types
+In addition to name-regex matching, Stage 1 uses **package type detection** for two languages:
+
+- **`.NET` via `type=dotnet`** — catches distroless/runtime images where package names like `Microsoft.NETCore.App.Runtime.linux-arm64` don't match the name regex. When multiple `type=dotnet` packages exist, the `isDotnetRuntime()` helper prefers core runtime packages (`Microsoft.NETCore.App.Runtime.*`, `Microsoft.AspNetCore.App.Runtime.*`) over NuGet libraries.
+- **Go via `type=binary, name=go`** — Go is tarball-installed in MCR images, not RPM-packaged, so the name regex (`golang`, `go1.x`) won't find it. The binary cataloger detects the `go` binary directly.
 
 **Version cleaning:** `^(\d+(?:\.\d+)*)` strips build suffixes — `3.12.9-8.azl3` -> `3.12.9`
 
-**Important limitation:** Detection matches against package **name** only, not package **type**. Syft's `dotnet` type packages (e.g., `Microsoft.NETCore.App.Runtime.linux-arm64`) are NOT detected by Stage 1 because the name doesn't match the .NET regex. These are caught by Stage 2.
-
 ### Stage 2: Image-Name Detection (`analyzer.go`)
 
-Fallback for .NET distroless images where the runtime is baked in without a matching system package name. Currently only .NET is detected this way:
+Fallback for .NET images that were not detected by Stage 1. Currently only .NET is detected this way:
 
 | Pattern | Matches | Detects |
 |---------|---------|---------|
 | `(?i)mcr\.microsoft\.com/dotnet/(?:aspnet&#124;runtime):(\d+\.\d+)` | `mcr.microsoft.com/dotnet/aspnet:8.0` | .NET 8.0 |
 
-Only triggers if .NET was **not** already found by Stage 1. This is the primary detection path for .NET Azure Linux distroless images where Syft reports packages with type `dotnet` but names like `Microsoft.NETCore.App.Runtime.linux-arm64` that don't match the name-based regex.
+Only triggers if .NET was **not** already found by Stage 1. In practice, Stage 1's `type=dotnet` detection now handles most .NET images (including distroless), so Stage 2 is rarely the primary detection path.
 
-Note: The SDK pattern (`dotnet/sdk:*`) is **not** matched — SDK detection relies on Stage 1 finding a `dotnet-sdk-*` system package.
+Note: The SDK pattern (`dotnet/sdk:*`) is **not** matched by `dotnetImagePattern`. SDK images are detected by Stage 1 via `type=dotnet` runtime packages or `dotnet-sdk-*` RPMs.
 
 ### Stage 3: Runtime Verification (`analyzer.go`)
 
@@ -201,15 +199,15 @@ Runtime verification overrides the Syft/image-name version with the precise vers
 
 ## Known Edge Cases
 
-1. **Go build images** — Go is tarball-installed, not RPM-packaged. Syft won't detect `golang` as a system package. Go detection from image names is not yet implemented (planned for a future PR).
+1. **Go build images** — Go is tarball-installed, not RPM-packaged. Syft won't detect `golang` as a system package, but Stage 1's `type=binary, name=go` detection finds the Go binary directly.
 
 2. **JDK images include Python** — Azure Linux JDK images ship `python3` as a system dependency. The image will appear in **both** Java and Python rankings. This is intentional — Python CVEs in the image are real security concerns.
 
-3. **Go modules in non-Go images** — Syft detects `go-module` entries (compiled Go binaries embedded in images). These are **not** treated as "Go runtime" — the language regex only matches system package names (`golang`, `go1.x`), not `go-module` type entries.
+3. **Go modules in non-Go images** — Syft detects `go-module` entries (compiled Go binaries embedded in images, e.g., `jaz.git` in JDK images). These are **not** treated as "Go runtime" — only `type=binary, name=go` triggers Go detection, not `go-module` type entries.
 
-4. **.NET distroless images** — Syft reports .NET packages with type `dotnet` but names like `Microsoft.NETCore.App.Runtime.linux-arm64` which don't match the name-based regex in Stage 1. The `dotnetImagePattern` in Stage 2 detects .NET from the image name (`dotnet/aspnet:8.0`) as a fallback, then `dotnet --info` in Stage 3 verifies the exact patch version.
+4. **.NET distroless images** — Syft reports .NET packages with `type=dotnet` and names like `Microsoft.NETCore.App.Runtime.linux-arm64`. Stage 1's type-based detection handles these directly. The `isDotnetRuntime()` helper ensures the core runtime package is preferred over NuGet libraries. Stage 2 (`dotnetImagePattern`) serves as a fallback if Stage 1 misses detection.
 
-5. **.NET SDK images** — The SDK image name pattern (`dotnet/sdk:10.0-azurelinux3.0`) is **not** matched by `dotnetImagePattern` which only looks for `aspnet` or `runtime`. SDK detection relies on Stage 1 finding a `dotnet-sdk-*` package.
+5. **.NET SDK images** — The SDK image name pattern (`dotnet/sdk:10.0-azurelinux3.0`) is **not** matched by `dotnetImagePattern` which only looks for `aspnet` or `runtime`. SDK images are detected by Stage 1 via `type=dotnet` runtime packages or `dotnet-sdk-*` RPMs.
 
 ## Report Ranking
 
