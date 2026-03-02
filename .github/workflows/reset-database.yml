@@ -66,7 +66,7 @@ jobs:
       - name: 📝 Commit & push reset outputs
         if: success()
         run: |
-          git config user.name 'sbi-nightly-bot[bot]'
+          git config user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
           git config user.email '${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
           git add -f azure_linux_images.db docs/daily_recommendations.md docs/daily_recommendations.json || true
           if [ -n "$(git diff --cached --name-only)" ]; then
