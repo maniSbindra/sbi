@@ -1,6 +1,6 @@
 # AGENTS.md — LLM Context for SBI
 
-> **SBI** (Secure Base Images) is a CLI tool that performs nightly vulnerability scanning of container base images from MCR (Microsoft Container Registry) and Docker Hub, then generates ranked recommendation reports.
+> **SBI** (Secure Base Images) is a CLI tool that scans container base images and, in the default nightly workflow/config, performs vulnerability scanning of images from MCR (Microsoft Container Registry), then generates ranked recommendation reports.
 
 ## Project Overview
 
@@ -130,7 +130,7 @@ Generate reports:
     },
     {
       "description": "Pinned single images",
-      "images": ["docker.io/library/python:3-slim"]
+      "images": ["mcr.microsoft.com/dotnet/aspnet:8.0"]
     }
   ]
 }

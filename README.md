@@ -1,6 +1,6 @@
 # SBI — Secure Base Image Recommendations
 
-Every night, this project scans container base images for vulnerabilities and generates ranked security recommendations per programming language.
+Every night, this project scans configured MCR (Microsoft Container Registry) container base images for vulnerabilities and generates a recommended secure base images report, ranked by language. The default configuration targets MCR images, but the tool supports scanning any container registry.
 
 ## 📊 Daily Reports
 
@@ -15,7 +15,7 @@ Reports are regenerated nightly at 02:00 UTC via [GitHub Actions](.github/workfl
 
 A nightly [GitHub Actions workflow](.github/workflows/nightly-scan.yml) runs the full pipeline:
 
-1. **Discover** — Enumerate image tags from configured container registries (MCR, Docker Hub)
+1. **Discover** — Enumerate image tags from MCR (Microsoft Container Registry)
 2. **Pull & Analyze** — Pull images, generate SBOM with [Syft](https://github.com/anchore/syft), detect language runtimes
 3. **Scan** — Run [Trivy](https://github.com/aquasecurity/trivy) vulnerability scanning
 4. **Verify** — Runtime verification of detected languages inside containers
@@ -24,7 +24,9 @@ A nightly [GitHub Actions workflow](.github/workflows/nightly-scan.yml) runs the
 
 ### What Gets Scanned
 
-Image sources and tag filtering rules are configured in [`config/repositories.json`](config/repositories.json). Currently scans Azure Linux base/distroless images, Docker Hub official images, .NET, and OpenJDK images.
+Image sources and tag filtering rules are configured in [`config/repositories.json`](config/repositories.json). Currently scans Azure Linux base/distroless images, .NET, Go, and OpenJDK images from MCR.
+
+> **Note:** The daily reports will be updated on the next scheduled nightly run after merge.
 
 ## Running Locally
 
@@ -75,14 +77,14 @@ To add a new repository group, add an entry like:
 {
   "description": "My custom images",
   "images": [
-    "myregistry/myrepo",
-    "docker.io/library/nginx:stable-slim"
+    "azurelinux/base/core",
+    "mcr.microsoft.com/dotnet/aspnet:8.0"
   ]
 }
 ```
 
-- **Repository** (no `:tag`): Tags are auto-discovered from the registry, filtered by `tagFilter` rules, and limited by `maxTags`. The `defaults.registry` (e.g., `mcr.microsoft.com`) is prepended if no registry is specified.
-- **Single image** (with `:tag`): Scanned as-is, no tag discovery. Use the full image reference including registry for non-MCR images (e.g., `docker.io/library/python:3-slim`).
+- **Repository** (no `:tag`): Value must be a **repository path only** (no registry prefix), for example `azurelinux/base/core`. Tags are auto-discovered from the registry host configured in `defaults.registry` (default: `mcr.microsoft.com`), filtered by `tagFilter` rules, and limited by `maxTags`.
+- **Single image** (with `:tag`): Scanned as-is, no tag discovery. Use a full image reference including registry (e.g., `mcr.microsoft.com/dotnet/aspnet:8.0`).
 
 ### Tag filtering
 
