@@ -26,6 +26,8 @@ A nightly [GitHub Actions workflow](.github/workflows/nightly-scan.yml) runs the
 
 Image sources and tag filtering rules are configured in [`config/repositories.json`](config/repositories.json). Currently scans Azure Linux base/distroless images, .NET, Go, and OpenJDK images from MCR.
 
+> **Note:** The daily reports will be updated on the next scheduled nightly run after merge.
+
 ## Running Locally
 
 ### Prerequisites
