@@ -28,15 +28,6 @@
       ]
     },
     {
-      "description": "Docker Hub images (for comparison)",
-      "images": [
-        "docker.io/library/python:3-slim",
-        "docker.io/library/python:3.12-slim",
-        "docker.io/library/node:20.0-slim",
-        "docker.io/library/node:22-bookworm-slim"
-      ]
-    },
-    {
       "description": ".NET images",
       "images": [
         "mcr.microsoft.com/dotnet/aspnet:8.0",
