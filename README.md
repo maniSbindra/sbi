@@ -1,6 +1,6 @@
 # SBI — Secure Base Image Recommendations
 
-Every night, this project scans configured MCR (Microsoft Container Registry) container base images for vulnerabilities and generates a recommended secure base images report, ranked by language.
+Every night, this project scans configured MCR (Microsoft Container Registry) container base images for vulnerabilities and generates a recommended secure base images report, ranked by language. The default configuration targets MCR images, but the tool supports scanning any container registry.
 
 ## 📊 Daily Reports
 
@@ -81,8 +81,8 @@ To add a new repository group, add an entry like:
 }
 ```
 
-- **Repository** (no `:tag`): Tags are auto-discovered from the MCR registry, filtered by `tagFilter` rules, and limited by `maxTags`. The `defaults.registry` (`mcr.microsoft.com`) is prepended automatically.
-- **Single image** (with `:tag`): Scanned as-is, no tag discovery. Use the full MCR image reference (e.g., `mcr.microsoft.com/dotnet/aspnet:8.0`).
+- **Repository** (no `:tag`): Value must be a **repository path only** (no registry prefix), for example `azurelinux/base/core`. Tags are auto-discovered from the registry host configured in `defaults.registry` (default: `mcr.microsoft.com`), filtered by `tagFilter` rules, and limited by `maxTags`.
+- **Single image** (with `:tag`): Scanned as-is, no tag discovery. Use a full image reference including registry (e.g., `mcr.microsoft.com/dotnet/aspnet:8.0`).
 
 ### Tag filtering
 
