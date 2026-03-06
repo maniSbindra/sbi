@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T13:42:53Z",
+  "generatedAt": "2026-03-06T14:01:48Z",
   "topN": 10,
   "scannedRepositories": [
     {
@@ -422,34 +422,6 @@
           "pinnedReference": "mcr.microsoft.com/azurelinux/distroless/nodejs:20@sha256:6643a866773721bea665e29606618a55d28d42fdefb83e38b2e462fbb763a356",
           "stableTag": "mcr.microsoft.com/azurelinux/distroless/nodejs:20.14",
           "dockerfileFrom": "FROM mcr.microsoft.com/azurelinux/distroless/nodejs:20@sha256:6643a866773721bea665e29606618a55d28d42fdefb83e38b2e462fbb763a356"
-        },
-        {
-          "rank": 7,
-          "name": "docker.io/library/node:22-bookworm-slim",
-          "version": "22.22.1",
-          "criticalVulnerabilities": 1,
-          "highVulnerabilities": 21,
-          "totalVulnerabilities": 113,
-          "sizeBytes": 227756203,
-          "sizeHuman": "217.2 MB",
-          "digest": "sha256:9c2c405e3ff9b9afb2873232d24bb06367d649aa3e6259cbe314da59578e81e9",
-          "pinnedReference": "docker.io/library/node:22-bookworm-slim@sha256:9c2c405e3ff9b9afb2873232d24bb06367d649aa3e6259cbe314da59578e81e9",
-          "stableTag": "docker.io/library/node:22.22",
-          "dockerfileFrom": "FROM docker.io/library/node:22-bookworm-slim@sha256:9c2c405e3ff9b9afb2873232d24bb06367d649aa3e6259cbe314da59578e81e9"
-        },
-        {
-          "rank": 8,
-          "name": "docker.io/library/node:20.0-slim",
-          "version": "20.0.0",
-          "criticalVulnerabilities": 6,
-          "highVulnerabilities": 63,
-          "totalVulnerabilities": 270,
-          "sizeBytes": 250271314,
-          "sizeHuman": "238.7 MB",
-          "digest": "sha256:702d475af4b8045f701afd10ea865f4454e9aab4fe3e92d50e8f36906055f456",
-          "pinnedReference": "docker.io/library/node:20.0-slim@sha256:702d475af4b8045f701afd10ea865f4454e9aab4fe3e92d50e8f36906055f456",
-          "stableTag": "docker.io/library/node:20.0",
-          "dockerfileFrom": "FROM docker.io/library/node:20.0-slim@sha256:702d475af4b8045f701afd10ea865f4454e9aab4fe3e92d50e8f36906055f456"
         }
       ]
     },

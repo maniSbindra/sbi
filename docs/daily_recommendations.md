@@ -1,6 +1,6 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-03-06T13:42:53Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language._
+_Generated: 2026-03-06T14:01:48Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
@@ -93,8 +93,6 @@ This report includes analysis from **26 configured sources** across 5 groups (se
 | 4 | `mcr.microsoft.com/azurelinux/distroless/nodejs:20.14` | 20.14.0 | 0 | 10 | 12 | 106.0 MB | `sha256:6643a8667737` | `mcr.microsoft.com/azurelinux/distroless/nodejs:20.14@sha256:6643a866773721bea665e29606618a55d28d42fdefb83e38b2e462fbb763a356` |
 | 5 | `mcr.microsoft.com/azurelinux/distroless/nodejs:20-nonroot` | 20.14.0 | 0 | 10 | 12 | 106.0 MB | `sha256:1dccae1ebad2` | `mcr.microsoft.com/azurelinux/distroless/nodejs:20-nonroot@sha256:1dccae1ebad222f36adc1207edfd8b0da2c06a71a6ccc7ceced54516f4af349a` |
 | 6 | `mcr.microsoft.com/azurelinux/distroless/nodejs:20` | 20.14.0 | 0 | 10 | 12 | 106.0 MB | `sha256:6643a8667737` | `mcr.microsoft.com/azurelinux/distroless/nodejs:20@sha256:6643a866773721bea665e29606618a55d28d42fdefb83e38b2e462fbb763a356` |
-| 7 | `docker.io/library/node:22-bookworm-slim` | 22.22.1 | 1 | 21 | 113 | 217.2 MB | `sha256:9c2c405e3ff9` | `docker.io/library/node:22-bookworm-slim@sha256:9c2c405e3ff9b9afb2873232d24bb06367d649aa3e6259cbe314da59578e81e9` |
-| 8 | `docker.io/library/node:20.0-slim` | 20.0.0 | 6 | 63 | 270 | 238.7 MB | `sha256:702d475af4b8` | `docker.io/library/node:20.0-slim@sha256:702d475af4b8045f701afd10ea865f4454e9aab4fe3e92d50e8f36906055f456` |
 
 ## Python
 
