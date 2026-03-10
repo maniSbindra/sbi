@@ -35,19 +35,24 @@ func (d *DockerClient) Pull(imageName string) error {
 
 // Inspect returns metadata about a pulled image.
 func (d *DockerClient) Inspect(imageName string) (domain.DockerInspectResult, error) {
-	var result domain.DockerInspectResult
-
 	cmd := exec.Command("docker", "inspect", imageName)
 
 	var stdout bytes.Buffer
 	cmd.Stdout = &stdout
 
 	if err := cmd.Run(); err != nil {
-		return result, fmt.Errorf("inspecting image %s: %w", imageName, err)
+		return domain.DockerInspectResult{}, fmt.Errorf("inspecting image %s: %w", imageName, err)
 	}
 
+	return parseInspectOutput(stdout.Bytes(), imageName)
+}
+
+// parseInspectOutput parses the JSON output from docker inspect into a DockerInspectResult.
+func parseInspectOutput(data []byte, imageName string) (domain.DockerInspectResult, error) {
+	var result domain.DockerInspectResult
+
 	var inspectData []map[string]interface{}
-	if err := json.Unmarshal(stdout.Bytes(), &inspectData); err != nil {
+	if err := json.Unmarshal(data, &inspectData); err != nil {
 		return result, fmt.Errorf("parsing inspect output: %w", err)
 	}
 
@@ -55,25 +60,25 @@ func (d *DockerClient) Inspect(imageName string) (domain.DockerInspectResult, er
 		return result, fmt.Errorf("empty inspect result for %s", imageName)
 	}
 
-	data := inspectData[0]
+	data0 := inspectData[0]
 
-	if size, ok := data["Size"].(float64); ok {
+	if size, ok := data0["Size"].(float64); ok {
 		result.SizeBytes = int64(size)
 	}
 
-	if created, ok := data["Created"].(string); ok {
+	if created, ok := data0["Created"].(string); ok {
 		result.Created = created
 	}
 
 	// Count layers from RootFS
-	if rootFS, ok := data["RootFS"].(map[string]interface{}); ok {
+	if rootFS, ok := data0["RootFS"].(map[string]interface{}); ok {
 		if layers, ok := rootFS["Layers"].([]interface{}); ok {
 			result.Layers = len(layers)
 		}
 	}
 
 	// Get digest from RepoDigests
-	if digests, ok := data["RepoDigests"].([]interface{}); ok && len(digests) > 0 {
+	if digests, ok := data0["RepoDigests"].([]interface{}); ok && len(digests) > 0 {
 		if d, ok := digests[0].(string); ok {
 			if parts := strings.SplitN(d, "@", 2); len(parts) == 2 {
 				result.Digest = parts[1]

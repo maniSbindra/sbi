@@ -40,6 +40,7 @@ func azureLinuxPythonTrivyOutput() *trivyOutput {
 	// From mcr.microsoft.com/azurelinux/base/python:3.12
 	// OS: azurelinux 3.0, 0 vulnerabilities
 	return &trivyOutput{
+		Metadata: trivyMetadata{OS: trivyOS{Family: "azurelinux", Name: "3.0"}},
 		Results: []trivyResult{
 			{
 				Target: "mcr.microsoft.com/azurelinux/base/python:3.12 (azurelinux 3.0)",
@@ -54,6 +55,7 @@ func azureLinuxDistrolessPythonTrivyOutput() *trivyOutput {
 	// From mcr.microsoft.com/azurelinux/distroless/python:3.12
 	// OS: azurelinux 3.0, 0 vulnerabilities
 	return &trivyOutput{
+		Metadata: trivyMetadata{OS: trivyOS{Family: "azurelinux", Name: "3.0"}},
 		Results: []trivyResult{
 			{
 				Target: "mcr.microsoft.com/azurelinux/distroless/python:3.12 (azurelinux 3.0)",
@@ -68,6 +70,7 @@ func azureLinuxDistrolessNodejsTrivyOutput() *trivyOutput {
 	// From mcr.microsoft.com/azurelinux/distroless/nodejs:20
 	// OS: azurelinux 3.0, 12 vulns: 0 CRITICAL, 10 HIGH, 0 MEDIUM, 2 LOW
 	return &trivyOutput{
+		Metadata: trivyMetadata{OS: trivyOS{Family: "azurelinux", Name: "3.0"}},
 		Results: []trivyResult{
 			{
 				Target: "mcr.microsoft.com/azurelinux/distroless/nodejs:20 (azurelinux 3.0)",
@@ -114,6 +117,7 @@ func ubuntuJDK21TrivyOutput() *trivyOutput {
 	// OS: ubuntu 22.04, 63 vulns: 0 CRITICAL, 0 HIGH, 13 MEDIUM, 50 LOW
 	// Trimmed to representative subset for test speed
 	return &trivyOutput{
+		Metadata: trivyMetadata{OS: trivyOS{Family: "ubuntu", Name: "22.04"}},
 		Results: []trivyResult{
 			{
 				Target: "mcr.microsoft.com/openjdk/jdk:21-ubuntu (ubuntu 22.04)",
@@ -144,6 +148,7 @@ func debianDotnetRuntimeTrivyOutput() *trivyOutput {
 	// OS: debian 12.13, 95 vulns: 1 CRITICAL, 2 HIGH, 15 MEDIUM, 76 LOW (+ 1 NEGLIGIBLE)
 	// Trimmed to representative subset — includes multi-result (os-pkgs + dotnet lang-pkgs)
 	return &trivyOutput{
+		Metadata: trivyMetadata{OS: trivyOS{Family: "debian", Name: "12.13"}},
 		Results: []trivyResult{
 			{
 				Target: "mcr.microsoft.com/dotnet/runtime:8.0 (debian 12.13)",
@@ -222,6 +227,8 @@ func TestParseTrivyResult_AzureLinuxPython(t *testing.T) {
 	assert.Equal(t, 0, result.SecretsFound)
 	assert.Equal(t, 0, result.ConfigIssues)
 	assert.Equal(t, 0, result.LicenseIssues)
+	assert.Equal(t, "azurelinux", result.BaseOSFamily)
+	assert.Equal(t, "3.0", result.BaseOSVersion)
 }
 
 func TestParseTrivyResult_AzureLinuxDistrolessPython(t *testing.T) {
@@ -229,6 +236,8 @@ func TestParseTrivyResult_AzureLinuxDistrolessPython(t *testing.T) {
 	require.NotNil(t, result)
 	assert.Equal(t, 0, result.TotalVulnerabilities)
 	assert.Empty(t, result.Vulnerabilities)
+	assert.Equal(t, "azurelinux", result.BaseOSFamily)
+	assert.Equal(t, "3.0", result.BaseOSVersion)
 }
 
 func TestParseTrivyResult_AzureLinuxDistrolessNodejs(t *testing.T) {
@@ -240,6 +249,8 @@ func TestParseTrivyResult_AzureLinuxDistrolessNodejs(t *testing.T) {
 	assert.Equal(t, 0, result.MediumVulnerabilities)
 	assert.Equal(t, 2, result.LowVulnerabilities)
 	assert.Len(t, result.Vulnerabilities, 12)
+	assert.Equal(t, "azurelinux", result.BaseOSFamily)
+	assert.Equal(t, "3.0", result.BaseOSVersion)
 }
 
 func TestParseTrivyResult_UbuntuJDK21(t *testing.T) {
@@ -252,6 +263,8 @@ func TestParseTrivyResult_UbuntuJDK21(t *testing.T) {
 	assert.Equal(t, 2, result.MediumVulnerabilities)
 	assert.Equal(t, 2, result.LowVulnerabilities)
 	assert.Len(t, result.Vulnerabilities, 4)
+	assert.Equal(t, "ubuntu", result.BaseOSFamily)
+	assert.Equal(t, "22.04", result.BaseOSVersion)
 }
 
 func TestParseTrivyResult_DebianDotnetRuntime(t *testing.T) {
@@ -264,6 +277,8 @@ func TestParseTrivyResult_DebianDotnetRuntime(t *testing.T) {
 	assert.Equal(t, 1, result.MediumVulnerabilities)
 	assert.Equal(t, 2, result.LowVulnerabilities)
 	assert.Len(t, result.Vulnerabilities, 6)
+	assert.Equal(t, "debian", result.BaseOSFamily)
+	assert.Equal(t, "12.13", result.BaseOSVersion)
 }
 
 // ============================================================================
@@ -521,6 +536,51 @@ func TestParseTrivyResult_CaseInsensitiveSeverity(t *testing.T) {
 	assert.Equal(t, 1, result.HighVulnerabilities)
 	assert.Equal(t, 1, result.MediumVulnerabilities)
 	assert.Equal(t, 1, result.LowVulnerabilities)
+}
+
+// ============================================================================
+// OS metadata extraction tests
+// ============================================================================
+
+func TestParseTrivyResult_OSMetadata_EmptyOutput(t *testing.T) {
+	result := parseTrivyResult(emptyTrivyOutput())
+	assert.Equal(t, "", result.BaseOSFamily)
+	assert.Equal(t, "", result.BaseOSVersion)
+}
+
+func TestParseTrivyResult_OSMetadata_NoMetadataField(t *testing.T) {
+	// Output with results but no Metadata — simulates older Trivy or non-OS images
+	output := &trivyOutput{
+		Results: []trivyResult{
+			{Target: "image:1.0", Class: "os-pkgs", Type: "alpine"},
+		},
+	}
+	result := parseTrivyResult(output)
+	assert.Equal(t, "", result.BaseOSFamily)
+	assert.Equal(t, "", result.BaseOSVersion)
+}
+
+func TestParseTrivyResult_OSMetadata_AllOSFamilies(t *testing.T) {
+	// Verify all three OS families we encounter in MCR
+	tests := []struct {
+		name, family, version string
+	}{
+		{"Azure Linux", "azurelinux", "3.0"},
+		{"Ubuntu", "ubuntu", "22.04"},
+		{"Debian", "debian", "12.13"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			output := &trivyOutput{
+				Metadata: trivyMetadata{OS: trivyOS{Family: tt.family, Name: tt.version}},
+				Results:  []trivyResult{{Target: "test-image"}},
+			}
+			result := parseTrivyResult(output)
+			assert.Equal(t, tt.family, result.BaseOSFamily)
+			assert.Equal(t, tt.version, result.BaseOSVersion)
+		})
+	}
 }
 
 // ============================================================================

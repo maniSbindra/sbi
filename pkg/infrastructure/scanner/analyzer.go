@@ -122,6 +122,8 @@ func (a *ImageAnalyzer) Analyze(imageName string) (*domain.ImageAnalysis, error)
 			SizeBytes:                   imageSize,
 			Layers:                      inspectResult.Layers,
 			CreatedDate:                 inspectResult.Created,
+			BaseOSName:                  trivyResult.BaseOSFamily,
+			BaseOSVersion:               trivyResult.BaseOSVersion,
 			TotalVulnerabilities:        trivyResult.TotalVulnerabilities,
 			CriticalVulnerabilities:     trivyResult.CriticalVulnerabilities,
 			HighVulnerabilities:         trivyResult.HighVulnerabilities,
