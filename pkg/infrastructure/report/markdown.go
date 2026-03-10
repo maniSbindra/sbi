@@ -29,7 +29,7 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 	var sb strings.Builder
 
 	sb.WriteString("# Daily Recommended Images by Language\n\n")
-	fmt.Fprintf(&sb, "_Generated: %s. Criteria: lowest critical → high → total vulnerabilities → size. Top %d per language._\n\n", ts, topN)
+	fmt.Fprintf(&sb, "_Generated: %s. Criteria: lowest critical → high → total vulnerabilities → size. Top %d per language per base OS._\n\n", ts, topN)
 	sb.WriteString("**Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).\n\n")
 
 	if repoCfg != nil {
@@ -37,7 +37,7 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 	}
 
 	for _, lang := range languages {
-		sb.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(lang))) //nolint:staticcheck
+		var section strings.Builder
 
 		oses, err := repo.QueryBaseOSes(lang)
 		if err != nil {
@@ -58,25 +58,28 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 			}
 
 			if len(images) > 0 {
-				writeImageTable(&sb, images)
+				writeImageTable(&section, images)
 			}
+		} else {
+			for _, osName := range oses {
+				osImages, err := repo.QueryTopImagesByOS(lang, osName, topN)
+				if err != nil {
+					log.Warnf("Failed to query images for %s/%s: %v", lang, osName, err)
+					continue
+				}
 
-			continue
+				if len(osImages) == 0 {
+					continue
+				}
+
+				fmt.Fprintf(&section, "### %s\n\n", DisplayOSName(osName))
+				writeImageTable(&section, osImages)
+			}
 		}
 
-		for _, osName := range oses {
-			osImages, err := repo.QueryTopImagesByOS(lang, osName, topN)
-			if err != nil {
-				log.Warnf("Failed to query images for %s/%s: %v", lang, osName, err)
-				continue
-			}
-
-			if len(osImages) == 0 {
-				continue
-			}
-
-			fmt.Fprintf(&sb, "### %s\n\n", DisplayOSName(osName))
-			writeImageTable(&sb, osImages)
+		if section.Len() > 0 {
+			fmt.Fprintf(&sb, "## %s\n\n", strings.Title(lang)) //nolint:staticcheck
+			sb.WriteString(section.String())
 		}
 	}
 

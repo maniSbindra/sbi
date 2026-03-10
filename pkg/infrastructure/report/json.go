@@ -60,6 +60,7 @@ func GenerateJSONReport(repo *database.Repository, outputPath string, topN int, 
 	report := JSONReport{
 		GeneratedAt: time.Now().UTC().Format(time.RFC3339),
 		TopN:        topN,
+		Images:      []JSONImageEntry{},
 	}
 
 	if repoCfg != nil {

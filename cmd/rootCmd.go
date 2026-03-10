@@ -31,7 +31,7 @@ and generates a markdown report ranking images by security posture per language.
 	rootCmd.PersistentFlags().StringVar(&flgDBPath, "database", "azure_linux_images.db", "Path to SQLite database")
 	rootCmd.PersistentFlags().StringVar(&flgConfigDir, "config-dir", "config", "Path to configuration directory")
 	rootCmd.PersistentFlags().StringVar(&flgOutputPath, "output", "docs/daily_recommendations.md", "Path to output report file")
-	rootCmd.PersistentFlags().IntVar(&flgTopN, "top-n", 10, "Number of top images per language")
+	rootCmd.PersistentFlags().IntVar(&flgTopN, "top-n", 10, "Number of top images per language per base OS (0 = all)")
 	rootCmd.PersistentFlags().IntVar(&flgTopNJSON, "json-top-n", 20, "Number of top images per language per base OS in JSON report (0 = all)")
 	rootCmd.PersistentFlags().BoolVarP(&flgVerbose, "verbose", "v", false, "Enable verbose output")
 	rootCmd.PersistentFlags().BoolVarP(&flgDebug, "debug", "d", false, "Enable debug output")

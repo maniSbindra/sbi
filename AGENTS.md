@@ -78,13 +78,14 @@ daily-recommendations report --database azure_linux_images.db
 daily-recommendations reset-db --database azure_linux_images.db
 ```
 
-**Key scan flags:**
+**Key flags:**
 
+- `--top-n N` — number of top images per language per base OS in markdown report (default 10, 0 = all)
+- `--json-top-n N` — number of top images per language per base OS in JSON report (default 20, 0 = all)
 - `--max-tags N` — limit tags per repository (0 = all)
 - `--comprehensive` — enable secrets + misconfiguration scanning
 - `--update-existing` — rescan images already in the database
 - `--no-cleanup` — keep Docker images after scanning
-- `--json-top-n N` — number of top images per language per base OS in JSON report (default 20, 0 = all)
 
 ## Scan Pipeline Flow
 
