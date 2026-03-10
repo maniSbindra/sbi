@@ -48,27 +48,33 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 		}
 
 		sb.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(lang))) //nolint:staticcheck
-		sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |\n")
-		sb.WriteString("|------|-------|---------|------|------|-------|------|--------|------------------|\n")
 
-		for idx, img := range images {
-			version := img.Version
-			if version == "" {
-				version = "-"
-			}
-
-			pinnedRef := FormatPinnedReference(img.Name, img.Digest)
-			if pinnedRef == "" {
-				pinnedRef = "-"
-			}
-
-			fmt.Fprintf(&sb, "| %d | `%s` | %s | %d | %d | %d | %s | `%s` | `%s` |\n",
-				idx+1, img.Name, version,
-				img.CriticalVulnerabilities, img.HighVulnerabilities, img.TotalVulnerabilities,
-				HumanSize(img.SizeBytes), FormatDigest(img.Digest), pinnedRef)
+		oses, err := repo.QueryBaseOSes(lang)
+		if err != nil {
+			log.Warnf("Failed to query OSes for %s: %v", lang, err)
+			writeImageTable(&sb, images)
+			continue
 		}
 
-		sb.WriteString("\n")
+		if len(oses) <= 1 {
+			writeImageTable(&sb, images)
+			continue
+		}
+
+		for _, osName := range oses {
+			osImages, err := repo.QueryTopImagesByOS(lang, osName, topN)
+			if err != nil {
+				log.Warnf("Failed to query images for %s/%s: %v", lang, osName, err)
+				continue
+			}
+
+			if len(osImages) == 0 {
+				continue
+			}
+
+			fmt.Fprintf(&sb, "### %s\n\n", DisplayOSName(osName))
+			writeImageTable(&sb, osImages)
+		}
 	}
 
 	// Ensure output directory exists
@@ -84,6 +90,49 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 	log.Infof("Wrote daily recommendations to %s", outputPath)
 
 	return nil
+}
+
+// writeImageTable writes a ranked markdown table of images.
+func writeImageTable(sb *strings.Builder, images []domain.RecommendedImage) {
+	sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |\n")
+	sb.WriteString("|------|-------|---------|------|------|-------|------|--------|------------------|\n")
+
+	for idx, img := range images {
+		version := img.Version
+		if version == "" {
+			version = "-"
+		}
+
+		pinnedRef := FormatPinnedReference(img.Name, img.Digest)
+		if pinnedRef == "" {
+			pinnedRef = "-"
+		}
+
+		fmt.Fprintf(sb, "| %d | `%s` | %s | %d | %d | %d | %s | `%s` | `%s` |\n",
+			idx+1, img.Name, version,
+			img.CriticalVulnerabilities, img.HighVulnerabilities, img.TotalVulnerabilities,
+			HumanSize(img.SizeBytes), FormatDigest(img.Digest), pinnedRef)
+	}
+
+	sb.WriteString("\n")
+}
+
+// DisplayOSName converts a raw OS family string to a human-readable display name.
+func DisplayOSName(osFamily string) string {
+	switch strings.ToLower(osFamily) {
+	case "azurelinux":
+		return "Azure Linux"
+	case "ubuntu":
+		return "Ubuntu"
+	case "debian":
+		return "Debian"
+	case "alpine":
+		return "Alpine"
+	case "", "other":
+		return "Other"
+	default:
+		return strings.Title(osFamily) //nolint:staticcheck
+	}
 }
 
 // writeScannedRepos appends the scanned repositories section to the report.

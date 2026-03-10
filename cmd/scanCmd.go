@@ -44,6 +44,7 @@ func runScan(cmd *cobra.Command, _ []string) error {
 		ConfigDir:         flgConfigDir,
 		OutputPath:        flgOutputPath,
 		TopN:              flgTopN,
+		TopNJSON:          flgTopNJSON,
 		MaxTagsPerRepo:    flgMaxTags,
 		ComprehensiveScan: flgComprehensive,
 		CleanupImages:     !flgNoCleanup,

@@ -110,6 +110,7 @@ type ScanConfig struct {
 	ConfigDir         string
 	OutputPath        string
 	TopN              int
+	TopNJSON          int
 	MaxTagsPerRepo    int
 	ComprehensiveScan bool
 	CleanupImages     bool
@@ -202,4 +203,5 @@ type RecommendedImage struct {
 	TotalVulnerabilities    int
 	SizeBytes               int64
 	Digest                  string
+	BaseOSName              string
 }

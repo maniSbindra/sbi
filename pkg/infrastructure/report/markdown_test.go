@@ -136,3 +136,24 @@ func TestFormatDockerfileFrom(t *testing.T) {
 		})
 	}
 }
+
+func TestDisplayOSName(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"azurelinux", "Azure Linux"},
+		{"ubuntu", "Ubuntu"},
+		{"debian", "Debian"},
+		{"alpine", "Alpine"},
+		{"", "Other"},
+		{"Other", "Other"},
+		{"fedora", "Fedora"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			assert.Equal(t, tt.expected, DisplayOSName(tt.input))
+		})
+	}
+}

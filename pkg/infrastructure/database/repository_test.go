@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"testing"
 
 	"github.com/manisbindra/sbi/pkg/domain"
@@ -189,4 +190,125 @@ func TestUpsertImage_UpdatesBaseOS(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, "azurelinux", osName)
 	assert.Equal(t, "3.0", osVersion)
+}
+
+func TestQueryBaseOSes(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "azl-python:3.12", Registry: "r", Repository: "repo", Tag: "3.12",
+			BaseOSName: "azurelinux", BaseOSVersion: "3.0",
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "ubuntu-python:3.12", Registry: "r", Repository: "repo2", Tag: "3.12",
+			BaseOSName: "ubuntu", BaseOSVersion: "22.04",
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "debian-python:3.12", Registry: "r", Repository: "repo3", Tag: "3.12",
+			BaseOSName: "debian", BaseOSVersion: "12",
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	oses, err := repo.QueryBaseOSes("python")
+	require.NoError(t, err)
+	assert.Equal(t, []string{"azurelinux", "debian", "ubuntu"}, oses)
+}
+
+func TestQueryBaseOSes_EmptyOSGroupedAsOther(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "azl-python:3.12", Registry: "r", Repository: "repo", Tag: "3.12",
+			BaseOSName: "azurelinux",
+			Languages:  []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "unknown-python:3.12", Registry: "r", Repository: "repo2", Tag: "3.12",
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	oses, err := repo.QueryBaseOSes("python")
+	require.NoError(t, err)
+	assert.Equal(t, []string{"azurelinux", "Other"}, oses)
+}
+
+func TestQueryTopImagesByOS(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "azl-python:3.12", Registry: "r", Repository: "repo", Tag: "3.12",
+			BaseOSName: "azurelinux", TotalVulnerabilities: 3,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "ubuntu-python:3.12", Registry: "r", Repository: "repo2", Tag: "3.12",
+			BaseOSName: "ubuntu", TotalVulnerabilities: 5,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	result, err := repo.QueryTopImagesByOS("python", "azurelinux", 10)
+	require.NoError(t, err)
+	require.Len(t, result, 1)
+	assert.Equal(t, "azl-python:3.12", result[0].Name)
+	assert.Equal(t, "azurelinux", result[0].BaseOSName)
+}
+
+func TestQueryTopImagesByOS_OtherGroup(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	img := &domain.ImageRecord{
+		Name: "unknown-python:3.12", Registry: "r", Repository: "repo", Tag: "3.12",
+		TotalVulnerabilities: 2,
+		Languages:            []domain.Language{{Language: "python", Version: "3.12"}},
+	}
+	require.NoError(t, repo.InsertImage(img))
+
+	result, err := repo.QueryTopImagesByOS("python", "Other", 10)
+	require.NoError(t, err)
+	require.Len(t, result, 1)
+	assert.Equal(t, "unknown-python:3.12", result[0].Name)
+	assert.Equal(t, "Other", result[0].BaseOSName)
+}
+
+func TestQueryTopImagesByOS_Limit(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	for i := 0; i < 5; i++ {
+		img := &domain.ImageRecord{
+			Name: fmt.Sprintf("azl-python:%d", i), Registry: "r", Repository: "repo", Tag: fmt.Sprintf("%d", i),
+			BaseOSName: "azurelinux", TotalVulnerabilities: i,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		}
+		require.NoError(t, repo.InsertImage(img))
+	}
+
+	result, err := repo.QueryTopImagesByOS("python", "azurelinux", 3)
+	require.NoError(t, err)
+	require.Len(t, result, 3)
+	assert.Equal(t, "azl-python:0", result[0].Name)
 }

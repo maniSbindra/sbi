@@ -84,6 +84,7 @@ daily-recommendations reset-db --database azure_linux_images.db
 - `--comprehensive` — enable secrets + misconfiguration scanning
 - `--update-existing` — rescan images already in the database
 - `--no-cleanup` — keep Docker images after scanning
+- `--json-top-n N` — number of top images per language in JSON report (default 20, 0 = all)
 
 ## Scan Pipeline Flow
 
@@ -211,14 +212,41 @@ Runtime verification overrides the Syft/image-name version with the precise vers
 
 ## Report Ranking
 
-Images are ranked **per language** using this sort order (ascending = fewer/smaller is better):
+Images are ranked **per language, per base OS** using this sort order (ascending = fewer/smaller is better):
 
 1. **Critical vulnerabilities** (ascending)
 2. **High vulnerabilities** (ascending)
 3. **Total vulnerabilities** (ascending)
 4. **Image size in bytes** (ascending)
 
-The report shows the top N images per language (default: 10) with columns: Rank, Image, Version, Critical, High, Total, Size, Digest, Pinned Reference.
+### Report Structure
+
+Reports are grouped by **Language → Base OS → ranked table**:
+
+- When a language has images from multiple OSes (e.g., Azure Linux + Debian), each OS gets a `### {OS Name}` sub-heading with its own ranked table.
+- When a language has images from only one OS, the table is shown directly under the language heading (no OS sub-heading).
+- Images with unknown/empty OS are grouped as "Other" (sorted last).
+
+**OS display names:** `azurelinux` → "Azure Linux", `ubuntu` → "Ubuntu", `debian` → "Debian", `alpine` → "Alpine".
+
+### Markdown Report
+
+The markdown report shows the top N images per language per OS (default: 10) with columns: Rank, Image, Version, Crit, High, Total, Size, Digest, Pinned Reference.
+
+### JSON Report
+
+The JSON report uses a flat `images` array — each entry has `language` and `baseOS` fields for easy filtering:
+
+```json
+{
+  "images": [
+    { "rank": 1, "language": "dotnet", "baseOS": "Azure Linux", "name": "...", ... },
+    { "rank": 1, "language": "dotnet", "baseOS": "Debian", "name": "...", ... }
+  ]
+}
+```
+
+JSON top-N defaults to 20 (configurable via `--json-top-n`, 0 = all). Rank resets per language+OS group. Each entry includes `pinnedReference`, `stableTag`, and `dockerfileFrom`.
 
 ## Database Schema
 
