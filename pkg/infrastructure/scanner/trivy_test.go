@@ -583,11 +583,4 @@ func TestParseTrivyResult_OSMetadata_AllOSFamilies(t *testing.T) {
 	}
 }
 
-// ============================================================================
-// OS metadata baseline tests (currently not extracted — PR2 will add these)
-// ============================================================================
-// NOTE: parseTrivyResult currently does NOT extract Metadata.OS from trivyOutput.
-// The trivyOutput struct has no Metadata field yet. PR2 will:
-// 1. Add Metadata.OS to trivyOutput and domain.TrivyResult
-// 2. Update parseTrivyResult to populate BaseOSFamily/BaseOSName
-// 3. Add tests asserting OS values for Azure Linux, Ubuntu, Debian fixtures
+
