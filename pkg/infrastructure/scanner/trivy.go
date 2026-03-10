@@ -13,7 +13,17 @@ import (
 
 // trivyOutput represents the top-level Trivy JSON output.
 type trivyOutput struct {
-	Results []trivyResult `json:"Results"`
+	Results  []trivyResult `json:"Results"`
+	Metadata trivyMetadata `json:"Metadata"`
+}
+
+type trivyMetadata struct {
+	OS trivyOS `json:"OS"`
+}
+
+type trivyOS struct {
+	Family string `json:"Family"`
+	Name   string `json:"Name"`
 }
 
 type trivyResult struct {
@@ -95,7 +105,10 @@ func RunTrivy(imageName string, comprehensive bool) (*domain.TrivyResult, error)
 }
 
 func parseTrivyResult(output *trivyOutput) *domain.TrivyResult {
-	result := &domain.TrivyResult{}
+	result := &domain.TrivyResult{
+		BaseOSFamily:  output.Metadata.OS.Family,
+		BaseOSVersion: output.Metadata.OS.Name,
+	}
 
 	for _, r := range output.Results {
 		// Process vulnerabilities
