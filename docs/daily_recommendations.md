@@ -1,6 +1,6 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-03-10T11:09:45Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language._
+_Generated: 2026-03-10T12:21:34Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
