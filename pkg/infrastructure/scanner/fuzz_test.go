@@ -87,3 +87,21 @@ func FuzzParseSyftResult(f *testing.F) {
 		}
 	})
 }
+
+func FuzzParseTrivyResult(f *testing.F) {
+	f.Add(`{"Results":[]}`)
+	f.Add(`{"Results":[{"Vulnerabilities":[{"VulnerabilityID":"CVE-2024-0001","Severity":"HIGH","PkgName":"openssl"}]}]}`)
+	f.Add(`{"Results":[{"Vulnerabilities":null}]}`)
+	f.Add(`{"Results":null}`)
+	f.Add(`{}`)
+	f.Add(``)
+	f.Add(`{"Results":[{"Secrets":[{"RuleID":"r1","Severity":"HIGH"}],"Misconfigurations":[{"ID":"m1"}],"Licenses":[{"Name":"MIT"}]}]}`)
+
+	f.Fuzz(func(t *testing.T, jsonData string) {
+		// parseTrivyResult must not panic on any JSON input
+		var output trivyOutput
+		if err := json.Unmarshal([]byte(jsonData), &output); err == nil {
+			_ = parseTrivyResult(&output)
+		}
+	})
+}
