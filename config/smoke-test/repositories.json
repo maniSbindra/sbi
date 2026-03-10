@@ -11,9 +11,10 @@
   },
   "repositories": [
     {
-      "description": "Smoke test image",
+      "description": "Smoke test images",
       "images": [
-        "azurelinux/distroless/python"
+        "azurelinux/distroless/python",
+        "mcr.microsoft.com/dotnet/runtime:8.0-noble"
       ]
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T14:19:07Z",
+  "generatedAt": "2026-03-10T15:26:47Z",
   "topN": 20,
   "scannedRepositories": [
     {
@@ -20,11 +20,8 @@
       ]
     },
     {
-      "description": ".NET images",
+      "description": ".NET Azure Linux images",
       "images": [
-        "mcr.microsoft.com/dotnet/aspnet:8.0",
-        "mcr.microsoft.com/dotnet/runtime:8.0",
-        "mcr.microsoft.com/dotnet/sdk:8.0",
         "mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless",
         "mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless",
         "mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless",
@@ -32,6 +29,28 @@
         "mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless",
         "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0",
         "mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0"
+      ]
+    },
+    {
+      "description": ".NET Ubuntu (Noble) images",
+      "images": [
+        "mcr.microsoft.com/dotnet/aspnet:10.0-noble",
+        "mcr.microsoft.com/dotnet/aspnet:9.0-noble",
+        "mcr.microsoft.com/dotnet/aspnet:8.0-noble",
+        "mcr.microsoft.com/dotnet/runtime:10.0-noble",
+        "mcr.microsoft.com/dotnet/runtime:9.0-noble",
+        "mcr.microsoft.com/dotnet/runtime:8.0-noble",
+        "mcr.microsoft.com/dotnet/sdk:10.0-noble",
+        "mcr.microsoft.com/dotnet/sdk:9.0-noble",
+        "mcr.microsoft.com/dotnet/sdk:8.0-noble"
+      ]
+    },
+    {
+      "description": ".NET Debian images",
+      "images": [
+        "mcr.microsoft.com/dotnet/aspnet:8.0",
+        "mcr.microsoft.com/dotnet/runtime:8.0",
+        "mcr.microsoft.com/dotnet/sdk:8.0"
       ]
     },
     {
@@ -46,10 +65,12 @@
       "images": [
         "mcr.microsoft.com/openjdk/jdk:25-azurelinux",
         "mcr.microsoft.com/openjdk/jdk:25-distroless",
+        "mcr.microsoft.com/openjdk/jdk:25-ubuntu",
         "mcr.microsoft.com/openjdk/jdk:21-azurelinux",
         "mcr.microsoft.com/openjdk/jdk:21-distroless",
         "mcr.microsoft.com/openjdk/jdk:21-ubuntu",
         "mcr.microsoft.com/openjdk/jdk:17-distroless",
+        "mcr.microsoft.com/openjdk/jdk:17-ubuntu",
         "mcr.microsoft.com/openjdk/jdk:11-distroless"
       ]
     }

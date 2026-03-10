@@ -93,7 +93,7 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 		return fmt.Errorf("creating output directory: %w", err)
 	}
 
-	if err := os.WriteFile(outputPath, []byte(sb.String()), 0o644); err != nil {
+	if err := os.WriteFile(outputPath, []byte(strings.TrimRight(sb.String(), "\n")+"\n"), 0o644); err != nil {
 		return fmt.Errorf("writing report: %w", err)
 	}
 
