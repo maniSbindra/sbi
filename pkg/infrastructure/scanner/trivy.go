@@ -26,16 +26,18 @@ type trivyResult struct {
 	Licenses        []trivyLicense     `json:"Licenses"`
 }
 
+type trivyCVSS struct {
+	V3Score float64 `json:"V3Score"`
+}
+
 type trivyVuln struct {
-	VulnerabilityID  string  `json:"VulnerabilityID"`
-	Severity         string  `json:"Severity"`
-	PkgName          string  `json:"PkgName"`
-	InstalledVersion string  `json:"InstalledVersion"`
-	FixedVersion     string  `json:"FixedVersion"`
-	Description      string  `json:"Description"`
-	CVSS             map[string]struct {
-		V3Score float64 `json:"V3Score"`
-	} `json:"CVSS"`
+	VulnerabilityID  string               `json:"VulnerabilityID"`
+	Severity         string               `json:"Severity"`
+	PkgName          string               `json:"PkgName"`
+	InstalledVersion string               `json:"InstalledVersion"`
+	FixedVersion     string               `json:"FixedVersion"`
+	Description      string               `json:"Description"`
+	CVSS             map[string]trivyCVSS `json:"CVSS"`
 }
 
 type trivySecret struct {

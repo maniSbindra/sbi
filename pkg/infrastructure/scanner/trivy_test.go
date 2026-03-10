@@ -13,10 +13,7 @@ import (
 
 // ---------- helpers ----------
 
-// trivyCVSS is a type alias matching the anonymous struct in trivyVuln.CVSS for use in test fixtures.
-type trivyCVSS = struct {
-	V3Score float64 `json:"V3Score"`
-}
+// trivyCVSS is now a named type in trivy.go; no alias needed in tests.
 
 func makeTrivyVulns(entries []struct {
 	id, severity, pkg, installed, fixed, desc string
@@ -370,7 +367,7 @@ func TestParseTrivyResult_DescriptionTruncation(t *testing.T) {
 	result := parseTrivyResult(output)
 	require.Len(t, result.Vulnerabilities, 1)
 	assert.Len(t, result.Vulnerabilities[0].Description, 500, "description should be truncated to 500 chars")
-	assert.True(t, result.Vulnerabilities[0].Description[497:] == "...", "should end with ...")
+	assert.Equal(t, "...", result.Vulnerabilities[0].Description[497:], "should end with ...")
 }
 
 // ============================================================================
