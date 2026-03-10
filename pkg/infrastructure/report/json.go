@@ -15,10 +15,10 @@ import (
 
 // JSONReport is the top-level structure for the JSON report.
 type JSONReport struct {
-	GeneratedAt  string                `json:"generatedAt"`
-	TopN         int                   `json:"topN"`
-	ScannedRepos []JSONRepoGroup       `json:"scannedRepositories,omitempty"`
-	Languages    []JSONLanguageSection `json:"languages"`
+	GeneratedAt  string           `json:"generatedAt"`
+	TopN         int              `json:"topN"`
+	ScannedRepos []JSONRepoGroup  `json:"scannedRepositories,omitempty"`
+	Images       []JSONImageEntry `json:"images"`
 }
 
 // JSONRepoGroup represents a group of scanned repositories/images.
@@ -27,15 +27,11 @@ type JSONRepoGroup struct {
 	Images      []string `json:"images"`
 }
 
-// JSONLanguageSection holds recommended images for a single language.
-type JSONLanguageSection struct {
-	Language string           `json:"language"`
-	Images   []JSONImageEntry `json:"images"`
-}
-
 // JSONImageEntry represents a single recommended image in the JSON report.
 type JSONImageEntry struct {
 	Rank                    int    `json:"rank"`
+	Language                string `json:"language"`
+	BaseOS                  string `json:"baseOS"`
 	Name                    string `json:"name"`
 	Version                 string `json:"version"`
 	CriticalVulnerabilities int    `json:"criticalVulnerabilities"`
@@ -49,7 +45,7 @@ type JSONImageEntry struct {
 	DockerfileFrom          string `json:"dockerfileFrom,omitempty"`
 }
 
-// GenerateJSONReport produces a JSON recommendations report from the database.
+// GenerateJSONReport produces a flat JSON recommendations report from the database.
 func GenerateJSONReport(repo *database.Repository, outputPath string, topN int, repoCfg *domain.RepositoryConfig) error {
 	languages, err := repo.QueryLanguages()
 	if err != nil {
@@ -64,6 +60,7 @@ func GenerateJSONReport(repo *database.Repository, outputPath string, topN int, 
 	report := JSONReport{
 		GeneratedAt: time.Now().UTC().Format(time.RFC3339),
 		TopN:        topN,
+		Images:      []JSONImageEntry{},
 	}
 
 	if repoCfg != nil {
@@ -76,38 +73,38 @@ func GenerateJSONReport(repo *database.Repository, outputPath string, topN int, 
 	}
 
 	for _, lang := range languages {
-		images, err := repo.QueryTopImages(lang, topN)
+		oses, err := repo.QueryBaseOSes(lang)
 		if err != nil {
-			log.Warnf("Failed to query images for %s: %v", lang, err)
+			log.Warnf("Failed to query OSes for %s: %v", lang, err)
 			continue
 		}
 
-		if len(images) == 0 {
-			continue
-		}
+		for _, osName := range oses {
+			images, err := repo.QueryTopImagesByOS(lang, osName, topN)
+			if err != nil {
+				log.Warnf("Failed to query images for %s/%s: %v", lang, osName, err)
+				continue
+			}
 
-		section := JSONLanguageSection{
-			Language: strings.ToLower(lang),
+			for idx, img := range images {
+				report.Images = append(report.Images, JSONImageEntry{
+					Rank:                    idx + 1,
+					Language:                strings.ToLower(lang),
+					BaseOS:                  DisplayOSName(img.BaseOSName),
+					Name:                    img.Name,
+					Version:                 img.Version,
+					CriticalVulnerabilities: img.CriticalVulnerabilities,
+					HighVulnerabilities:     img.HighVulnerabilities,
+					TotalVulnerabilities:    img.TotalVulnerabilities,
+					SizeBytes:               img.SizeBytes,
+					SizeHuman:               HumanSize(img.SizeBytes),
+					Digest:                  img.Digest,
+					PinnedReference:         FormatPinnedReference(img.Name, img.Digest),
+					StableTag:               FormatStableTag(img.Name, img.Version),
+					DockerfileFrom:          FormatDockerfileFrom(img.Name, img.Digest),
+				})
+			}
 		}
-
-		for idx, img := range images {
-			section.Images = append(section.Images, JSONImageEntry{
-				Rank:                    idx + 1,
-				Name:                    img.Name,
-				Version:                 img.Version,
-				CriticalVulnerabilities: img.CriticalVulnerabilities,
-				HighVulnerabilities:     img.HighVulnerabilities,
-				TotalVulnerabilities:    img.TotalVulnerabilities,
-				SizeBytes:               img.SizeBytes,
-				SizeHuman:               HumanSize(img.SizeBytes),
-				Digest:                  img.Digest,
-				PinnedReference:         FormatPinnedReference(img.Name, img.Digest),
-				StableTag:               FormatStableTag(img.Name, img.Version),
-				DockerfileFrom:          FormatDockerfileFrom(img.Name, img.Digest),
-			})
-		}
-
-		report.Languages = append(report.Languages, section)
 	}
 
 	dir := filepath.Dir(outputPath)

@@ -45,5 +45,5 @@ func runReport(_ *cobra.Command, _ []string) error {
 
 	jsonPath := strings.TrimSuffix(flgOutputPath, ".md") + ".json"
 
-	return report.GenerateJSONReport(repo, jsonPath, flgTopN, &repoCfg)
+	return report.GenerateJSONReport(repo, jsonPath, flgTopNJSON, &repoCfg)
 }

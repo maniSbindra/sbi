@@ -240,6 +240,84 @@ func (r *Repository) QueryTopImages(language string, topN int) ([]domain.Recomme
 	return results, rows.Err()
 }
 
+// QueryBaseOSes returns distinct base OS names for a given language, sorted
+// alphabetically with "Other" (empty/unknown) last.
+func (r *Repository) QueryBaseOSes(language string) ([]string, error) {
+	rows, err := r.db.Query(`
+		SELECT DISTINCT COALESCE(NULLIF(i.base_os_name, ''), 'Other') AS os
+		FROM images i
+		JOIN languages l ON i.id = l.image_id
+		WHERE LOWER(l.language) = ?
+		ORDER BY
+			CASE WHEN COALESCE(NULLIF(i.base_os_name, ''), 'Other') = 'Other' THEN 1 ELSE 0 END,
+			os ASC`, language)
+	if err != nil {
+		return nil, fmt.Errorf("querying base OSes: %w", err)
+	}
+	defer func() { _ = rows.Close() }()
+
+	var oses []string
+	for rows.Next() {
+		var os string
+		if err := rows.Scan(&os); err != nil {
+			return nil, fmt.Errorf("scanning base OS: %w", err)
+		}
+		oses = append(oses, os)
+	}
+
+	return oses, rows.Err()
+}
+
+// QueryTopImagesByOS returns the top N images for a given language and base OS,
+// ranked by critical → high → total vulnerabilities → size ascending.
+// Pass "Other" as baseOS to match images with empty/unknown OS.
+// Pass topN <= 0 for unlimited results.
+func (r *Repository) QueryTopImagesByOS(language, baseOS string, topN int) ([]domain.RecommendedImage, error) {
+	limit := topN
+	if limit <= 0 {
+		limit = -1 // SQLite LIMIT -1 means no limit
+	}
+
+	rows, err := r.db.Query(`
+		SELECT i.name, l.version, i.critical_vulnerabilities, i.high_vulnerabilities,
+		       i.total_vulnerabilities, COALESCE(i.size_bytes, 0), i.digest,
+		       COALESCE(NULLIF(i.base_os_name, ''), 'Other')
+		FROM images i
+		JOIN languages l ON i.id = l.image_id
+		WHERE LOWER(l.language) = ?
+		  AND COALESCE(NULLIF(i.base_os_name, ''), 'Other') = ?
+		GROUP BY i.id, l.version
+		ORDER BY i.critical_vulnerabilities ASC,
+		         i.high_vulnerabilities ASC,
+		         i.total_vulnerabilities ASC,
+		         COALESCE(i.size_bytes, 0) ASC
+		LIMIT ?`, language, baseOS, limit)
+	if err != nil {
+		return nil, fmt.Errorf("querying top images by OS: %w", err)
+	}
+	defer func() { _ = rows.Close() }()
+
+	var results []domain.RecommendedImage
+	for rows.Next() {
+		var img domain.RecommendedImage
+		var digest sql.NullString
+
+		if err := rows.Scan(&img.Name, &img.Version, &img.CriticalVulnerabilities,
+			&img.HighVulnerabilities, &img.TotalVulnerabilities, &img.SizeBytes,
+			&digest, &img.BaseOSName); err != nil {
+			return nil, fmt.Errorf("scanning image row: %w", err)
+		}
+
+		if digest.Valid {
+			img.Digest = digest.String
+		}
+
+		results = append(results, img)
+	}
+
+	return results, rows.Err()
+}
+
 // ClearDatabase deletes all data from all tables.
 func (r *Repository) ClearDatabase() error {
 	tables := []string{"security_findings", "system_packages", "capabilities", "package_managers", "vulnerabilities", "languages", "images"}
