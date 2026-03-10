@@ -15,9 +15,9 @@ import (
 
 // JSONReport is the top-level structure for the JSON report.
 type JSONReport struct {
-	GeneratedAt  string          `json:"generatedAt"`
-	TopN         int             `json:"topN"`
-	ScannedRepos []JSONRepoGroup `json:"scannedRepositories,omitempty"`
+	GeneratedAt  string           `json:"generatedAt"`
+	TopN         int              `json:"topN"`
+	ScannedRepos []JSONRepoGroup  `json:"scannedRepositories,omitempty"`
 	Images       []JSONImageEntry `json:"images"`
 }
 

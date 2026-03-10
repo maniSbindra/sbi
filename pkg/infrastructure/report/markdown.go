@@ -29,7 +29,11 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 	var sb strings.Builder
 
 	sb.WriteString("# Daily Recommended Images by Language\n\n")
-	fmt.Fprintf(&sb, "_Generated: %s. Criteria: lowest critical → high → total vulnerabilities → size. Top %d per language per base OS._\n\n", ts, topN)
+	topNLabel := fmt.Sprintf("Top %d", topN)
+	if topN <= 0 {
+		topNLabel = "All images"
+	}
+	fmt.Fprintf(&sb, "_Generated: %s. Criteria: lowest critical → high → total vulnerabilities → size. %s per language per base OS._\n\n", ts, topNLabel)
 	sb.WriteString("**Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).\n\n")
 
 	if repoCfg != nil {
