@@ -1,12 +1,12 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-03-10T14:19:07Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
+_Generated: 2026-03-10T15:26:47Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
 ## Scanned Repositories and Images
 
-This report includes analysis from **26 configured sources** across 5 groups (see [repositories.json](../config/repositories.json)):
+This report includes analysis from **37 configured sources** across 7 groups (see [repositories.json](../config/repositories.json)):
 
 **Azure Linux base images:**
 
@@ -21,11 +21,8 @@ This report includes analysis from **26 configured sources** across 5 groups (se
 - `azurelinux/distroless/python`
 - `azurelinux/distroless/nodejs`
 
-**.NET images:**
+**.NET Azure Linux images:**
 
-- `mcr.microsoft.com/dotnet/aspnet:8.0`
-- `mcr.microsoft.com/dotnet/runtime:8.0`
-- `mcr.microsoft.com/dotnet/sdk:8.0`
 - `mcr.microsoft.com/dotnet/aspnet:10.0-azurelinux3.0-distroless`
 - `mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0-distroless`
 - `mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0-distroless`
@@ -33,6 +30,24 @@ This report includes analysis from **26 configured sources** across 5 groups (se
 - `mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0-distroless`
 - `mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0`
 - `mcr.microsoft.com/dotnet/sdk:9.0-azurelinux3.0`
+
+**.NET Ubuntu (Noble) images:**
+
+- `mcr.microsoft.com/dotnet/aspnet:10.0-noble`
+- `mcr.microsoft.com/dotnet/aspnet:9.0-noble`
+- `mcr.microsoft.com/dotnet/aspnet:8.0-noble`
+- `mcr.microsoft.com/dotnet/runtime:10.0-noble`
+- `mcr.microsoft.com/dotnet/runtime:9.0-noble`
+- `mcr.microsoft.com/dotnet/runtime:8.0-noble`
+- `mcr.microsoft.com/dotnet/sdk:10.0-noble`
+- `mcr.microsoft.com/dotnet/sdk:9.0-noble`
+- `mcr.microsoft.com/dotnet/sdk:8.0-noble`
+
+**.NET Debian images:**
+
+- `mcr.microsoft.com/dotnet/aspnet:8.0`
+- `mcr.microsoft.com/dotnet/runtime:8.0`
+- `mcr.microsoft.com/dotnet/sdk:8.0`
 
 **Go images:**
 
@@ -43,10 +58,12 @@ This report includes analysis from **26 configured sources** across 5 groups (se
 
 - `mcr.microsoft.com/openjdk/jdk:25-azurelinux`
 - `mcr.microsoft.com/openjdk/jdk:25-distroless`
+- `mcr.microsoft.com/openjdk/jdk:25-ubuntu`
 - `mcr.microsoft.com/openjdk/jdk:21-azurelinux`
 - `mcr.microsoft.com/openjdk/jdk:21-distroless`
 - `mcr.microsoft.com/openjdk/jdk:21-ubuntu`
 - `mcr.microsoft.com/openjdk/jdk:17-distroless`
+- `mcr.microsoft.com/openjdk/jdk:17-ubuntu`
 - `mcr.microsoft.com/openjdk/jdk:11-distroless`
 
 ## Dotnet
@@ -122,4 +139,3 @@ This report includes analysis from **26 configured sources** across 5 groups (se
 | 8 | `mcr.microsoft.com/openjdk/jdk:25-azurelinux` | 3.12.9 | 0 | 0 | 0 | 527.0 MB | `sha256:e84b14873c27` | `mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:e84b14873c2736485e066b54773ab00e6d7eef0a8a6f89e0bf0284935314fafb` |
 | 9 | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 809.0 MB | `sha256:8deb7086a5fd` | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:8deb7086a5fd7fe8b4258ca4c3431141b3d0daafc514c7da09d01da43a6e6ad0` |
 | 10 | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 841.0 MB | `sha256:1c76136f9648` | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:1c76136f964815a0eeea177a348fc7a7ca19c9c1a25e6b31a4666dbb5b210cc4` |
-
