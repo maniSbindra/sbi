@@ -84,7 +84,7 @@ daily-recommendations reset-db --database azure_linux_images.db
 - `--comprehensive` — enable secrets + misconfiguration scanning
 - `--update-existing` — rescan images already in the database
 - `--no-cleanup` — keep Docker images after scanning
-- `--json-top-n N` — number of top images per language in JSON report (default 20, 0 = all)
+- `--json-top-n N` — number of top images per language per base OS in JSON report (default 20, 0 = all)
 
 ## Scan Pipeline Flow
 

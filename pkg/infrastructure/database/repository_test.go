@@ -312,3 +312,21 @@ func TestQueryTopImagesByOS_Limit(t *testing.T) {
 	require.Len(t, result, 3)
 	assert.Equal(t, "azl-python:0", result[0].Name)
 }
+
+func TestQueryTopImagesByOS_ZeroMeansUnlimited(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	for i := 0; i < 5; i++ {
+		img := &domain.ImageRecord{
+			Name: fmt.Sprintf("azl-python:%d", i), Registry: "r", Repository: "repo", Tag: fmt.Sprintf("%d", i),
+			BaseOSName: "azurelinux", TotalVulnerabilities: i,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		}
+		require.NoError(t, repo.InsertImage(img))
+	}
+
+	result, err := repo.QueryTopImagesByOS("python", "azurelinux", 0)
+	require.NoError(t, err)
+	assert.Len(t, result, 5)
+}

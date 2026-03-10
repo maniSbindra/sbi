@@ -37,27 +37,30 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 	}
 
 	for _, lang := range languages {
-		images, err := repo.QueryTopImages(lang, topN)
-		if err != nil {
-			log.Warnf("Failed to query images for %s: %v", lang, err)
-			continue
-		}
-
-		if len(images) == 0 {
-			continue
-		}
-
 		sb.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(lang))) //nolint:staticcheck
 
 		oses, err := repo.QueryBaseOSes(lang)
 		if err != nil {
 			log.Warnf("Failed to query OSes for %s: %v", lang, err)
-			writeImageTable(&sb, images)
 			continue
 		}
 
 		if len(oses) <= 1 {
-			writeImageTable(&sb, images)
+			osName := "Other"
+			if len(oses) == 1 {
+				osName = oses[0]
+			}
+
+			images, err := repo.QueryTopImagesByOS(lang, osName, topN)
+			if err != nil {
+				log.Warnf("Failed to query images for %s: %v", lang, err)
+				continue
+			}
+
+			if len(images) > 0 {
+				writeImageTable(&sb, images)
+			}
+
 			continue
 		}
 

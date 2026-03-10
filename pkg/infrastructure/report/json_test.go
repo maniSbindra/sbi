@@ -165,6 +165,32 @@ func TestGenerateJSONReport_TopNLimit(t *testing.T) {
 	assert.Equal(t, 3, report.TopN)
 }
 
+func TestGenerateJSONReport_ZeroTopNReturnsAll(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	for i := 0; i < 5; i++ {
+		img := &domain.ImageRecord{
+			Name: "azl-py:" + string(rune('a'+i)), Registry: "r", Repository: "repo", Tag: string(rune('a' + i)),
+			BaseOSName: "azurelinux", TotalVulnerabilities: i,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		}
+		require.NoError(t, repo.InsertImage(img))
+	}
+
+	outPath := filepath.Join(t.TempDir(), "report.json")
+	require.NoError(t, GenerateJSONReport(repo, outPath, 0, nil))
+
+	data, err := os.ReadFile(outPath)
+	require.NoError(t, err)
+
+	var report JSONReport
+	require.NoError(t, json.Unmarshal(data, &report))
+
+	assert.Len(t, report.Images, 5)
+	assert.Equal(t, 0, report.TopN)
+}
+
 func TestGenerateJSONReport_EmptyDB(t *testing.T) {
 	db, repo := setupTestDB(t)
 	defer func() { _ = db.Close() }()

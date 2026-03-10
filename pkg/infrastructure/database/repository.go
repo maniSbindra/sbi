@@ -271,7 +271,13 @@ func (r *Repository) QueryBaseOSes(language string) ([]string, error) {
 // QueryTopImagesByOS returns the top N images for a given language and base OS,
 // ranked by critical → high → total vulnerabilities → size ascending.
 // Pass "Other" as baseOS to match images with empty/unknown OS.
+// Pass topN <= 0 for unlimited results.
 func (r *Repository) QueryTopImagesByOS(language, baseOS string, topN int) ([]domain.RecommendedImage, error) {
+	limit := topN
+	if limit <= 0 {
+		limit = -1 // SQLite LIMIT -1 means no limit
+	}
+
 	rows, err := r.db.Query(`
 		SELECT i.name, l.version, i.critical_vulnerabilities, i.high_vulnerabilities,
 		       i.total_vulnerabilities, COALESCE(i.size_bytes, 0), i.digest,
@@ -285,7 +291,7 @@ func (r *Repository) QueryTopImagesByOS(language, baseOS string, topN int) ([]do
 		         i.high_vulnerabilities ASC,
 		         i.total_vulnerabilities ASC,
 		         COALESCE(i.size_bytes, 0) ASC
-		LIMIT ?`, language, baseOS, topN)
+		LIMIT ?`, language, baseOS, limit)
 	if err != nil {
 		return nil, fmt.Errorf("querying top images by OS: %w", err)
 	}

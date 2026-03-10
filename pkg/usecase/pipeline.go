@@ -83,12 +83,8 @@ func (p *Pipeline) GenerateReport() error {
 	}
 
 	jsonPath := strings.TrimSuffix(p.config.OutputPath, ".md") + ".json"
-	jsonTopN := p.config.TopNJSON
-	if jsonTopN == 0 {
-		jsonTopN = 999999
-	}
 
-	return report.GenerateJSONReport(p.repo, jsonPath, jsonTopN, &p.repoCfg)
+	return report.GenerateJSONReport(p.repo, jsonPath, p.config.TopNJSON, &p.repoCfg)
 }
 
 func (p *Pipeline) scanRepository(repo string) error {
