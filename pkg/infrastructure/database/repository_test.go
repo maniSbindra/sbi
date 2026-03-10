@@ -161,3 +161,30 @@ func TestUpsertImage(t *testing.T) {
 	assert.Equal(t, 3, images[0].TotalVulnerabilities)
 	assert.Equal(t, "3.12.1", images[0].Version)
 }
+
+func TestUpsertImage_UpdatesBaseOS(t *testing.T) {
+	testDB, repo := setupTestDB(t)
+	defer func() { _ = testDB.Close() }()
+
+	// Insert image with no OS data
+	img := &domain.ImageRecord{
+		Name: "python-img:3.12", Registry: "r", Repository: "repo", Tag: "3.12",
+		TotalVulnerabilities: 5,
+		Languages:            []domain.Language{{Language: "python", Version: "3.12"}},
+	}
+	require.NoError(t, repo.InsertImage(img))
+
+	var osName string
+	err := testDB.QueryRow("SELECT COALESCE(base_os_name, '') FROM images WHERE name = ?", img.Name).Scan(&osName)
+	require.NoError(t, err)
+	assert.Equal(t, "", osName)
+
+	// Re-insert same image, now with OS data
+	img.BaseOSName = "azurelinux"
+	img.BaseOSVersion = "3.0"
+	require.NoError(t, repo.InsertImage(img))
+
+	err = testDB.QueryRow("SELECT base_os_name, base_os_version FROM images WHERE name = ?", img.Name).Scan(&osName, new(string))
+	require.NoError(t, err)
+	assert.Equal(t, "azurelinux", osName)
+}

@@ -59,6 +59,7 @@ func (r *Repository) InsertImage(img *domain.ImageRecord) error {
 		ON CONFLICT(name) DO UPDATE SET
 			digest=excluded.digest, size_bytes=excluded.size_bytes, layers=excluded.layers,
 			scan_timestamp=excluded.scan_timestamp,
+			base_os_name=excluded.base_os_name, base_os_version=excluded.base_os_version,
 			total_vulnerabilities=excluded.total_vulnerabilities,
 			critical_vulnerabilities=excluded.critical_vulnerabilities,
 			high_vulnerabilities=excluded.high_vulnerabilities,
