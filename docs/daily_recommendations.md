@@ -1,6 +1,6 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-03-10T15:26:47Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
+_Generated: 2026-03-10T16:05:01Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
@@ -88,6 +88,20 @@ This report includes analysis from **37 configured sources** across 7 groups (se
 | 2 | `mcr.microsoft.com/dotnet/aspnet:8.0` | 8.0.24 | 1 | 2 | 95 | 218.0 MB | `sha256:88c86e5469c2` | `mcr.microsoft.com/dotnet/aspnet:8.0@sha256:88c86e5469c2b69969e07343193fd3dbe4ff6936d95b994dbfa27348299af111` |
 | 3 | `mcr.microsoft.com/dotnet/sdk:8.0` | 8.0.418 | 1 | 15 | 177 | 850.0 MB | `sha256:bfb6ed602caa` | `mcr.microsoft.com/dotnet/sdk:8.0@sha256:bfb6ed602caa605141700aea7dc7d42574b74b704368e67d683c71a002123808` |
 
+### Ubuntu
+
+| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
+|------|-------|---------|------|------|-------|------|--------|------------------|
+| 1 | `mcr.microsoft.com/dotnet/runtime:8.0-noble` | 8.0.24 | 0 | 0 | 12 | 193.0 MB | `sha256:6c946d640ec5` | `mcr.microsoft.com/dotnet/runtime:8.0-noble@sha256:6c946d640ec5fb8ca9e2c578903287a12ac395b3e4806703022b253174aed3c6` |
+| 2 | `mcr.microsoft.com/dotnet/runtime:9.0-noble` | 9.0.13 | 0 | 0 | 12 | 198.0 MB | `sha256:a66ee75449f9` | `mcr.microsoft.com/dotnet/runtime:9.0-noble@sha256:a66ee75449f9f5158fa789252491b8d74ddb53660226860f8261ac475db0a0ff` |
+| 3 | `mcr.microsoft.com/dotnet/runtime:10.0-noble` | 10.0.3 | 0 | 0 | 12 | 203.0 MB | `sha256:20c8b96cccff` | `mcr.microsoft.com/dotnet/runtime:10.0-noble@sha256:20c8b96cccff81d140c32ada512417f1c42248b64f54a80a319311b813a9dfb4` |
+| 4 | `mcr.microsoft.com/dotnet/aspnet:8.0-noble` | 8.0.24 | 0 | 0 | 12 | 217.0 MB | `sha256:5ee04807992d` | `mcr.microsoft.com/dotnet/aspnet:8.0-noble@sha256:5ee04807992d78c8aadecd6c551750d3010f1300b94328ecb05e29d35ae10f04` |
+| 5 | `mcr.microsoft.com/dotnet/aspnet:9.0-noble` | 9.0.13 | 0 | 0 | 12 | 223.0 MB | `sha256:06cf1b820062` | `mcr.microsoft.com/dotnet/aspnet:9.0-noble@sha256:06cf1b8200622a8b1ec766118e476ec7ffe5d919199522c87326662cccc58421` |
+| 6 | `mcr.microsoft.com/dotnet/aspnet:10.0-noble` | 10.0.3 | 0 | 0 | 12 | 230.0 MB | `sha256:aec87aa74ddf` | `mcr.microsoft.com/dotnet/aspnet:10.0-noble@sha256:aec87aa74ddf129da573fa69f42f229a23c953a1c6fdecedea1aa6b1fe147d76` |
+| 7 | `mcr.microsoft.com/dotnet/sdk:9.0-noble` | 9.0.311 | 0 | 0 | 37 | 836.0 MB | `sha256:45d815f7ad35` | `mcr.microsoft.com/dotnet/sdk:9.0-noble@sha256:45d815f7ad357e2cb10ac9c5247d42af972dd3c66a34f64bdf34a5e39bde698a` |
+| 8 | `mcr.microsoft.com/dotnet/sdk:10.0-noble` | 10.0.103 | 0 | 0 | 37 | 884.0 MB | `sha256:e362a8dbcd69` | `mcr.microsoft.com/dotnet/sdk:10.0-noble@sha256:e362a8dbcd691522456da26a5198b8f3ca1d7641c95624fadc5e3e82678bd08a` |
+| 9 | `mcr.microsoft.com/dotnet/sdk:8.0-noble` | 8.0.418 | 0 | 8 | 45 | 836.0 MB | `sha256:d582c7052a55` | `mcr.microsoft.com/dotnet/sdk:8.0-noble@sha256:d582c7052a557c953858a3e2f77d4dd6fc184dcf617b14cbcc426153fcd450d8` |
+
 ## Go
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
@@ -112,7 +126,9 @@ This report includes analysis from **37 configured sources** across 7 groups (se
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/openjdk/jdk:21-ubuntu` | 21.0.10 | 0 | 0 | 66 | 457.0 MB | `sha256:84e0bf61cbc6` | `mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:84e0bf61cbc6f619f74cbbb4b41b077b0535f16792c158e15f0ed9b166554f3b` |
+| 1 | `mcr.microsoft.com/openjdk/jdk:17-ubuntu` | 17.0.18 | 0 | 0 | 66 | 430.0 MB | `sha256:0f3b0e116eab` | `mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:0f3b0e116eabef304ae058d61c63a492d48212c44fcd18dfe2d6fb6c3d0af5d7` |
+| 2 | `mcr.microsoft.com/openjdk/jdk:21-ubuntu` | 21.0.10 | 0 | 0 | 66 | 457.0 MB | `sha256:84e0bf61cbc6` | `mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:84e0bf61cbc6f619f74cbbb4b41b077b0535f16792c158e15f0ed9b166554f3b` |
+| 3 | `mcr.microsoft.com/openjdk/jdk:25-ubuntu` | 25.0.2 | 0 | 0 | 66 | 502.0 MB | `sha256:180f372724db` | `mcr.microsoft.com/openjdk/jdk:25-ubuntu@sha256:180f372724db62715cf6d1dafeb168d20e66b13dad493d33d1d24c07d0cc55c0` |
 
 ## Node
 
