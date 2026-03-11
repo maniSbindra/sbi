@@ -178,7 +178,8 @@ func (r *Repository) QueryLanguages() ([]string, error) {
 		JOIN images i ON l.image_id = i.id
 		WHERE l.language != ''
 		GROUP BY lang
-		ORDER BY MIN(i.critical_vulnerabilities) ASC,
+		ORDER BY CASE WHEN LOWER(l.language) = 'base' THEN 1 ELSE 0 END ASC,
+		         MIN(i.critical_vulnerabilities) ASC,
 		         MIN(i.high_vulnerabilities) ASC,
 		         MIN(i.total_vulnerabilities) ASC,
 		         lang ASC`)

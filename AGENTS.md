@@ -133,6 +133,11 @@ Generate reports:
     {
       "description": "Pinned single images",
       "images": ["mcr.microsoft.com/dotnet/aspnet:8.0"]
+    },
+    {
+      "description": "Base / minimal images (no runtime)",
+      "category": "base",
+      "images": ["azurelinux/base/core"]
     }
   ]
 }
@@ -140,6 +145,7 @@ Generate reports:
 
 - **No colon** -> repository: tags are discovered via `GET /v2/{repo}/tags/list`, then filtered
 - **Has colon** -> single image: scanned directly, no tag discovery
+- **`"category": "base"`** -> marks a group as containing minimal/no-runtime images. During scanning, images in these groups that have no detected language runtime receive a synthetic `"base"` language entry, so they appear in a **"Base / No Runtime"** report section. Images in the group that do have detected languages are unaffected.
 
 ## Language Detection (3-stage pipeline)
 
@@ -227,6 +233,9 @@ Reports are grouped by **Language → Base OS → ranked table**:
 - When a language has images from multiple OSes (e.g., Azure Linux + Debian), each OS gets a `### {OS Name}` sub-heading with its own ranked table.
 - When a language has images from only one OS, the table is shown directly under the language heading (no OS sub-heading).
 - Images with unknown/empty OS are grouped as "Other" (sorted last).
+- The **"Base / No Runtime"** section (language = `"base"`) always appears last, after all runtime language sections. It contains minimal images (e.g., `azurelinux/base/core`) suitable for deploying static binaries (Go, Rust).
+
+**Language display names:** `"base"` → "Base / No Runtime", all others → title case (e.g., `"python"` → "Python").
 
 **OS display names:** `azurelinux` → "Azure Linux", `ubuntu` → "Ubuntu", `debian` → "Debian", `alpine` → "Alpine".
 

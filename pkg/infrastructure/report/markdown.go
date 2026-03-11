@@ -82,7 +82,7 @@ func GenerateReport(repo *database.Repository, outputPath string, topN int, repo
 		}
 
 		if section.Len() > 0 {
-			fmt.Fprintf(&sb, "## %s\n\n", strings.Title(lang)) //nolint:staticcheck
+			fmt.Fprintf(&sb, "## %s\n\n", DisplayLanguageName(lang))
 			sb.WriteString(section.String())
 		}
 	}
@@ -125,6 +125,15 @@ func writeImageTable(sb *strings.Builder, images []domain.RecommendedImage) {
 	}
 
 	sb.WriteString("\n")
+}
+
+// DisplayLanguageName converts a raw language string to a human-readable display name.
+func DisplayLanguageName(lang string) string {
+	if strings.ToLower(lang) == "base" {
+		return "Base / No Runtime"
+	}
+
+	return strings.Title(lang) //nolint:staticcheck
 }
 
 // DisplayOSName converts a raw OS family string to a human-readable display name.
@@ -266,7 +275,7 @@ func FormatDockerfileFrom(name, digest string) string {
 func FormatRecommendedImages(lang string, images []domain.RecommendedImage) string {
 	var sb strings.Builder
 
-	sb.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(lang))) //nolint:staticcheck
+	fmt.Fprintf(&sb, "## %s\n\n", DisplayLanguageName(lang))
 	sb.WriteString("| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |\n")
 	sb.WriteString("|------|-------|---------|------|------|-------|------|--------|------------------|\n")
 
