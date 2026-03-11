@@ -171,6 +171,7 @@ func (r *Repository) InsertImage(img *domain.ImageRecord) error {
 
 // QueryLanguages returns distinct languages ordered by best security posture.
 // Languages whose top image has the fewest critical → high → total vulns appear first.
+// The special "base" language (no-runtime images) always sorts last.
 func (r *Repository) QueryLanguages() ([]string, error) {
 	rows, err := r.db.Query(`
 		SELECT LOWER(l.language) AS lang
