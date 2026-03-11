@@ -1,20 +1,25 @@
 {
-  "generatedAt": "2026-03-11T04:26:58Z",
+  "generatedAt": "2026-03-11T08:35:20Z",
   "topN": 20,
   "scannedRepositories": [
     {
-      "description": "Azure Linux base images",
+      "description": "Base / minimal images (no runtime)",
       "images": [
-        "azurelinux/base/core",
+        "mcr.microsoft.com/azurelinux/base/core:3.0",
+        "mcr.microsoft.com/azurelinux/distroless/base:3.0",
+        "mcr.microsoft.com/azurelinux/distroless/minimal:3.0"
+      ]
+    },
+    {
+      "description": "Azure Linux Python and Node.js images",
+      "images": [
         "azurelinux/base/python",
         "azurelinux/base/nodejs"
       ]
     },
     {
-      "description": "Azure Linux distroless images",
+      "description": "Azure Linux distroless runtime images",
       "images": [
-        "azurelinux/distroless/base",
-        "azurelinux/distroless/minimal",
         "azurelinux/distroless/python",
         "azurelinux/distroless/nodejs"
       ]
@@ -843,6 +848,54 @@
       "pinnedReference": "mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0@sha256:478302acc4bda2d4f0179a7077b3b04670ce888311fc874cf3596ba9f5809680",
       "stableTag": "mcr.microsoft.com/dotnet/sdk:3.12",
       "dockerfileFrom": "FROM mcr.microsoft.com/dotnet/sdk:10.0-azurelinux3.0@sha256:478302acc4bda2d4f0179a7077b3b04670ce888311fc874cf3596ba9f5809680"
+    },
+    {
+      "rank": 1,
+      "language": "base",
+      "baseOS": "Azure Linux",
+      "name": "mcr.microsoft.com/azurelinux/distroless/minimal:3.0",
+      "version": "3.0",
+      "criticalVulnerabilities": 0,
+      "highVulnerabilities": 0,
+      "totalVulnerabilities": 0,
+      "sizeBytes": 3795845,
+      "sizeHuman": "3.6 MB",
+      "digest": "sha256:c9a1ed9515e033bca0c0b3171eccec41790bfcb9e47f05130cddc0a458de46ba",
+      "pinnedReference": "mcr.microsoft.com/azurelinux/distroless/minimal:3.0@sha256:c9a1ed9515e033bca0c0b3171eccec41790bfcb9e47f05130cddc0a458de46ba",
+      "stableTag": "mcr.microsoft.com/azurelinux/distroless/minimal:3.0",
+      "dockerfileFrom": "FROM mcr.microsoft.com/azurelinux/distroless/minimal:3.0@sha256:c9a1ed9515e033bca0c0b3171eccec41790bfcb9e47f05130cddc0a458de46ba"
+    },
+    {
+      "rank": 2,
+      "language": "base",
+      "baseOS": "Azure Linux",
+      "name": "mcr.microsoft.com/azurelinux/distroless/base:3.0",
+      "version": "3.0",
+      "criticalVulnerabilities": 0,
+      "highVulnerabilities": 0,
+      "totalVulnerabilities": 0,
+      "sizeBytes": 35651584,
+      "sizeHuman": "34.0 MB",
+      "digest": "sha256:8bbbbda3413b8194a6b42694eef229498de506a65544a402f6ae32f63ea5cc5a",
+      "pinnedReference": "mcr.microsoft.com/azurelinux/distroless/base:3.0@sha256:8bbbbda3413b8194a6b42694eef229498de506a65544a402f6ae32f63ea5cc5a",
+      "stableTag": "mcr.microsoft.com/azurelinux/distroless/base:3.0",
+      "dockerfileFrom": "FROM mcr.microsoft.com/azurelinux/distroless/base:3.0@sha256:8bbbbda3413b8194a6b42694eef229498de506a65544a402f6ae32f63ea5cc5a"
+    },
+    {
+      "rank": 3,
+      "language": "base",
+      "baseOS": "Azure Linux",
+      "name": "mcr.microsoft.com/azurelinux/base/core:3.0",
+      "version": "3.0",
+      "criticalVulnerabilities": 0,
+      "highVulnerabilities": 0,
+      "totalVulnerabilities": 0,
+      "sizeBytes": 78957772,
+      "sizeHuman": "75.3 MB",
+      "digest": "sha256:2a97a634da103fbfc21697f0136231f17ad18f7880a5be94488c5d2b15eb02d3",
+      "pinnedReference": "mcr.microsoft.com/azurelinux/base/core:3.0@sha256:2a97a634da103fbfc21697f0136231f17ad18f7880a5be94488c5d2b15eb02d3",
+      "stableTag": "mcr.microsoft.com/azurelinux/base/core:3.0",
+      "dockerfileFrom": "FROM mcr.microsoft.com/azurelinux/base/core:3.0@sha256:2a97a634da103fbfc21697f0136231f17ad18f7880a5be94488c5d2b15eb02d3"
     }
   ]
 }

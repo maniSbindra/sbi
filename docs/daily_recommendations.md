@@ -1,23 +1,26 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-03-11T04:26:58Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
+_Generated: 2026-03-11T08:35:20Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
 ## Scanned Repositories and Images
 
-This report includes analysis from **37 configured sources** across 7 groups (see [repositories.json](../config/repositories.json)):
+This report includes analysis from **37 configured sources** across 8 groups (see [repositories.json](../config/repositories.json)):
 
-**Azure Linux base images:**
+**Base / minimal images (no runtime):**
 
-- `azurelinux/base/core`
+- `mcr.microsoft.com/azurelinux/base/core:3.0`
+- `mcr.microsoft.com/azurelinux/distroless/base:3.0`
+- `mcr.microsoft.com/azurelinux/distroless/minimal:3.0`
+
+**Azure Linux Python and Node.js images:**
+
 - `azurelinux/base/python`
 - `azurelinux/base/nodejs`
 
-**Azure Linux distroless images:**
+**Azure Linux distroless runtime images:**
 
-- `azurelinux/distroless/base`
-- `azurelinux/distroless/minimal`
 - `azurelinux/distroless/python`
 - `azurelinux/distroless/nodejs`
 
@@ -155,3 +158,11 @@ This report includes analysis from **37 configured sources** across 7 groups (se
 | 8 | `mcr.microsoft.com/openjdk/jdk:25-azurelinux` | 3.12.9 | 0 | 0 | 0 | 527.0 MB | `sha256:e84b14873c27` | `mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:e84b14873c2736485e066b54773ab00e6d7eef0a8a6f89e0bf0284935314fafb` |
 | 9 | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 809.0 MB | `sha256:8deb7086a5fd` | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:8deb7086a5fd7fe8b4258ca4c3431141b3d0daafc514c7da09d01da43a6e6ad0` |
 | 10 | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 841.0 MB | `sha256:1c76136f9648` | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:1c76136f964815a0eeea177a348fc7a7ca19c9c1a25e6b31a4666dbb5b210cc4` |
+
+## Base / No Runtime
+
+| Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
+|------|-------|---------|------|------|-------|------|--------|------------------|
+| 1 | `mcr.microsoft.com/azurelinux/distroless/minimal:3.0` | 3.0 | 0 | 0 | 0 | 3.6 MB | `sha256:c9a1ed9515e0` | `mcr.microsoft.com/azurelinux/distroless/minimal:3.0@sha256:c9a1ed9515e033bca0c0b3171eccec41790bfcb9e47f05130cddc0a458de46ba` |
+| 2 | `mcr.microsoft.com/azurelinux/distroless/base:3.0` | 3.0 | 0 | 0 | 0 | 34.0 MB | `sha256:8bbbbda3413b` | `mcr.microsoft.com/azurelinux/distroless/base:3.0@sha256:8bbbbda3413b8194a6b42694eef229498de506a65544a402f6ae32f63ea5cc5a` |
+| 3 | `mcr.microsoft.com/azurelinux/base/core:3.0` | 3.0 | 0 | 0 | 0 | 75.3 MB | `sha256:2a97a634da10` | `mcr.microsoft.com/azurelinux/base/core:3.0@sha256:2a97a634da103fbfc21697f0136231f17ad18f7880a5be94488c5d2b15eb02d3` |
