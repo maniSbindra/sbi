@@ -11,18 +11,24 @@
   },
   "repositories": [
     {
-      "description": "Azure Linux base images",
+      "description": "Base / minimal images (no runtime)",
+      "category": "base",
       "images": [
-        "azurelinux/base/core",
+        "mcr.microsoft.com/azurelinux/base/core:3.0",
+        "mcr.microsoft.com/azurelinux/distroless/base:3.0",
+        "mcr.microsoft.com/azurelinux/distroless/minimal:3.0"
+      ]
+    },
+    {
+      "description": "Azure Linux Python and Node.js images",
+      "images": [
         "azurelinux/base/python",
         "azurelinux/base/nodejs"
       ]
     },
     {
-      "description": "Azure Linux distroless images",
+      "description": "Azure Linux distroless runtime images",
       "images": [
-        "azurelinux/distroless/base",
-        "azurelinux/distroless/minimal",
         "azurelinux/distroless/python",
         "azurelinux/distroless/nodejs"
       ]

@@ -48,23 +48,20 @@ func NewPipeline(config domain.ScanConfig, repo *database.Repository) (*Pipeline
 
 // ScanAll loads repositories from config, discovers tags, and scans all images.
 func (p *Pipeline) ScanAll() error {
-	var allImages []string
 	for _, group := range p.repoCfg.Repositories {
-		allImages = append(allImages, group.Images...)
-	}
+		repos, singleImages := scanner.ParseImagePatterns(group.Images)
+		log.Infof("Group %q: %d repositories, %d single images", group.Description, len(repos), len(singleImages))
 
-	repos, singleImages := scanner.ParseImagePatterns(allImages)
-	log.Infof("Found %d repositories and %d single images to scan", len(repos), len(singleImages))
-
-	for _, repo := range repos {
-		if err := p.scanRepository(repo); err != nil {
-			log.Errorf("Error scanning repository %s: %v", repo, err)
+		for _, repo := range repos {
+			if err := p.scanRepository(repo, group.Category); err != nil {
+				log.Errorf("Error scanning repository %s: %v", repo, err)
+			}
 		}
-	}
 
-	for _, img := range singleImages {
-		if err := p.scanSingleImage(img); err != nil {
-			log.Errorf("Error scanning image %s: %v", img, err)
+		for _, img := range singleImages {
+			if err := p.scanSingleImage(img, group.Category); err != nil {
+				log.Errorf("Error scanning image %s: %v", img, err)
+			}
 		}
 	}
 
@@ -73,7 +70,7 @@ func (p *Pipeline) ScanAll() error {
 
 // ScanImage scans a single image by name.
 func (p *Pipeline) ScanImage(imageName string) error {
-	return p.scanSingleImage(imageName)
+	return p.scanSingleImage(imageName, "")
 }
 
 // GenerateReport generates both the markdown and JSON recommendations reports.
@@ -87,7 +84,7 @@ func (p *Pipeline) GenerateReport() error {
 	return report.GenerateJSONReport(p.repo, jsonPath, p.config.TopNJSON, &p.repoCfg)
 }
 
-func (p *Pipeline) scanRepository(repo string) error {
+func (p *Pipeline) scanRepository(repo string, category string) error {
 	log.Infof("Scanning repository: %s", repo)
 
 	tags, err := p.registry.GetTags(repo)
@@ -104,7 +101,7 @@ func (p *Pipeline) scanRepository(repo string) error {
 	for _, tag := range limited {
 		imageName := scanner.BuildFullImageName(defaultRegistry, repo, tag)
 
-		if err := p.scanSingleImage(imageName); err != nil {
+		if err := p.scanSingleImage(imageName, category); err != nil {
 			log.Errorf("Error scanning %s: %v", imageName, err)
 		}
 	}
@@ -112,7 +109,7 @@ func (p *Pipeline) scanRepository(repo string) error {
 	return nil
 }
 
-func (p *Pipeline) scanSingleImage(imageName string) error {
+func (p *Pipeline) scanSingleImage(imageName string, category string) error {
 	if !p.config.UpdateExisting {
 		exists, err := p.repo.ImageExists(imageName)
 		if err != nil {
@@ -128,6 +125,16 @@ func (p *Pipeline) scanSingleImage(imageName string) error {
 	analysis, err := p.analyzer.Analyze(imageName)
 	if err != nil {
 		return fmt.Errorf("analyzing %s: %w", imageName, err)
+	}
+
+	if category == "base" && len(analysis.Image.Languages) == 0 {
+		analysis.Image.Languages = append(analysis.Image.Languages, domain.Language{
+			Language:    "base",
+			Version:     analysis.Image.BaseOSVersion,
+			MajorMinor:  analysis.Image.BaseOSVersion,
+			PackageName: "Base OS",
+			PackageType: "base",
+		})
 	}
 
 	if err := p.repo.InsertImage(&analysis.Image); err != nil {

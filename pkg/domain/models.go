@@ -140,8 +140,10 @@ type TagFilterConfig struct {
 }
 
 // RepositoryGroup holds a set of related image sources.
+// Category can be "base" to mark minimal/no-runtime images.
 type RepositoryGroup struct {
 	Description string   `json:"description"`
+	Category    string   `json:"category,omitempty"`
 	Images      []string `json:"images"`
 }
 

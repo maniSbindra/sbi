@@ -330,3 +330,40 @@ func TestQueryTopImagesByOS_ZeroMeansUnlimited(t *testing.T) {
 	require.NoError(t, err)
 	assert.Len(t, result, 5)
 }
+
+func TestQueryLanguages_BaseSortsLast(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "base-core:3.0", Registry: "r", Repository: "repo", Tag: "3.0",
+			BaseOSName: "azurelinux", BaseOSVersion: "3.0",
+			CriticalVulnerabilities: 0, TotalVulnerabilities: 0,
+			Languages: []domain.Language{{Language: "base", Version: "3.0", PackageType: "base"}},
+		},
+		{
+			Name: "python-img:3.12", Registry: "r", Repository: "repo2", Tag: "3.12",
+			CriticalVulnerabilities: 5, TotalVulnerabilities: 20,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+		{
+			Name: "go-img:1.21", Registry: "r", Repository: "repo3", Tag: "1.21",
+			CriticalVulnerabilities: 2, TotalVulnerabilities: 10,
+			Languages: []domain.Language{{Language: "go", Version: "1.21"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	languages, err := repo.QueryLanguages()
+	require.NoError(t, err)
+	require.Len(t, languages, 3)
+
+	// "base" should be last despite having 0 vulnerabilities
+	assert.Equal(t, "go", languages[0])
+	assert.Equal(t, "python", languages[1])
+	assert.Equal(t, "base", languages[2])
+}

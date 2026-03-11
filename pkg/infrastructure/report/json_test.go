@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/manisbindra/sbi/pkg/domain"
@@ -256,4 +257,103 @@ func TestGenerateJSONReport_UnknownOSAsOther(t *testing.T) {
 
 	require.Len(t, report.Images, 1)
 	assert.Equal(t, "Other", report.Images[0].BaseOS)
+}
+
+func TestGenerateJSONReport_BaseLanguageAppearsLast(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "base-core:3.0", Registry: "r", Repository: "repo", Tag: "3.0",
+			BaseOSName: "azurelinux", BaseOSVersion: "3.0",
+			CriticalVulnerabilities: 0, TotalVulnerabilities: 0,
+			Languages: []domain.Language{{Language: "base", Version: "3.0", PackageType: "base"}},
+		},
+		{
+			Name: "python-img:3.12", Registry: "r", Repository: "repo2", Tag: "3.12",
+			BaseOSName: "azurelinux",
+			CriticalVulnerabilities: 1, TotalVulnerabilities: 5,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	outPath := filepath.Join(t.TempDir(), "report.json")
+	require.NoError(t, GenerateJSONReport(repo, outPath, 10, nil))
+
+	data, err := os.ReadFile(outPath)
+	require.NoError(t, err)
+
+	var report JSONReport
+	require.NoError(t, json.Unmarshal(data, &report))
+
+	require.Len(t, report.Images, 2)
+	// python should come first, base last
+	assert.Equal(t, "python", report.Images[0].Language)
+	assert.Equal(t, "base", report.Images[1].Language)
+}
+
+func TestGenerateMarkdownReport_BaseLanguageSection(t *testing.T) {
+	db, repo := setupTestDB(t)
+	defer func() { _ = db.Close() }()
+
+	images := []domain.ImageRecord{
+		{
+			Name: "base-core:3.0", Registry: "r", Repository: "repo", Tag: "3.0",
+			BaseOSName: "azurelinux", BaseOSVersion: "3.0",
+			Digest: "sha256:abc123", SizeBytes: 50000000,
+			CriticalVulnerabilities: 0, TotalVulnerabilities: 1,
+			Languages: []domain.Language{{Language: "base", Version: "3.0", PackageType: "base"}},
+		},
+		{
+			Name: "python-img:3.12", Registry: "r", Repository: "repo2", Tag: "3.12",
+			BaseOSName: "azurelinux",
+			CriticalVulnerabilities: 0, TotalVulnerabilities: 3,
+			Languages: []domain.Language{{Language: "python", Version: "3.12"}},
+		},
+	}
+
+	for i := range images {
+		require.NoError(t, repo.InsertImage(&images[i]))
+	}
+
+	outPath := filepath.Join(t.TempDir(), "report.md")
+	require.NoError(t, GenerateReport(repo, outPath, 10, nil))
+
+	data, err := os.ReadFile(outPath)
+	require.NoError(t, err)
+	content := string(data)
+
+	// Python section should appear before Base section
+	pythonIdx := strings.Index(content, "## Python")
+	baseIdx := strings.Index(content, "## Base / No Runtime")
+	assert.Greater(t, pythonIdx, -1, "should contain Python section")
+	assert.Greater(t, baseIdx, -1, "should contain Base / No Runtime section")
+	assert.Less(t, pythonIdx, baseIdx, "Python should appear before Base / No Runtime")
+
+	// Base section should contain the base image
+	assert.Contains(t, content, "base-core:3.0")
+}
+
+func TestDisplayLanguageName(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"base", "Base / No Runtime"},
+		{"python", "Python"},
+		{"go", "Go"},
+		{"dotnet", "Dotnet"},
+		{"java", "Java"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			assert.Equal(t, tt.expected, DisplayLanguageName(tt.input))
+		})
+	}
 }
