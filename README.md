@@ -1,5 +1,7 @@
 # SBI — Secure Base Image Recommendations
 
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/maniSbindra/sbi/badge)](https://scorecard.dev/viewer/?uri=github.com/maniSbindra/sbi)
+
 Every night, this project scans configured MCR (Microsoft Container Registry) container base images for vulnerabilities and generates a recommended secure base images report, ranked by language. The default configuration targets MCR images, but the tool supports scanning any container registry.
 
 ## 📊 Daily Reports
