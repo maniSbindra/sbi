@@ -49,7 +49,7 @@ jobs:
 
       - name: 🔧 Install Syft
         run: |
-          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/860126c650c2d05b63b83a3895e41268162315a3/install.sh | sh -s -- -b /usr/local/bin  # v1.42.3
 
       - name: 🔧 Install Trivy
         run: |
@@ -58,7 +58,7 @@ jobs:
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
           echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
           sudo apt-get update -y
-          sudo apt-get install -y trivy
+          sudo apt-get install -y trivy=0.69.3
 
       - name: 🔍 Run smoke test scan
         run: |
