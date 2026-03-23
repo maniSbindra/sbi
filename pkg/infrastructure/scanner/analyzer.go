@@ -191,7 +191,7 @@ func (a *ImageAnalyzer) verifyRuntimes(imageName string, languages []domain.Lang
 }
 
 // dotnetImagePattern detects .NET from image names like mcr.microsoft.com/dotnet/aspnet:8.0
-var dotnetImagePattern = regexp.MustCompile(`(?i)mcr\.microsoft\.com/dotnet/(?:aspnet|runtime):(\d+\.\d+)`)
+var dotnetImagePattern = regexp.MustCompile(`^(?i)mcr\.microsoft\.com/dotnet/(?:aspnet|runtime):(\d+\.\d+)`)
 
 // mergeLanguages combines Syft-detected languages with image-name-based detection
 // (e.g. dotnet from mcr.microsoft.com/dotnet/aspnet:8.0).
