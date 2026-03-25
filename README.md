@@ -149,10 +149,6 @@ config/                        # Image sources and tag filter config
 docs/                          # Generated daily reports
 ```
 
-## Background
-
-This project replicates and extends the nightly recommendations pipeline from [secure-container-base-image-recommender](https://github.com/maniSbindra/secure-container-base-image-recommender) (Python) in Go.
-
 ## License
 
 MIT
