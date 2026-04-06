@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-05T04:47:52Z",
+  "generatedAt": "2026-04-06T04:55:43Z",
   "topN": 20,
   "scannedRepositories": [
     {
@@ -201,7 +201,7 @@
       "version": "8.0.25",
       "criticalVulnerabilities": 1,
       "highVulnerabilities": 7,
-      "totalVulnerabilities": 117,
+      "totalVulnerabilities": 121,
       "sizeBytes": 202375168,
       "sizeHuman": "193.0 MB",
       "digest": "sha256:b473b5d596c09fd55bb41f615623d349712013c1c6f4dfff9db741ac8dff36ec",
@@ -217,7 +217,7 @@
       "version": "8.0.25",
       "criticalVulnerabilities": 1,
       "highVulnerabilities": 7,
-      "totalVulnerabilities": 117,
+      "totalVulnerabilities": 121,
       "sizeBytes": 228589568,
       "sizeHuman": "218.0 MB",
       "digest": "sha256:d4d80bf500f4c8307e5c44bf61eb58aec027da07c4d1c40816846fe5eef3f34d",
@@ -233,7 +233,7 @@
       "version": "8.0.419",
       "criticalVulnerabilities": 1,
       "highVulnerabilities": 18,
-      "totalVulnerabilities": 204,
+      "totalVulnerabilities": 208,
       "sizeBytes": 891289600,
       "sizeHuman": "850.0 MB",
       "digest": "sha256:a9330090b730c2abde8f3f43b3d1e24e4b8cba028de7bab1a7fdcd50cb7a3b7e",
