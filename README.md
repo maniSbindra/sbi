@@ -39,17 +39,24 @@ Image sources and tag filtering rules are configured in [`config/repositories.js
 ### Quick Start
 
 ```bash
-# Build
-task build
+# Install
+go install github.com/manisbindra/sbi@latest
 
 # Scan all configured repositories and generate reports
-./bin/daily-recommendations scan --verbose
+sbi scan --verbose
 
 # Regenerate reports from existing database
-./bin/daily-recommendations report
+sbi report
 
 # Clear the database
-./bin/daily-recommendations reset-db
+sbi reset-db
+```
+
+### Build from Source
+
+```bash
+task build
+./bin/$(go env GOOS)-$(go env GOARCH)/sbi scan --verbose
 ```
 
 ### CLI Flags
@@ -137,7 +144,7 @@ task all          # Build + test + lint
 ## Project Structure
 
 ```text
-cmd/                           # CLI entry point and cobra commands
+*.go                           # CLI entry point and cobra commands (root level)
 pkg/
   domain/                      # Domain models (ImageRecord, Language, etc.)
   infrastructure/

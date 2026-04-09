@@ -50,7 +50,7 @@ jobs:
 
       - name: 🗑️ Clear database entries
         run: |
-          ./bin/linux-amd64/daily-recommendations reset-db \
+          ./bin/linux-amd64/sbi reset-db \
             --database azure_linux_images.db \
             -v
 

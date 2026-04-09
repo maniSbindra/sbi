@@ -1,6 +1,6 @@
 {
   "name": "Secure Base Image Daily Recommendations",
-  "image": "mcr.microsoft.com/devcontainers/go:1.24-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/go:1.26-bookworm",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "configureZshAsDefaultShell": false

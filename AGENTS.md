@@ -8,12 +8,12 @@
 - **Language:** Go 1.26, built with `task build`
 - **CLI framework:** Cobra (`github.com/spf13/cobra`)
 - **Database:** SQLite via `modernc.org/sqlite` (pure Go, no CGO)
-- **Binary name:** `daily-recommendations`
+- **Binary name:** `sbi`
 
 ## Repository Structure
 
 ```text
-cmd/                          # Cobra CLI commands (scan, report, reset-db)
+*.go (root)                   # Cobra CLI commands (scan, report, reset-db)
 pkg/
   domain/                     # Data models (ImageRecord, Language, Vulnerability, etc.)
   infrastructure/
@@ -45,7 +45,7 @@ All commands use [Task](https://taskfile.dev/) (see `Taskfile.yml`).
 **Always run `task lint` before creating a PR** — CI runs linting on all PRs and will fail on errors.
 
 ```bash
-task build          # Build binary to bin/{OS}-{ARCH}/daily-recommendations
+task build          # Build binary to bin/{OS}-{ARCH}/sbi
 task test           # Unit tests with coverage
 task test:short     # Fast tests without coverage
 task lint           # All linters: golangci-lint, markdown, YAML, govulncheck
@@ -61,8 +61,11 @@ task clean          # Remove build/coverage artifacts
 ## CLI Usage
 
 ```bash
+# Install
+go install github.com/manisbindra/sbi@latest
+
 # Scan images and generate report
-daily-recommendations scan \
+sbi scan \
   --database azure_linux_images.db \
   --config-dir config \
   --output docs/daily_recommendations.md \
@@ -72,10 +75,10 @@ daily-recommendations scan \
   --verbose
 
 # Generate report from existing DB
-daily-recommendations report --database azure_linux_images.db
+sbi report --database azure_linux_images.db
 
 # Reset database
-daily-recommendations reset-db --database azure_linux_images.db
+sbi reset-db --database azure_linux_images.db
 ```
 
 **Key flags:**

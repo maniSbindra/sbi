@@ -57,7 +57,7 @@ jobs:
 
       - name: 🔍 Run smoke test scan
         run: |
-          ./bin/linux-amd64/daily-recommendations scan \
+          ./bin/linux-amd64/sbi scan \
             --database smoke-test.db \
             --config-dir config/smoke-test \
             --output smoke-test-report.md \
