@@ -22,7 +22,7 @@ archives:
         formats:
           - zip
     files:
-      - config/repositories.txt
+      - config/repositories.json
       - README.md
       - LICENSE
 

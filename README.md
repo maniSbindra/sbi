@@ -36,17 +36,11 @@ Image sources and tag filtering rules are configured in [`config/repositories.js
 
 - **Go** 1.26+, **Docker**, **[Syft](https://github.com/anchore/syft#installation)**, **[Trivy](https://github.com/aquasecurity/trivy#get-trivy)**
 
-### Install via Go
-
-```bash
-go install github.com/manisbindra/sbi@latest
-```
-
 ### Quick Start
 
 ```bash
-# Build
-task build
+# Install
+go install github.com/manisbindra/sbi@latest
 
 # Scan all configured repositories and generate reports
 sbi scan --verbose
@@ -56,6 +50,13 @@ sbi report
 
 # Clear the database
 sbi reset-db
+```
+
+### Build from Source
+
+```bash
+task build
+./bin/$(go env GOOS)-$(go env GOARCH)/sbi scan --verbose
 ```
 
 ### CLI Flags

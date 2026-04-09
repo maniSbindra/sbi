@@ -61,6 +61,9 @@ task clean          # Remove build/coverage artifacts
 ## CLI Usage
 
 ```bash
+# Install
+go install github.com/manisbindra/sbi@latest
+
 # Scan images and generate report
 sbi scan \
   --database azure_linux_images.db \
