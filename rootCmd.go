@@ -21,7 +21,7 @@ var (
 // NewRootCommand creates the root cobra command.
 func NewRootCommand() *cobra.Command {
 	rootCmd := &cobra.Command{
-		Use:   "daily-recommendations",
+		Use:   "sbi",
 		Short: "Scan container images and generate daily security recommendations by language",
 		Long: `Scans container registries (MCR, Docker Hub, etc.) for base images,
 analyzes them with Syft (SBOM) and Trivy (vulnerabilities), stores results in SQLite,

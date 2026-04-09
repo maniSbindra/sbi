@@ -36,6 +36,12 @@ Image sources and tag filtering rules are configured in [`config/repositories.js
 
 - **Go** 1.26+, **Docker**, **[Syft](https://github.com/anchore/syft#installation)**, **[Trivy](https://github.com/aquasecurity/trivy#get-trivy)**
 
+### Install via Go
+
+```bash
+go install github.com/manisbindra/sbi@latest
+```
+
 ### Quick Start
 
 ```bash
@@ -43,13 +49,13 @@ Image sources and tag filtering rules are configured in [`config/repositories.js
 task build
 
 # Scan all configured repositories and generate reports
-./bin/daily-recommendations scan --verbose
+sbi scan --verbose
 
 # Regenerate reports from existing database
-./bin/daily-recommendations report
+sbi report
 
 # Clear the database
-./bin/daily-recommendations reset-db
+sbi reset-db
 ```
 
 ### CLI Flags
@@ -137,7 +143,7 @@ task all          # Build + test + lint
 ## Project Structure
 
 ```text
-cmd/                           # CLI entry point and cobra commands
+*.go                           # CLI entry point and cobra commands (root level)
 pkg/
   domain/                      # Domain models (ImageRecord, Language, etc.)
   infrastructure/

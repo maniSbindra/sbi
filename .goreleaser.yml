@@ -2,7 +2,7 @@
 ---
 version: 2
 
-project_name: daily-recommendations
+project_name: sbi
 
 report_sizes: true
 
@@ -11,9 +11,9 @@ before:
     - go mod download
 
 archives:
-  - id: daily-recommendations
+  - id: sbi
     ids:
-      - daily-recommendations
+      - sbi
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - tar.gz
@@ -27,9 +27,8 @@ archives:
       - LICENSE
 
 builds:
-  - id: daily-recommendations
+  - id: sbi
     binary: "{{ .ProjectName }}"
-    dir: cmd
     env:
       - CGO_ENABLED=0
     mod_timestamp: "{{ .CommitTimestamp }}"

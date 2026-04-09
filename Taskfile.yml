@@ -6,7 +6,7 @@ version: "3"
 set: [pipefail]
 
 vars:
-  PROJECT_NAME: daily-recommendations
+  PROJECT_NAME: sbi
   BUILD_DEV_OUTPUT_DIR: bin/{{OS}}-{{ARCH}}
   BUILD_DEV_ARTIFACT: "{{.BUILD_DEV_OUTPUT_DIR}}/{{.PROJECT_NAME}}{{exeExt}}"
 
@@ -31,7 +31,7 @@ tasks:
   build:
     desc: Build the binary
     cmds:
-      - go build -o {{.BUILD_DEV_ARTIFACT}} ./cmd
+      - go build -o {{.BUILD_DEV_ARTIFACT}} .
     sources:
       - "**/*.go"
       - go.mod
