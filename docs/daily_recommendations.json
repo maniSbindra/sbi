@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T07:50:17Z",
+  "generatedAt": "2026-04-10T04:59:47Z",
   "topN": 20,
   "scannedRepositories": [
     {
@@ -200,7 +200,7 @@
       "name": "mcr.microsoft.com/dotnet/runtime:8.0",
       "version": "8.0.25",
       "criticalVulnerabilities": 1,
-      "highVulnerabilities": 7,
+      "highVulnerabilities": 9,
       "totalVulnerabilities": 135,
       "sizeBytes": 202375168,
       "sizeHuman": "193.0 MB",
@@ -216,7 +216,7 @@
       "name": "mcr.microsoft.com/dotnet/aspnet:8.0",
       "version": "8.0.25",
       "criticalVulnerabilities": 1,
-      "highVulnerabilities": 7,
+      "highVulnerabilities": 9,
       "totalVulnerabilities": 135,
       "sizeBytes": 228589568,
       "sizeHuman": "218.0 MB",
@@ -232,7 +232,7 @@
       "name": "mcr.microsoft.com/dotnet/sdk:8.0",
       "version": "8.0.419",
       "criticalVulnerabilities": 1,
-      "highVulnerabilities": 18,
+      "highVulnerabilities": 20,
       "totalVulnerabilities": 222,
       "sizeBytes": 892338176,
       "sizeHuman": "851.0 MB",
