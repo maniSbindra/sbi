@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-13T05:24:56Z",
+  "generatedAt": "2026-04-14T04:57:08Z",
   "topN": 20,
   "scannedRepositories": [
     {
@@ -396,10 +396,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 857735168,
       "sizeHuman": "818.0 MB",
-      "digest": "sha256:3efee8683ba87f9b3e0155cd932f9b79b16354e11410bffaa91a974ad13b9954",
-      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:3efee8683ba87f9b3e0155cd932f9b79b16354e11410bffaa91a974ad13b9954",
+      "digest": "sha256:12078713878ec827997a05d29de4430056f7e7e982deae74f96bd305ba4e2a9e",
+      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:12078713878ec827997a05d29de4430056f7e7e982deae74f96bd305ba4e2a9e",
       "stableTag": "mcr.microsoft.com/oss/go/microsoft/golang:1.25",
-      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:3efee8683ba87f9b3e0155cd932f9b79b16354e11410bffaa91a974ad13b9954"
+      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:12078713878ec827997a05d29de4430056f7e7e982deae74f96bd305ba4e2a9e"
     },
     {
       "rank": 2,
@@ -412,10 +412,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 891289600,
       "sizeHuman": "850.0 MB",
-      "digest": "sha256:33d887d995c314d0efbc0e8693a6821495f7b1b92516316fd9c8b43f74579dbd",
-      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:33d887d995c314d0efbc0e8693a6821495f7b1b92516316fd9c8b43f74579dbd",
+      "digest": "sha256:d8b025ce76cc35ed03f1c94b0ccdde04286e83a876b873540390e7dd3e7bb888",
+      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:d8b025ce76cc35ed03f1c94b0ccdde04286e83a876b873540390e7dd3e7bb888",
       "stableTag": "mcr.microsoft.com/oss/go/microsoft/golang:1.26",
-      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:33d887d995c314d0efbc0e8693a6821495f7b1b92516316fd9c8b43f74579dbd"
+      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:d8b025ce76cc35ed03f1c94b0ccdde04286e83a876b873540390e7dd3e7bb888"
     },
     {
       "rank": 1,
@@ -428,10 +428,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 335544320,
       "sizeHuman": "320.0 MB",
-      "digest": "sha256:f75cd3a6739d33f064fa9a88bd2964cc49ccc1011e67acaba86a99f981a1ff78",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:f75cd3a6739d33f064fa9a88bd2964cc49ccc1011e67acaba86a99f981a1ff78",
+      "digest": "sha256:1f8f2142a0b3264ab1f6f1f74bedaff41f5ce7e3c1ae24839f98412e5af439d9",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:1f8f2142a0b3264ab1f6f1f74bedaff41f5ce7e3c1ae24839f98412e5af439d9",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:11.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:f75cd3a6739d33f064fa9a88bd2964cc49ccc1011e67acaba86a99f981a1ff78"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:1f8f2142a0b3264ab1f6f1f74bedaff41f5ce7e3c1ae24839f98412e5af439d9"
     },
     {
       "rank": 2,
@@ -444,10 +444,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 339738624,
       "sizeHuman": "324.0 MB",
-      "digest": "sha256:3061d643f2bc0cf2449f0740c579a07a02450a7511ebecf6eba4d6c6d554fbf5",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:3061d643f2bc0cf2449f0740c579a07a02450a7511ebecf6eba4d6c6d554fbf5",
+      "digest": "sha256:4f7b81257a6f91464199ff59f67bae5b1c7d5be51de51999a12b08604ba6939c",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:4f7b81257a6f91464199ff59f67bae5b1c7d5be51de51999a12b08604ba6939c",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:17.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:3061d643f2bc0cf2449f0740c579a07a02450a7511ebecf6eba4d6c6d554fbf5"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:4f7b81257a6f91464199ff59f67bae5b1c7d5be51de51999a12b08604ba6939c"
     },
     {
       "rank": 3,
@@ -460,10 +460,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 368050176,
       "sizeHuman": "351.0 MB",
-      "digest": "sha256:b61a2b4c371ae687f09ca93247dfe97a3a301acd0cc9f819897870296a18c1f6",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:b61a2b4c371ae687f09ca93247dfe97a3a301acd0cc9f819897870296a18c1f6",
+      "digest": "sha256:d0a1e6199138394e412f34c25a2742f6155df7b5bcc917baade5bd7fed648302",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:d0a1e6199138394e412f34c25a2742f6155df7b5bcc917baade5bd7fed648302",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:21.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:b61a2b4c371ae687f09ca93247dfe97a3a301acd0cc9f819897870296a18c1f6"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:d0a1e6199138394e412f34c25a2742f6155df7b5bcc917baade5bd7fed648302"
     },
     {
       "rank": 4,
@@ -476,10 +476,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 415236096,
       "sizeHuman": "396.0 MB",
-      "digest": "sha256:b71de31a8cbc43f8a37ba461b1ace4d8516299e0b6a8bdc88c40f5325dc14962",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:b71de31a8cbc43f8a37ba461b1ace4d8516299e0b6a8bdc88c40f5325dc14962",
+      "digest": "sha256:d2ac87450c84c688d14de166b78924ee979030131626f3953eb3143eebc36c6c",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:d2ac87450c84c688d14de166b78924ee979030131626f3953eb3143eebc36c6c",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:25.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:b71de31a8cbc43f8a37ba461b1ace4d8516299e0b6a8bdc88c40f5325dc14962"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:d2ac87450c84c688d14de166b78924ee979030131626f3953eb3143eebc36c6c"
     },
     {
       "rank": 5,
@@ -492,10 +492,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 506462208,
       "sizeHuman": "483.0 MB",
-      "digest": "sha256:e3f0a467b5894b773aa6fbb74ff9c4a643eefabc5e04bfcf4ac4a7279bb2b58f",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:e3f0a467b5894b773aa6fbb74ff9c4a643eefabc5e04bfcf4ac4a7279bb2b58f",
+      "digest": "sha256:7db3552814e03af80b1a6762476e9e977ab4fcd61231efab68031125a0c809c1",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:7db3552814e03af80b1a6762476e9e977ab4fcd61231efab68031125a0c809c1",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:21.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:e3f0a467b5894b773aa6fbb74ff9c4a643eefabc5e04bfcf4ac4a7279bb2b58f"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:7db3552814e03af80b1a6762476e9e977ab4fcd61231efab68031125a0c809c1"
     },
     {
       "rank": 6,
@@ -508,10 +508,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 553648128,
       "sizeHuman": "528.0 MB",
-      "digest": "sha256:8ab181ccd4345cf977c9c68c0037ebce3a302c940b51c469bc3a3ca99611c098",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:8ab181ccd4345cf977c9c68c0037ebce3a302c940b51c469bc3a3ca99611c098",
+      "digest": "sha256:0187b4323c778eebb15f07e73284ac2d941a91bac0114d124930e70099a7f601",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0187b4323c778eebb15f07e73284ac2d941a91bac0114d124930e70099a7f601",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:25.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:8ab181ccd4345cf977c9c68c0037ebce3a302c940b51c469bc3a3ca99611c098"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0187b4323c778eebb15f07e73284ac2d941a91bac0114d124930e70099a7f601"
     },
     {
       "rank": 1,
@@ -521,13 +521,13 @@
       "version": "17.0.18",
       "criticalVulnerabilities": 0,
       "highVulnerabilities": 0,
-      "totalVulnerabilities": 56,
-      "sizeBytes": 455081984,
-      "sizeHuman": "434.0 MB",
-      "digest": "sha256:5a0e6f894ef8571e4005eb341b307f4ea8cc1faf55b91db7729ab2db5b0f305f",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:5a0e6f894ef8571e4005eb341b307f4ea8cc1faf55b91db7729ab2db5b0f305f",
+      "totalVulnerabilities": 74,
+      "sizeBytes": 447741952,
+      "sizeHuman": "427.0 MB",
+      "digest": "sha256:0086684a6d57806c558b53957f6b76480d95fbea96a6c3e40e6d5b214fde162d",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:0086684a6d57806c558b53957f6b76480d95fbea96a6c3e40e6d5b214fde162d",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:17.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:5a0e6f894ef8571e4005eb341b307f4ea8cc1faf55b91db7729ab2db5b0f305f"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:0086684a6d57806c558b53957f6b76480d95fbea96a6c3e40e6d5b214fde162d"
     },
     {
       "rank": 2,
@@ -537,13 +537,13 @@
       "version": "21.0.10",
       "criticalVulnerabilities": 0,
       "highVulnerabilities": 0,
-      "totalVulnerabilities": 56,
-      "sizeBytes": 483393536,
-      "sizeHuman": "461.0 MB",
-      "digest": "sha256:8a3e0c53d4458c9845dbbd87c7c9c5663df79e11b5d410c3a31a1c0a04ddf6bd",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:8a3e0c53d4458c9845dbbd87c7c9c5663df79e11b5d410c3a31a1c0a04ddf6bd",
+      "totalVulnerabilities": 74,
+      "sizeBytes": 476053504,
+      "sizeHuman": "454.0 MB",
+      "digest": "sha256:ca691fefdb3015f9b21b95fa481fae6e836ccdde1263be2d44934c702d0c7c23",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:ca691fefdb3015f9b21b95fa481fae6e836ccdde1263be2d44934c702d0c7c23",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:21.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:8a3e0c53d4458c9845dbbd87c7c9c5663df79e11b5d410c3a31a1c0a04ddf6bd"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:ca691fefdb3015f9b21b95fa481fae6e836ccdde1263be2d44934c702d0c7c23"
     },
     {
       "rank": 3,
@@ -553,13 +553,13 @@
       "version": "25.0.2",
       "criticalVulnerabilities": 0,
       "highVulnerabilities": 0,
-      "totalVulnerabilities": 56,
-      "sizeBytes": 529530880,
-      "sizeHuman": "505.0 MB",
-      "digest": "sha256:b5f2f7c67ab65fbd210893b880f02ce660218a4ea3a118800998024ae7857040",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-ubuntu@sha256:b5f2f7c67ab65fbd210893b880f02ce660218a4ea3a118800998024ae7857040",
+      "totalVulnerabilities": 74,
+      "sizeBytes": 523239424,
+      "sizeHuman": "499.0 MB",
+      "digest": "sha256:2960c2ba70d831f732a57f7f2e4dbe63dae903abd4e7b716b3bf9228710233ec",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-ubuntu@sha256:2960c2ba70d831f732a57f7f2e4dbe63dae903abd4e7b716b3bf9228710233ec",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:25.0",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-ubuntu@sha256:b5f2f7c67ab65fbd210893b880f02ce660218a4ea3a118800998024ae7857040"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-ubuntu@sha256:2960c2ba70d831f732a57f7f2e4dbe63dae903abd4e7b716b3bf9228710233ec"
     },
     {
       "rank": 1,
@@ -860,10 +860,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 506462208,
       "sizeHuman": "483.0 MB",
-      "digest": "sha256:e3f0a467b5894b773aa6fbb74ff9c4a643eefabc5e04bfcf4ac4a7279bb2b58f",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:e3f0a467b5894b773aa6fbb74ff9c4a643eefabc5e04bfcf4ac4a7279bb2b58f",
+      "digest": "sha256:7db3552814e03af80b1a6762476e9e977ab4fcd61231efab68031125a0c809c1",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:7db3552814e03af80b1a6762476e9e977ab4fcd61231efab68031125a0c809c1",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:3.12",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:e3f0a467b5894b773aa6fbb74ff9c4a643eefabc5e04bfcf4ac4a7279bb2b58f"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:7db3552814e03af80b1a6762476e9e977ab4fcd61231efab68031125a0c809c1"
     },
     {
       "rank": 8,
@@ -876,10 +876,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 553648128,
       "sizeHuman": "528.0 MB",
-      "digest": "sha256:8ab181ccd4345cf977c9c68c0037ebce3a302c940b51c469bc3a3ca99611c098",
-      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:8ab181ccd4345cf977c9c68c0037ebce3a302c940b51c469bc3a3ca99611c098",
+      "digest": "sha256:0187b4323c778eebb15f07e73284ac2d941a91bac0114d124930e70099a7f601",
+      "pinnedReference": "mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0187b4323c778eebb15f07e73284ac2d941a91bac0114d124930e70099a7f601",
       "stableTag": "mcr.microsoft.com/openjdk/jdk:3.12",
-      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:8ab181ccd4345cf977c9c68c0037ebce3a302c940b51c469bc3a3ca99611c098"
+      "dockerfileFrom": "FROM mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:0187b4323c778eebb15f07e73284ac2d941a91bac0114d124930e70099a7f601"
     },
     {
       "rank": 9,
@@ -892,10 +892,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 857735168,
       "sizeHuman": "818.0 MB",
-      "digest": "sha256:3efee8683ba87f9b3e0155cd932f9b79b16354e11410bffaa91a974ad13b9954",
-      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:3efee8683ba87f9b3e0155cd932f9b79b16354e11410bffaa91a974ad13b9954",
+      "digest": "sha256:12078713878ec827997a05d29de4430056f7e7e982deae74f96bd305ba4e2a9e",
+      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:12078713878ec827997a05d29de4430056f7e7e982deae74f96bd305ba4e2a9e",
       "stableTag": "mcr.microsoft.com/oss/go/microsoft/golang:3.12",
-      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:3efee8683ba87f9b3e0155cd932f9b79b16354e11410bffaa91a974ad13b9954"
+      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:12078713878ec827997a05d29de4430056f7e7e982deae74f96bd305ba4e2a9e"
     },
     {
       "rank": 10,
@@ -908,10 +908,10 @@
       "totalVulnerabilities": 0,
       "sizeBytes": 891289600,
       "sizeHuman": "850.0 MB",
-      "digest": "sha256:33d887d995c314d0efbc0e8693a6821495f7b1b92516316fd9c8b43f74579dbd",
-      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:33d887d995c314d0efbc0e8693a6821495f7b1b92516316fd9c8b43f74579dbd",
+      "digest": "sha256:d8b025ce76cc35ed03f1c94b0ccdde04286e83a876b873540390e7dd3e7bb888",
+      "pinnedReference": "mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:d8b025ce76cc35ed03f1c94b0ccdde04286e83a876b873540390e7dd3e7bb888",
       "stableTag": "mcr.microsoft.com/oss/go/microsoft/golang:3.12",
-      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:33d887d995c314d0efbc0e8693a6821495f7b1b92516316fd9c8b43f74579dbd"
+      "dockerfileFrom": "FROM mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:d8b025ce76cc35ed03f1c94b0ccdde04286e83a876b873540390e7dd3e7bb888"
     },
     {
       "rank": 11,
