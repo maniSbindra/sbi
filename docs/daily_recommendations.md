@@ -1,6 +1,6 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-04-25T04:48:08Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
+_Generated: 2026-04-26T05:23:18Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
@@ -87,9 +87,9 @@ This report includes analysis from **37 configured sources** across 8 groups (se
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/dotnet/runtime:8.0` | 8.0.26 | 1 | 7 | 131 | 193.0 MB | `sha256:24117fb11f2f` | `mcr.microsoft.com/dotnet/runtime:8.0@sha256:24117fb11f2f27bdacc6f1ffab16e3a7cddd2417b4eae5e6bc825810a0d1746d` |
-| 2 | `mcr.microsoft.com/dotnet/aspnet:8.0` | 8.0.26 | 1 | 7 | 131 | 218.0 MB | `sha256:f88c77644f4c` | `mcr.microsoft.com/dotnet/aspnet:8.0@sha256:f88c77644f4c480a62d3b46dc74db8d5472a24e282df8b1e56195c689d35a6db` |
-| 3 | `mcr.microsoft.com/dotnet/sdk:8.0` | 8.0.420 | 1 | 22 | 233 | 850.0 MB | `sha256:4b1cdaa57eed` | `mcr.microsoft.com/dotnet/sdk:8.0@sha256:4b1cdaa57eed2cecabcf29bdb9bce11e8ca1c287d39dfd2c8b534663ea94d493` |
+| 1 | `mcr.microsoft.com/dotnet/runtime:8.0` | 8.0.26 | 1 | 8 | 131 | 193.0 MB | `sha256:24117fb11f2f` | `mcr.microsoft.com/dotnet/runtime:8.0@sha256:24117fb11f2f27bdacc6f1ffab16e3a7cddd2417b4eae5e6bc825810a0d1746d` |
+| 2 | `mcr.microsoft.com/dotnet/aspnet:8.0` | 8.0.26 | 1 | 8 | 131 | 218.0 MB | `sha256:f88c77644f4c` | `mcr.microsoft.com/dotnet/aspnet:8.0@sha256:f88c77644f4c480a62d3b46dc74db8d5472a24e282df8b1e56195c689d35a6db` |
+| 3 | `mcr.microsoft.com/dotnet/sdk:8.0` | 8.0.420 | 1 | 23 | 233 | 850.0 MB | `sha256:4b1cdaa57eed` | `mcr.microsoft.com/dotnet/sdk:8.0@sha256:4b1cdaa57eed2cecabcf29bdb9bce11e8ca1c287d39dfd2c8b534663ea94d493` |
 
 ### Ubuntu
 
