@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-02T05:22:45Z",
+  "generatedAt": "2026-05-03T05:43:24Z",
   "topN": 20,
   "scannedRepositories": [
     {
@@ -233,7 +233,7 @@
       "version": "8.0.420",
       "criticalVulnerabilities": 1,
       "highVulnerabilities": 25,
-      "totalVulnerabilities": 279,
+      "totalVulnerabilities": 280,
       "sizeBytes": 891289600,
       "sizeHuman": "850.0 MB",
       "digest": "sha256:4b1cdaa57eed2cecabcf29bdb9bce11e8ca1c287d39dfd2c8b534663ea94d493",
