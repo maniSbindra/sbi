@@ -1,6 +1,6 @@
 # Daily Recommended Images by Language
 
-_Generated: 2026-05-04T05:46:30Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
+_Generated: 2026-05-05T05:26:44Z. Criteria: lowest critical → high → total vulnerabilities → size. Top 10 per language per base OS._
 
 **Note:** Image sizes are based on Linux amd64 platform as reported by `docker images` on GitHub runners. Actual sizes may vary significantly on other platforms (macOS, Windows, etc.).
 
@@ -87,9 +87,9 @@ This report includes analysis from **37 configured sources** across 8 groups (se
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/dotnet/runtime:8.0` | 8.0.26 | 1 | 10 | 148 | 193.0 MB | `sha256:24117fb11f2f` | `mcr.microsoft.com/dotnet/runtime:8.0@sha256:24117fb11f2f27bdacc6f1ffab16e3a7cddd2417b4eae5e6bc825810a0d1746d` |
-| 2 | `mcr.microsoft.com/dotnet/aspnet:8.0` | 8.0.26 | 1 | 10 | 148 | 218.0 MB | `sha256:f88c77644f4c` | `mcr.microsoft.com/dotnet/aspnet:8.0@sha256:f88c77644f4c480a62d3b46dc74db8d5472a24e282df8b1e56195c689d35a6db` |
-| 3 | `mcr.microsoft.com/dotnet/sdk:8.0` | 8.0.420 | 1 | 25 | 280 | 850.0 MB | `sha256:4b1cdaa57eed` | `mcr.microsoft.com/dotnet/sdk:8.0@sha256:4b1cdaa57eed2cecabcf29bdb9bce11e8ca1c287d39dfd2c8b534663ea94d493` |
+| 1 | `mcr.microsoft.com/dotnet/runtime:8.0` | 8.0.26 | 1 | 11 | 148 | 193.0 MB | `sha256:24117fb11f2f` | `mcr.microsoft.com/dotnet/runtime:8.0@sha256:24117fb11f2f27bdacc6f1ffab16e3a7cddd2417b4eae5e6bc825810a0d1746d` |
+| 2 | `mcr.microsoft.com/dotnet/aspnet:8.0` | 8.0.26 | 1 | 11 | 148 | 218.0 MB | `sha256:f88c77644f4c` | `mcr.microsoft.com/dotnet/aspnet:8.0@sha256:f88c77644f4c480a62d3b46dc74db8d5472a24e282df8b1e56195c689d35a6db` |
+| 3 | `mcr.microsoft.com/dotnet/sdk:8.0` | 8.0.420 | 1 | 26 | 280 | 850.0 MB | `sha256:4b1cdaa57eed` | `mcr.microsoft.com/dotnet/sdk:8.0@sha256:4b1cdaa57eed2cecabcf29bdb9bce11e8ca1c287d39dfd2c8b534663ea94d493` |
 
 ### Ubuntu
 
@@ -109,8 +109,8 @@ This report includes analysis from **37 configured sources** across 8 groups (se
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0` | 1.25.9 | 0 | 0 | 0 | 822.0 MB | `sha256:8680b50284d7` | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:8680b50284d74aba8714cabeaa23f05f4031af3c0c09da0bc4d75a8aaa8dc2df` |
-| 2 | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0` | 1.26.2 | 0 | 0 | 0 | 854.0 MB | `sha256:637bcd53d7c1` | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:637bcd53d7c139d2fa54d8d6e2bb3f9346b3ab1c9f03bb33ea56c3964d458f1b` |
+| 1 | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0` | 1.25.9 | 0 | 0 | 0 | 822.0 MB | `sha256:f1b6d4364039` | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:f1b6d43640396caed5ff8df814227254167bedaa53758e46aff11b8440098598` |
+| 2 | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0` | 1.26.2 | 0 | 0 | 0 | 854.0 MB | `sha256:257614fe59a6` | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:257614fe59a6e7fb56909eec9a59a6d0d0794a331ebc1d6dc93aa8ef995d34f5` |
 
 ## Java
 
@@ -118,29 +118,29 @@ This report includes analysis from **37 configured sources** across 8 groups (se
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/openjdk/jdk:21-azurelinux` | 21.0.11 | 0 | 0 | 0 | 487.0 MB | `sha256:46900625b8a8` | `mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:46900625b8a804dba870624fa817782c0536faa1b7601abc442f8782e5230880` |
-| 2 | `mcr.microsoft.com/openjdk/jdk:25-azurelinux` | 25.0.3 | 0 | 0 | 0 | 532.0 MB | `sha256:73293311b876` | `mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:73293311b876845dfa217670e033f1753c2a76818179d089a00b7b371076e06a` |
-| 3 | `mcr.microsoft.com/openjdk/jdk:11-distroless` | 11.0.31 | 0 | 0 | 10 | 321.0 MB | `sha256:3a6b2e21db45` | `mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:3a6b2e21db45d70ff32c6b035b2afbe850efa4b29b50e29548096720aa0588fa` |
-| 4 | `mcr.microsoft.com/openjdk/jdk:17-distroless` | 17.0.19 | 0 | 0 | 10 | 324.0 MB | `sha256:7832b16e4c65` | `mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:7832b16e4c651b68563e3d9f3b260a05749d5fb59e8981803fe0af2fef359c70` |
-| 5 | `mcr.microsoft.com/openjdk/jdk:21-distroless` | 21.0.11 | 0 | 0 | 10 | 351.0 MB | `sha256:19252a83dc50` | `mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:19252a83dc50f5fa9ff6c9f5e1b20e7e27a2d9561da67d7c51a80991d0d60671` |
-| 6 | `mcr.microsoft.com/openjdk/jdk:25-distroless` | 25.0.3 | 0 | 0 | 10 | 397.0 MB | `sha256:ba71afb9e71b` | `mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:ba71afb9e71bf2572d25891b4d4e2de01b2780f301eb00ba27b2281abea262d0` |
+| 1 | `mcr.microsoft.com/openjdk/jdk:21-azurelinux` | 21.0.11 | 0 | 0 | 0 | 487.0 MB | `sha256:be3a96becf15` | `mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:be3a96becf15c2798baeae4e41dbb4fcab18b392bb3345d14102fbbebec40807` |
+| 2 | `mcr.microsoft.com/openjdk/jdk:25-azurelinux` | 25.0.3 | 0 | 0 | 0 | 532.0 MB | `sha256:8b98cc01ceef` | `mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:8b98cc01ceef360513521589d79a116b394cfcba1eb30d77de003e4aa7989a8f` |
+| 3 | `mcr.microsoft.com/openjdk/jdk:11-distroless` | 11.0.31 | 0 | 0 | 10 | 321.0 MB | `sha256:20044ea659cb` | `mcr.microsoft.com/openjdk/jdk:11-distroless@sha256:20044ea659cb094923a0765bf024f0ae317fcaf5e7f38edb908132c5729439de` |
+| 4 | `mcr.microsoft.com/openjdk/jdk:17-distroless` | 17.0.19 | 0 | 0 | 10 | 324.0 MB | `sha256:d104af748518` | `mcr.microsoft.com/openjdk/jdk:17-distroless@sha256:d104af7485188a0f1162f96c2713c734510368e016c214bcc735d3509ddbf4a6` |
+| 5 | `mcr.microsoft.com/openjdk/jdk:21-distroless` | 21.0.11 | 0 | 0 | 10 | 351.0 MB | `sha256:e546a590cead` | `mcr.microsoft.com/openjdk/jdk:21-distroless@sha256:e546a590cead77104d2932e36f483766688f0e176cc38c4a19acd050bf644770` |
+| 6 | `mcr.microsoft.com/openjdk/jdk:25-distroless` | 25.0.3 | 0 | 0 | 10 | 397.0 MB | `sha256:20701d2f1c72` | `mcr.microsoft.com/openjdk/jdk:25-distroless@sha256:20701d2f1c72078f177fdfa014e22573b2b4b3ee4e151c8ed918f56aed61c5c4` |
 
 ### Ubuntu
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/openjdk/jdk:17-ubuntu` | 17.0.19 | 0 | 0 | 86 | 427.0 MB | `sha256:49cdbb37c3b1` | `mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:49cdbb37c3b1578b82bdd324015f541e7d336542ef34b35350246f8796c88c0f` |
-| 2 | `mcr.microsoft.com/openjdk/jdk:21-ubuntu` | 21.0.11 | 0 | 0 | 86 | 455.0 MB | `sha256:0c675e790ddd` | `mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:0c675e790dddc28b3522ccebc6146ed9914f3661b2f7efbb4f552fb883d7fd93` |
+| 1 | `mcr.microsoft.com/openjdk/jdk:17-ubuntu` | 17.0.19 | 0 | 0 | 86 | 427.0 MB | `sha256:46499bd2f536` | `mcr.microsoft.com/openjdk/jdk:17-ubuntu@sha256:46499bd2f5363e4cd3ad65709ffe722cd2b9dd8a6641419f27dd4226b8192985` |
+| 2 | `mcr.microsoft.com/openjdk/jdk:21-ubuntu` | 21.0.11 | 0 | 0 | 86 | 455.0 MB | `sha256:214bfc2f5267` | `mcr.microsoft.com/openjdk/jdk:21-ubuntu@sha256:214bfc2f5267c9ef885fffcfe55d81d9678fd3d8187c884b08204982bb18566d` |
 | 3 | `mcr.microsoft.com/openjdk/jdk:25-ubuntu` | 25.0.3 | 0 | 0 | 86 | 499.0 MB | `sha256:7aa60c9e9b4c` | `mcr.microsoft.com/openjdk/jdk:25-ubuntu@sha256:7aa60c9e9b4c7d3f8a70f1acbfd2d36a74b1578d08958fd804f16d7c58f1eed6` |
 
 ## Python
 
 | Rank | Image | Version | Crit | High | Total | Size | Digest | Pinned Reference |
 |------|-------|---------|------|------|-------|------|--------|------------------|
-| 1 | `mcr.microsoft.com/openjdk/jdk:21-azurelinux` | 3.12.9 | 0 | 0 | 0 | 487.0 MB | `sha256:46900625b8a8` | `mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:46900625b8a804dba870624fa817782c0536faa1b7601abc442f8782e5230880` |
-| 2 | `mcr.microsoft.com/openjdk/jdk:25-azurelinux` | 3.12.9 | 0 | 0 | 0 | 532.0 MB | `sha256:73293311b876` | `mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:73293311b876845dfa217670e033f1753c2a76818179d089a00b7b371076e06a` |
-| 3 | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 822.0 MB | `sha256:8680b50284d7` | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:8680b50284d74aba8714cabeaa23f05f4031af3c0c09da0bc4d75a8aaa8dc2df` |
-| 4 | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 854.0 MB | `sha256:637bcd53d7c1` | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:637bcd53d7c139d2fa54d8d6e2bb3f9346b3ab1c9f03bb33ea56c3964d458f1b` |
+| 1 | `mcr.microsoft.com/openjdk/jdk:21-azurelinux` | 3.12.9 | 0 | 0 | 0 | 487.0 MB | `sha256:be3a96becf15` | `mcr.microsoft.com/openjdk/jdk:21-azurelinux@sha256:be3a96becf15c2798baeae4e41dbb4fcab18b392bb3345d14102fbbebec40807` |
+| 2 | `mcr.microsoft.com/openjdk/jdk:25-azurelinux` | 3.12.9 | 0 | 0 | 0 | 532.0 MB | `sha256:8b98cc01ceef` | `mcr.microsoft.com/openjdk/jdk:25-azurelinux@sha256:8b98cc01ceef360513521589d79a116b394cfcba1eb30d77de003e4aa7989a8f` |
+| 3 | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 822.0 MB | `sha256:f1b6d4364039` | `mcr.microsoft.com/oss/go/microsoft/golang:1.25-azurelinux3.0@sha256:f1b6d43640396caed5ff8df814227254167bedaa53758e46aff11b8440098598` |
+| 4 | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0` | 3.12.9 | 0 | 0 | 0 | 854.0 MB | `sha256:257614fe59a6` | `mcr.microsoft.com/oss/go/microsoft/golang:1.26-azurelinux3.0@sha256:257614fe59a6e7fb56909eec9a59a6d0d0794a331ebc1d6dc93aa8ef995d34f5` |
 | 5 | `mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot` | 3.12.9 | 0 | 1 | 17 | 83.7 MB | `sha256:ddef666511ee` | `mcr.microsoft.com/azurelinux/distroless/python:3.12-nonroot@sha256:ddef666511eefea84adc3654905d55619eddfb89fe045bbcadc385357a5883c6` |
 | 6 | `mcr.microsoft.com/azurelinux/distroless/python:3.12` | 3.12.9 | 0 | 1 | 17 | 83.7 MB | `sha256:2cb276ad2888` | `mcr.microsoft.com/azurelinux/distroless/python:3.12@sha256:2cb276ad288899c783733abc4f0932814ce1d9c8658effef4782ce3b4c1a8c49` |
 | 7 | `mcr.microsoft.com/azurelinux/distroless/python:3-nonroot` | 3.12.9 | 0 | 1 | 17 | 83.7 MB | `sha256:ddef666511ee` | `mcr.microsoft.com/azurelinux/distroless/python:3-nonroot@sha256:ddef666511eefea84adc3654905d55619eddfb89fe045bbcadc385357a5883c6` |
