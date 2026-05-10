@@ -1,3 +1,14 @@
+> [!CAUTION]
+> ## ⚠️ This repository has moved to [microsoft/sbi](https://github.com/microsoft/sbi)
+>
+> This repository is **archived** and no longer maintained. All development continues at:
+>
+> 👉 **https://github.com/microsoft/sbi**
+>
+> Please update your bookmarks, forks, and `go install` commands accordingly.
+
+---
+
 # SBI — Secure Base Image Recommendations
 
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/maniSbindra/sbi/badge)](https://scorecard.dev/viewer/?uri=github.com/maniSbindra/sbi)
